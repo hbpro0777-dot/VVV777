@@ -260,7 +260,7 @@ input::placeholder{color:var(--muted2)}
           <span class="qt-arrow">▼</span>
         </button>
         <div class="qr-panel" id="qr_panel">
-          <div class="qr-frame"><canvas id="qr_canvas"></canvas></div>
+          <div class="qr-frame"><div id="qr_canvas"></div></div>
           <div class="qr-name" id="qr_name">—</div>
           <div class="qr-hint">Présentez ce QR code au commerçant pour recevoir votre tampon.</div>
           <button class="btn-fullscreen" onclick="openFullscreenQR()">⛶ Afficher en plein écran</button>
@@ -303,7 +303,7 @@ input::placeholder{color:var(--muted2)}
 <div class="qr-fullscreen" id="qr_fullscreen">
   <div class="qr-fs-logo">VVV<em>777</em></div>
   <div class="qr-fs-sub">Carte de fidélité</div>
-  <div class="qr-fs-frame"><canvas id="qr_fs_canvas"></canvas></div>
+  <div class="qr-fs-frame"><div id="qr_fs_canvas"></div></div>
   <div class="qr-fs-name" id="qr_fs_name">—</div>
   <div class="qr-fs-stamps" id="qr_fs_dots"></div>
   <div class="qr-fs-num" id="qr_fs_num">—</div>
@@ -328,20 +328,54 @@ window.addEventListener('beforeinstallprompt',e=>{
 
 // ── Install function ──────────────────────────────────
 function installApp(){
+  const stepsEl=document.getElementById('install_steps');
   if(isInStandaloneMode){
-    showInstallSteps('already');return;
+    stepsEl.innerHTML='<div style="color:#D4A843;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:10px;">✅ Déjà installé !</div><div style="color:#5A5545;font-size:13px;">Vous utilisez déjà la version installée sur votre écran d\'accueil.</div>';
+    stepsEl.style.display='block';return;
   }
   if(deferredPrompt){
-    // Android Chrome native prompt
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then(r=>{
-      if(r.outcome==='accepted') showInstallSteps('done');
+      if(r.outcome==='accepted'){
+        stepsEl.innerHTML='<div style="color:#D4A843;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:10px;">🎉 Installé !</div><div style="color:#5A5545;font-size:13px;">Votre carte VVV777 est sur votre écran d\'accueil !</div>';
+        stepsEl.style.display='block';
+      }
       deferredPrompt=null;
     });
   } else if(isIOS){
-    showInstallSteps('ios');
+    stepsEl.innerHTML=`
+      <div style="color:#D4A843;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:14px;">📱 Sur iPhone — 3 étapes</div>
+      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">1</div>
+        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur le bouton <strong style="color:#F2EFE8;">Partager ↑</strong> en bas de Safari</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">2</div>
+        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Faites défiler et appuyez sur <strong style="color:#F2EFE8;">"Sur l'écran d'accueil"</strong></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">3</div>
+        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> en haut à droite — c'est fait ! 🎉</div>
+      </div>`;
+    stepsEl.style.cssText='display:block;background:#0F0F0E;border:1px solid #1E1D18;border-radius:14px;padding:18px;margin-top:12px;';
+    stepsEl.scrollIntoView({behavior:'smooth',block:'nearest'});
   } else {
-    showInstallSteps('other');
+    stepsEl.innerHTML=`
+      <div style="color:#D4A843;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:14px;">📱 Sur Android — 3 étapes</div>
+      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">1</div>
+        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur les <strong style="color:#F2EFE8;">3 points ⋮</strong> en haut à droite de Chrome</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">2</div>
+        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter à l'écran d'accueil"</strong></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:flex-start;">
+        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">3</div>
+        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> — c'est fait ! 🎉</div>
+      </div>`;
+    stepsEl.style.cssText='display:block;background:#0F0F0E;border:1px solid #1E1D18;border-radius:14px;padding:18px;margin-top:12px;';
+    stepsEl.scrollIntoView({behavior:'smooth',block:'nearest'});
   }
 }
 
@@ -397,7 +431,19 @@ function renderCardStamps(count,isNew=false){
 
 function generateQR(clientId,canvasId,size=180){
   const url=`${SITE_URL}/vvv777-client.html?carte=${clientId}`;
-  QRCode.toCanvas(document.getElementById(canvasId),url,{width:size,margin:1,color:{dark:'#080807',light:'#ffffff'}});
+  const container=document.getElementById(canvasId);
+  if(!container)return;
+  // Clear previous
+  container.innerHTML='';
+  // Use img tag for better iOS compatibility
+  QRCode.toDataURL(url,{width:size,margin:2,color:{dark:'#111111',light:'#ffffff'}},function(err,dataUrl){
+    if(err){console.error('QR error:',err);return;}
+    const img=document.createElement('img');
+    img.src=dataUrl;
+    img.style.cssText='display:block;width:'+size+'px;height:'+size+'px;border-radius:8px;';
+    container.innerHTML='';
+    container.appendChild(img);
+  });
 }
 
 function showCard(client,isNew=false){
