@@ -375,8 +375,11 @@ async function handleCreate(){
   if(ex?.length){showErr('err1','⚠ Un compte existe déjà avec ce téléphone ou cet email.');setBtn('btn_create','CRÉER MA CARTE →',false);return;}
   const{data,error}=await sb.from('clients').insert([{nom,telephone:phone,email,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
   if(error){showErr('err1','⚠ Erreur réseau.');setBtn('btn_create','CRÉER MA CARTE →',false);return;}
-  // ✅ Sauvegarder l'ID pour les prochaines ouvertures
+  // ✅ Rediriger vers l'URL avec l'ID — comme ça l'app installée s'ouvre toujours sur la carte
   localStorage.setItem('vvv777_client_id', data.id);
+  // Update URL without reload so the installed shortcut keeps the ID
+  const newUrl = SITE_URL + '/vvv777-client.html?carte=' + data.id;
+  window.history.replaceState({}, '', newUrl);
   // ✅ Aller directement à l'étape 2 (la carte) avec le bandeau bienvenue
   showCard(data, false, true);
 }
@@ -391,6 +394,8 @@ async function handleLookup(){
   setBtn('btn_lookup','ACCÉDER →',false);
   if(error||!data?.length){showErr('err_lk','⚠ Aucun compte trouvé.');return;}
   localStorage.setItem('vvv777_client_id', data[0].id);
+  const newUrl2 = SITE_URL + '/vvv777-client.html?carte=' + data[0].id;
+  window.history.replaceState({}, '', newUrl2);
   showCard(data[0]);
 }
 
