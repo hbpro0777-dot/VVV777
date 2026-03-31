@@ -375,6 +375,8 @@ async function handleCreate(){
   if(ex?.length){showErr('err1','⚠ Un compte existe déjà avec ce téléphone ou cet email.');setBtn('btn_create','CRÉER MA CARTE →',false);return;}
   const{data,error}=await sb.from('clients').insert([{nom,telephone:phone,email,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
   if(error){showErr('err1','⚠ Erreur réseau.');setBtn('btn_create','CRÉER MA CARTE →',false);return;}
+  // ✅ Sauvegarder l'ID pour les prochaines ouvertures
+  localStorage.setItem('vvv777_client_id', data.id);
   // ✅ Aller directement à l'étape 2 (la carte) avec le bandeau bienvenue
   showCard(data, false, true);
 }
@@ -388,6 +390,7 @@ async function handleLookup(){
   const{data,error}=await sb.from('clients').select('*').or(`telephone.eq.${val},email.eq.${val}`).limit(1);
   setBtn('btn_lookup','ACCÉDER →',false);
   if(error||!data?.length){showErr('err_lk','⚠ Aucun compte trouvé.');return;}
+  localStorage.setItem('vvv777_client_id', data[0].id);
   showCard(data[0]);
 }
 
@@ -403,10 +406,22 @@ function subscribeRealtime(id){
 
 // ── INIT ────────────────────────────────────────────────────
 (async()=>{
+  // 1. Check URL param ?carte=id
   const p=new URLSearchParams(window.location.search);
-  const id=p.get('carte');
-  if(id){const{data}=await sb.from('clients').select('*').eq('id',id).single();if(data)showCard(data);}
+  const urlId=p.get('carte');
+  if(urlId){
+    const{data}=await sb.from('clients').select('*').eq('id',urlId).single();
+    if(data){ localStorage.setItem('vvv777_client_id',data.id); showCard(data); return; }
+  }
+  // 2. Check localStorage (returning user)
+  const savedId=localStorage.getItem('vvv777_client_id');
+  if(savedId){
+    const{data}=await sb.from('clients').select('*').eq('id',savedId).single();
+    if(data){ showCard(data); return; }
+    else { localStorage.removeItem('vvv777_client_id'); } // stale id
+  }
+  // 3. No saved user — show registration
 })();
 </script>
 </body>
-</html
+</html>
