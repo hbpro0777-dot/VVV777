@@ -70,16 +70,15 @@ input::placeholder{color:var(--muted2)}
 @keyframes cardIn{from{transform:rotateY(-20deg) translateY(16px) scale(.96);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
 .lcard::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.12) 0%,transparent 65%);pointer-events:none;z-index:0}
 
-/* Card top */
 .lcard-body{padding:18px 18px 14px;position:relative;z-index:1}
-.lcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
-.lcard-logo{font-family:'Bebas Neue',sans-serif;font-size:30px;color:var(--gold);letter-spacing:1px;line-height:1}
+.lcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.lcard-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:1px;line-height:1}
 .lcard-type{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,168,67,.4);margin-top:2px}
 .lcard-reward-chip{background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);border-radius:20px;padding:5px 10px;font-size:8px;letter-spacing:1px;color:var(--gold);text-align:right;line-height:1.5}
 
-/* Stamps */
-.lcard-stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:14px}
-.ls{aspect-ratio:1;border-radius:10px;border:1.5px solid rgba(212,168,67,.1);background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:22px;transition:all .4s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
+/* Tampons */
+.lcard-stamps{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:10px}
+.ls{aspect-ratio:1;border-radius:9px;border:1.5px solid rgba(212,168,67,.1);background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .4s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
 .ls.on{border-color:rgba(212,168,67,.4);background:rgba(212,168,67,.1);box-shadow:0 0 12px rgba(212,168,67,.18)}
 .ls.on::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 30%,rgba(255,220,80,.12) 0%,transparent 60%)}
 .ls.pop{animation:spop .45s cubic-bezier(.34,1.56,.64,1) both}
@@ -88,49 +87,59 @@ input::placeholder{color:var(--muted2)}
 .ls-dot{width:6px;height:6px;border-radius:50%;border:1.5px dashed rgba(212,168,67,.18)}
 
 /* Progress */
-.lcard-prog{height:3px;border-radius:2px;background:rgba(212,168,67,.08);overflow:hidden;margin-bottom:12px}
+.lcard-prog{height:3px;border-radius:2px;background:rgba(212,168,67,.08);overflow:hidden;margin-bottom:10px}
 .lcard-prog-fill{height:3px;border-radius:2px;background:linear-gradient(90deg,#7A5010,var(--gold),var(--gold2));transition:width .7s ease;box-shadow:0 0 6px rgba(212,168,67,.4)}
 
-/* Card info row */
-.lcard-info{display:flex;justify-content:space-between;align-items:flex-end}
+/* Card bottom */
+.lcard-info{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:2px}
 .lcard-name{font-size:11px;font-weight:600;color:var(--gold2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
 .lcard-num-txt{font-size:8px;color:rgba(212,168,67,.25);letter-spacing:2px;font-family:monospace;margin-top:2px}
 .lcard-count{text-align:right}
-.lcard-count-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);line-height:1}
-.lcard-count-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.3)}
+.lcard-count-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:rgba(212,168,67,.5);line-height:1}
+.lcard-count-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.25)}
 
-/* BARCODE SECTION */
+/* BARCODE — sur la carte fond sombre */
 .lcard-barcode-wrap{
-  background:#fff;
-  margin:0;padding:12px 18px 10px;
-  display:flex;flex-direction:column;align-items:center;gap:6px;
+  margin:0;padding:10px 14px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:5px;
   border-top:1px solid rgba(212,168,67,.15);
-  cursor:pointer;transition:background .2s;
+  cursor:pointer;transition:opacity .15s;
+  position:relative;z-index:1;
+  background:rgba(0,0,0,.2);
+  border-radius:0 0 20px 20px;
 }
-.lcard-barcode-wrap:hover{background:#f8f8f8}
-.lcard-barcode-wrap:active{background:#f0f0f0}
-.barcode-hint{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#888;font-family:'DM Sans',sans-serif}
-#barcode_svg{display:block}
+.lcard-barcode-wrap:active{opacity:.7}
+.barcode-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45);font-family:'DM Sans',sans-serif}
+#barcode_svg{display:block;border-radius:6px}
 
 /* FULLSCREEN BARCODE */
-.bc-fullscreen{
-  position:fixed;inset:0;background:#fff;z-index:999;
-  display:none;flex-direction:column;
-  align-items:center;justify-content:center;padding:32px;
-}
+.bc-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px}
 .bc-fullscreen.show{display:flex;animation:fadeIn .25s ease both}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .bc-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#1A1200;letter-spacing:-1px;margin-bottom:2px}
 .bc-fs-logo em{color:#B8860B;font-style:normal}
-.bc-fs-sub{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#888;margin-bottom:24px}
+.bc-fs-sub{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#888;margin-bottom:20px}
 #barcode_svg_big{display:block;margin:0 auto}
-.bc-fs-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#2A1C00;letter-spacing:1px;margin-top:16px;margin-bottom:4px}
-.bc-fs-num{font-size:10px;color:#888;letter-spacing:3px;font-family:monospace;margin-bottom:6px}
-.bc-fs-stamps{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;justify-content:center}
-.bc-dot{width:16px;height:16px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:10px}
+.bc-fs-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#2A1C00;letter-spacing:1px;margin-top:14px;margin-bottom:4px}
+.bc-fs-num{font-size:10px;color:#888;letter-spacing:3px;font-family:monospace;margin-bottom:8px}
+.bc-fs-stamps{display:flex;gap:5px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.bc-dot{width:18px;height:18px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:10px}
 .bc-dot.on{background:transparent}
-.bc-fs-hint{font-size:11px;color:#888;text-align:center;margin-bottom:24px}
+.bc-fs-hint{font-size:11px;color:#888;text-align:center;margin-bottom:20px}
 .bc-fs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+
+/* WELCOME BANNER */
+.welcome-banner{
+  background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.08));
+  border:1.5px solid rgba(212,168,67,.4);
+  border-radius:14px;padding:14px 16px;
+  display:none;align-items:center;gap:12px;
+  margin-bottom:14px;
+  animation:fu .4s ease both;
+}
+.wb-icon{font-size:28px;flex-shrink:0}
+.wb-text strong{display:block;color:var(--gold);font-size:14px;font-weight:600;margin-bottom:2px}
+.wb-text span{font-size:12px;color:var(--muted);line-height:1.4}
 
 /* REWARD */
 .reward-banner{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.06));border:1px solid rgba(212,168,67,.22);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
@@ -141,13 +150,10 @@ input::placeholder{color:var(--muted2)}
 .rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
 
 /* INSTALL */
-.btn-install{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:12px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25)}
+.btn-install{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25)}
 .btn-install:active{transform:scale(.98)}
 .install-steps{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px;display:none;font-size:13px;color:var(--muted);line-height:1.7}
 
-/* CONFIRM */
-.confirm-icon{width:56px;height:56px;border-radius:50%;background:var(--gold3);border:1.5px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275) both}
-@keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fd{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
@@ -193,7 +199,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- S2 -->
+  <!-- S2: CARTE -->
   <div class="screen" id="s2">
     <div class="lcard-wrap">
       <div class="lcard">
@@ -202,6 +208,7 @@ input::placeholder{color:var(--muted2)}
             <div><div class="lcard-logo">VVV777</div><div class="lcard-type">Carte de Fidélité</div></div>
             <div class="lcard-reward-chip">1 acheté<br>= 1 offert</div>
           </div>
+          <!-- 10 CASES TAMPONS -->
           <div class="lcard-stamps" id="card_stamps"></div>
           <div class="lcard-prog"><div class="lcard-prog-fill" id="card_prog" style="width:0%"></div></div>
           <div class="lcard-info">
@@ -209,8 +216,8 @@ input::placeholder{color:var(--muted2)}
             <div class="lcard-count"><div class="lcard-count-val" id="c_scount">0/10</div><div class="lcard-count-lbl">tampons</div></div>
           </div>
         </div>
-        <!-- BARCODE INTÉGRÉ -->
-        <div class="lcard-barcode-wrap" onclick="openFullscreenBC()" title="Agrandir pour le scan">
+        <!-- BARCODE COMPACT -->
+        <div class="lcard-barcode-wrap" onclick="openFullscreenBC()">
           <svg id="barcode_svg"></svg>
           <div class="barcode-hint">Appuyez pour agrandir · Scan commerçant</div>
         </div>
@@ -218,6 +225,15 @@ input::placeholder{color:var(--muted2)}
     </div>
 
     <div class="panel">
+      <!-- Bienvenue banner (visible uniquement après inscription) -->
+      <div class="welcome-banner" id="welcome_banner">
+        <div class="wb-icon">🎉</div>
+        <div class="wb-text">
+          <strong>Bienvenue chez VVV777 !</strong>
+          <span>Votre carte est activée. Présentez votre code-barres à chaque visite pour cumuler vos tampons.</span>
+        </div>
+      </div>
+
       <div class="reward-banner" id="reward_banner">
         <div class="rw-icon">🎁</div>
         <div class="rw-text">
@@ -225,27 +241,10 @@ input::placeholder{color:var(--muted2)}
           <span>pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
         </div>
       </div>
+
       <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
       <div class="install-steps" id="install_steps_card"></div>
     </div>
-  </div>
-
-  <!-- S3 -->
-  <div class="screen" id="s3">
-    <div class="panel" style="text-align:center;padding:36px 20px;">
-      <div class="confirm-icon">✦</div>
-      <div class="panel-title" style="text-align:center;font-size:30px;">Bienvenue !</div>
-      <div class="panel-sub" style="text-align:center;margin-top:10px;margin-bottom:0;">Votre carte VVV777 est activée avec votre code-barres unique.</div>
-      <div class="fruits-anim" style="margin:20px 0 0;"><span>🍊</span><span>🍇</span><span>🍋</span><span>🍒</span><span>🥭</span></div>
-    </div>
-    <div style="background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.07));border:1.5px solid rgba(212,168,67,.3);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-top:16px;">
-      <div style="font-size:30px;flex-shrink:0;">📲</div>
-      <div><strong style="display:block;color:#D4A843;font-size:14px;margin-bottom:3px;">Installez votre carte !</strong><span style="font-size:12px;color:#5A5545;line-height:1.5;">Accès en 1 tap depuis votre écran d'accueil.</span></div>
-    </div>
-    <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
-    <div class="install-steps" id="install_steps"></div>
-    <div class="lookup-note" style="margin-top:16px;">10 tampons = <strong style="color:#D4A843;">1 acheté 1 offert</strong><br>Merci de votre confiance — <strong>VVV777</strong></div>
-    <button class="btn ghost" style="margin-top:10px;" onclick="setStep(2);showScreen('s2')">VOIR MA CARTE →</button>
   </div>
 </div>
 
@@ -270,92 +269,39 @@ const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
 const isStandalone = window.matchMedia('(display-mode:standalone)').matches || navigator.standalone;
 window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
 
-// ── BARCODE GENERATOR (Code128 - SVG pur, pas de librairie) ──────────
-const CODE128 = {
-  START_B: 104, STOP: 106,
-  chars: ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~',
-  patterns: [
-    '11011001100','11001101100','11001100110','10010011000','10010001100',
-    '10001001100','10011001000','10011000100','10001100100','11001001000',
-    '11001000100','11000100100','10110011100','10011011100','10011001110',
-    '10111001100','10011101100','10011100110','11001110010','11001011100',
-    '11001001110','11011100100','11001110100','11101101110','11101001100',
-    '11100101100','11100100110','11101100100','11100110100','11100110010',
-    '11011011000','11011000110','11000110110','10100011000','10001011000',
-    '10001000110','10110001000','10001101000','10001100010','11010001000',
-    '11000101000','11000100010','10110111000','10110001110','10001101110',
-    '10111011000','10111000110','10001110110','11101110110','11010001110',
-    '11000101110','11011101000','11011100010','11011101110','11101011000',
-    '11101000110','11100010110','11101101000','11101100010','11100011010',
-    '11101111010','11001000010','11110001010','10100110000','10100001100',
-    '10010110000','10010000110','10000101100','10000100110','10110010000',
-    '10110000100','10011010000','10011000010','10000110100','10000110010',
-    '11000010010','11001010000','11110111010','11000010100','10001111010',
-    '10100111100','10010111100','10010011110','10111100100','10011110100',
-    '10011110010','11110100100','11110010100','11110010010','11011011110',
-    '11011110110','11110110110','10101111000','10100011110','10001011110',
-    '10111101000','10111100010','11110101000','11110100010','10111011110',
-    '10111101110','11101011110','11110101110','11010000100','11010010000',
-    '11010011100','11000111010'
-  ],
-  encode(text) {
-    let vals = [this.START_B];
-    let check = this.START_B;
-    for (let i = 0; i < text.length; i++) {
-      const idx = this.chars.indexOf(text[i]);
-      if (idx < 0) continue;
-      vals.push(idx);
-      check += (i + 1) * idx;
-    }
-    vals.push(check % 103);
-    vals.push(this.STOP);
-    return vals.map(v => this.patterns[v]).join('') + '11';
-  }
-};
+// ── BARCODE CODE128 SVG ────────────────────────────────────
+const C128P = ['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
+const C128C = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+
+function encodeC128(text) {
+  let vals=[104],check=104;
+  for(let i=0;i<text.length;i++){const idx=C128C.indexOf(text[i]);if(idx<0)continue;vals.push(idx);check+=(i+1)*idx;}
+  vals.push(check%103);vals.push(106);
+  return vals.map(v=>C128P[v]).join('')+'11';
+}
 
 function drawBarcode(svgId, text, barW, barH) {
   const svg = document.getElementById(svgId);
-  if (!svg) return;
-  const pattern = CODE128.encode(text);
-  const totalW = pattern.length * barW;
-  svg.setAttribute('width', totalW);
+  if(!svg) return;
+  const pat = encodeC128(text);
+  const W = pat.length * barW;
+  svg.setAttribute('width', W);
   svg.setAttribute('height', barH);
-  svg.setAttribute('viewBox', `0 0 ${totalW} ${barH}`);
-  svg.innerHTML = '';
-  // White background
-  const bg = document.createElementNS('http://www.w3.org/2000/svg','rect');
-  bg.setAttribute('width', totalW); bg.setAttribute('height', barH); bg.setAttribute('fill','white');
-  svg.appendChild(bg);
-  // Bars
-  for (let i = 0; i < pattern.length; i++) {
-    if (pattern[i] === '1') {
-      const bar = document.createElementNS('http://www.w3.org/2000/svg','rect');
-      bar.setAttribute('x', i * barW);
-      bar.setAttribute('y', 0);
-      bar.setAttribute('width', barW);
-      bar.setAttribute('height', barH);
-      bar.setAttribute('fill','#111');
-      svg.appendChild(bar);
-    }
+  svg.setAttribute('viewBox', `0 0 ${W} ${barH}`);
+  let html = `<rect width="${W}" height="${barH}" fill="transparent"/>`;
+  for(let i=0;i<pat.length;i++){
+    if(pat[i]==='1') html+=`<rect x="${i*barW}" y="0" width="${barW}" height="${barH}" fill="rgba(240,201,106,0.9)"/>`;
   }
+  svg.innerHTML = html;
 }
 
-function getBarcodeText(client) {
-  // Use card number digits only for barcode
-  return (client.card_number || '0000 0000 0000').replace(/\s/g,'').replace(/[^0-9A-Za-z]/g,'');
+function getBCText(client){
+  return (client.card_number||'000000000000').replace(/\s/g,'');
 }
+function renderBC(client){ drawBarcode('barcode_svg', getBCText(client), 1.6, 42); }
+function renderBCBig(client){ drawBarcode('barcode_svg_big', getBCText(client), 2.6, 72); }
 
-function renderBarcode(client) {
-  const txt = getBarcodeText(client);
-  drawBarcode('barcode_svg', txt, 1.8, 52);
-}
-
-function renderBarcodeBig(client) {
-  const txt = getBarcodeText(client);
-  drawBarcode('barcode_svg_big', txt, 2.8, 80);
-}
-
-// ── UI HELPERS ─────────────────────────────────────────────
+// ── UI ─────────────────────────────────────────────────────
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function setStep(n){[1,2,3].forEach(i=>{const c=document.getElementById('sc'+i);c.className='step-circle';if(i<n){c.classList.add('done');c.textContent='✓';}else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}else{c.textContent=i===3?'✦':i;}if(i<3){const l=document.getElementById('sl'+i);l.className='step-line'+(i<n?' done':'');}});}
 function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
@@ -365,92 +311,63 @@ function showLookup(){hideErr('err_lk');document.getElementById('i_lookup').valu
 function genCard(){return Array.from({length:3},()=>Math.floor(1000+Math.random()*9000)).join(' ');}
 
 function renderStamps(count, isNew=false){
-  const grid = document.getElementById('card_stamps'); grid.innerHTML='';
+  const grid=document.getElementById('card_stamps'); grid.innerHTML='';
   for(let i=0;i<10;i++){
     const d=document.createElement('div');
     d.className='ls'+(i<count?' on':'');
-    if(isNew && i===count-1) d.classList.add('pop');
-    d.innerHTML = i<count ? `<span class="ls-inner">${FRUITS[i]}</span>` : '<div class="ls-dot"></div>';
+    if(isNew&&i===count-1)d.classList.add('pop');
+    d.innerHTML=i<count?`<span class="ls-inner">${FRUITS[i]}</span>`:'<div class="ls-dot"></div>';
     grid.appendChild(d);
   }
-  document.getElementById('card_prog').style.width = Math.round(count/10*100)+'%';
-  document.getElementById('c_scount').textContent = count+'/10';
-  const rem = 10-count;
-  const banner = document.getElementById('reward_banner');
-  if(count>=10){
-    banner.classList.add('unlocked');
-    document.getElementById('rw_title').innerHTML='🎉 Récompense débloquée !';
-    banner.querySelector('span').textContent='Présentez cette carte : 1 acheté = 1 offert !';
-  } else {
-    banner.classList.remove('unlocked');
-    document.getElementById('rw_title').innerHTML=`Encore <span>${rem}</span> tampon${rem>1?'s':''}`;
-    banner.querySelector('span').textContent='pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.';
-  }
+  document.getElementById('card_prog').style.width=Math.round(count/10*100)+'%';
+  document.getElementById('c_scount').textContent=count+'/10';
+  const rem=10-count;
+  const banner=document.getElementById('reward_banner');
+  if(count>=10){banner.classList.add('unlocked');document.getElementById('rw_title').innerHTML='🎉 Récompense débloquée !';banner.querySelector('span').textContent='Présentez cette carte : 1 acheté = 1 offert !';}
+  else{banner.classList.remove('unlocked');document.getElementById('rw_title').innerHTML=`Encore <span>${rem}</span> tampon${rem>1?'s':''}`;banner.querySelector('span').textContent='pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.';}
 }
 
-function showCard(client, isNew=false){
-  currentClient = client;
-  document.getElementById('c_name').textContent = client.nom.toUpperCase();
-  document.getElementById('c_num').textContent = client.card_number||'—';
+function showCard(client, isNew=false, showWelcome=false){
+  currentClient=client;
+  document.getElementById('c_name').textContent=client.nom.toUpperCase();
+  document.getElementById('c_num').textContent=client.card_number||'—';
   renderStamps(client.tampons||0, isNew);
-  setTimeout(()=>renderBarcode(client), 200);
+  setTimeout(()=>renderBC(client),200);
+  // Show welcome banner only after fresh registration
+  const wb=document.getElementById('welcome_banner');
+  if(wb) wb.style.display=showWelcome?'flex':'none';
   setStep(2); showScreen('s2'); subscribeRealtime(client.id);
 }
 
 function openFullscreenBC(){
-  if(!currentClient) return;
-  document.getElementById('bc_fs_name').textContent = currentClient.nom.toUpperCase();
-  document.getElementById('bc_fs_num').textContent = currentClient.card_number||'';
-  renderBarcodeBig(currentClient);
-  const dots = document.getElementById('bc_fs_dots');
-  dots.innerHTML = Array.from({length:10},(_,i)=>`<div class="bc-dot ${i<(currentClient.tampons||0)?'on':''}">${i<(currentClient.tampons||0)?FRUITS[i]:''}</div>`).join('');
+  if(!currentClient)return;
+  document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
+  document.getElementById('bc_fs_num').textContent=currentClient.card_number||'';
+  renderBCBig(currentClient);
+  const dots=document.getElementById('bc_fs_dots');
+  dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot ${i<(currentClient.tampons||0)?'on':''}">${i<(currentClient.tampons||0)?FRUITS[i]:''}</div>`).join('');
   document.getElementById('bc_fullscreen').classList.add('show');
-  if(navigator.wakeLock) navigator.wakeLock.request('screen').catch(()=>{});
+  if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
 }
-function closeFullscreenBC(){ document.getElementById('bc_fullscreen').classList.remove('show'); }
+function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
 
 // ── INSTALL ─────────────────────────────────────────────────
 function installApp(){
-  const iosHTML = `<strong style="color:#D4A843;">📱 Sur iPhone :</strong><br>
-    1. Appuyez sur le bouton <strong style="color:#F2EFE8;">Partager ↑</strong> en bas de Safari<br>
-    2. Appuyez sur <strong style="color:#F2EFE8;">"Sur l'écran d'accueil"</strong><br>
-    3. Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> — c'est fait ! 🎉`;
-  const androidHTML = `<strong style="color:#D4A843;">📱 Sur Android :</strong><br>
-    1. Appuyez sur les <strong style="color:#F2EFE8;">3 points ⋮</strong> en haut de Chrome<br>
-    2. Appuyez sur <strong style="color:#F2EFE8;">"Ajouter à l'écran d'accueil"</strong><br>
-    3. Confirmez — c'est fait ! 🎉`;
-
-  function show(id, html){
-    const el = document.getElementById(id);
-    if(!el) return;
-    el.innerHTML = html; el.style.display = 'block';
-    el.scrollIntoView({behavior:'smooth', block:'nearest'});
-  }
-
-  if(isStandalone){
-    show('install_steps','✅ Déjà installé !');
-    show('install_steps_card','✅ Déjà installé !');
-  } else if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(r=>{
-      if(r.outcome==='accepted'){show('install_steps','🎉 Installé !');show('install_steps_card','🎉 Installé !');}
-      deferredPrompt=null;
-    });
-  } else if(isIOS){
-    show('install_steps', iosHTML);
-    show('install_steps_card', iosHTML);
-  } else {
-    show('install_steps', androidHTML);
-    show('install_steps_card', androidHTML);
-  }
+  const iosHTML=`<strong style="color:#D4A843;">📱 Sur iPhone :</strong><br>1. Appuyez sur <strong style="color:#F2EFE8;">Partager ↑</strong> en bas de Safari<br>2. Appuyez sur <strong style="color:#F2EFE8;">"Sur l'écran d'accueil"</strong><br>3. Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> — c'est fait ! 🎉`;
+  const androidHTML=`<strong style="color:#D4A843;">📱 Sur Android :</strong><br>1. Appuyez sur les <strong style="color:#F2EFE8;">3 points ⋮</strong> en haut de Chrome<br>2. Appuyez sur <strong style="color:#F2EFE8;">"Ajouter à l'écran d'accueil"</strong><br>3. Confirmez — c'est fait ! 🎉`;
+  function show(id,html){const el=document.getElementById(id);if(!el)return;el.innerHTML=html;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  if(isStandalone){show('install_steps_card','✅ Déjà installé sur votre écran d\'accueil !');}
+  else if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')show('install_steps_card','🎉 Installé !');deferredPrompt=null;});}
+  else if(isIOS){show('install_steps_card',iosHTML);}
+  else{show('install_steps_card',androidHTML);}
 }
 
 // ── CREATE ──────────────────────────────────────────────────
 async function handleCreate(){
   hideErr('err1');
-  const nom = document.getElementById('i_name').value.trim();
-  const phone = document.getElementById('i_phone').value.trim();
-  const email = document.getElementById('i_email').value.trim();
+  const nom=document.getElementById('i_name').value.trim();
+  const phone=document.getElementById('i_phone').value.trim();
+  const email=document.getElementById('i_email').value.trim();
   if(!nom||!phone||!email){showErr('err1','⚠ Merci de remplir tous les champs.');return;}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){showErr('err1','⚠ Email invalide.');return;}
   setBtn('btn_create','<span class="spin"></span>CRÉATION…',true);
@@ -458,13 +375,14 @@ async function handleCreate(){
   if(ex?.length){showErr('err1','⚠ Un compte existe déjà avec ce téléphone ou cet email.');setBtn('btn_create','CRÉER MA CARTE →',false);return;}
   const{data,error}=await sb.from('clients').insert([{nom,telephone:phone,email,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
   if(error){showErr('err1','⚠ Erreur réseau.');setBtn('btn_create','CRÉER MA CARTE →',false);return;}
-  currentClient=data; setStep(3); showScreen('s3');
+  // ✅ Aller directement à l'étape 2 (la carte) avec le bandeau bienvenue
+  showCard(data, false, true);
 }
 
 // ── LOOKUP ──────────────────────────────────────────────────
 async function handleLookup(){
   hideErr('err_lk');
-  const val = document.getElementById('i_lookup').value.trim();
+  const val=document.getElementById('i_lookup').value.trim();
   if(!val){showErr('err_lk','⚠ Entrez votre téléphone ou email.');return;}
   setBtn('btn_lookup','<span class="spin"></span>RECHERCHE…',true);
   const{data,error}=await sb.from('clients').select('*').or(`telephone.eq.${val},email.eq.${val}`).limit(1);
@@ -477,18 +395,18 @@ async function handleLookup(){
 function subscribeRealtime(id){
   sb.channel('stamps-'+id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},p=>{
     const u=p.new; currentClient={...currentClient,...u};
-    renderStamps(u.tampons, true);
+    renderStamps(u.tampons,true);
     const dots=document.getElementById('bc_fs_dots');
-    if(dots) dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot ${i<u.tampons?'on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
+    if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot ${i<u.tampons?'on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
   }).subscribe();
 }
 
 // ── INIT ────────────────────────────────────────────────────
 (async()=>{
-  const p = new URLSearchParams(window.location.search);
-  const id = p.get('carte');
-  if(id){ const{data}=await sb.from('clients').select('*').eq('id',id).single(); if(data) showCard(data); }
+  const p=new URLSearchParams(window.location.search);
+  const id=p.get('carte');
+  if(id){const{data}=await sb.from('clients').select('*').eq('id',id).single();if(data)showCard(data);}
 })();
 </script>
 </body>
-</html>
+</html
