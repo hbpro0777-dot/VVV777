@@ -9,7 +9,8 @@
 <title>VVV777 — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <!-- QR Scanner -->
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<!-- ZXing: lit QR codes ET codes-barres -->
+<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
 <script>
   const SUPABASE_URL = 'https://bmnjamkhjjthctdawxtu.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
@@ -563,7 +564,7 @@ async function startScan(){
   document.getElementById('btnStopScan').style.display='block';
   document.getElementById('vfIdle').style.display='none';
   document.getElementById('scanLine').style.display='block';
-  setScanStatus('EN ATTENTE DE QR CODE…','scanning');
+  setScanStatus('EN ATTENTE DU CODE-BARRES…','scanning');
   document.getElementById('scanResult').classList.remove('show');
 
   try {
@@ -581,38 +582,58 @@ async function startScan(){
   }
 }
 
+let zxingReader=null;
+
 function scanLoop(){
-  const video=document.getElementById('scanVideo');
-  if(!scanStream||video.readyState!==video.HAVE_ENOUGH_DATA){
-    scanAnimFrame=requestAnimationFrame(scanLoop);return;
-  }
-  const canvas=document.createElement('canvas');
-  canvas.width=video.videoWidth;canvas.height=video.videoHeight;
-  const ctx=canvas.getContext('2d');
-  ctx.drawImage(video,0,0,canvas.width,canvas.height);
-  const imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
-  const code=jsQR(imageData.data,imageData.width,imageData.height,{inversionAttempts:'dontInvert'});
-  if(code){
-    handleQRCode(code.data);
-  } else {
-    scanAnimFrame=requestAnimationFrame(scanLoop);
-  }
+  // ZXing handles its own loop via decodeFromVideoDevice
+  // This function is kept for compatibility but ZXing is started in startScan
 }
 
-async function handleQRCode(data){
-  // Extract client ID from URL ?carte=UUID
-  const match=data.match(/[?&]carte=([a-f0-9-]{36})/i);
-  if(!match){setScanStatus('QR CODE INVALIDE','error');setTimeout(()=>{setScanStatus('EN ATTENTE DE QR CODE…','scanning');scanAnimFrame=requestAnimationFrame(scanLoop);},1500);return;}
-  const clientId=match[1];
-  setScanStatus('CLIENT TROUVÉ !','success');
+async function handleBarcodeResult(data){
+  if(!scanStream) return; // already stopped
+  setScanStatus('CODE DÉTECTÉ…','success');
 
-  // Look up client
-  let client=allClients.find(c=>c.id===clientId);
-  if(!client){
-    const{data:d}=await sb.from('clients').select('*').eq('id',clientId).single();
-    if(!d){setScanStatus('CLIENT INTROUVABLE','error');setTimeout(()=>{setScanStatus('EN ATTENTE DE QR CODE…','scanning');scanAnimFrame=requestAnimationFrame(scanLoop);},2000);return;}
-    client=d;
+  // Stop scanning while processing
+  if(zxingReader){ zxingReader.reset(); }
+
+  // The barcode contains the card_number digits (e.g. "739546718825")
+  // Try to find client by card_number (strip spaces for comparison)
+  const scannedNum = data.replace(/\s/g,'').trim();
+
+  // Check URL format first (backward compat)
+  const urlMatch = data.match(/[?&]carte=([a-f0-9-]{36})/i);
+  let client = null;
+
+  if(urlMatch){
+    const clientId = urlMatch[1];
+    client = allClients.find(c=>c.id===clientId);
+    if(!client){
+      const{data:d}=await sb.from('clients').select('*').eq('id',clientId).single();
+      client = d;
+    }
+  } else {
+    // Look up by card_number
+    client = allClients.find(c=>(c.card_number||'').replace(/\s/g,'')=== scannedNum);
+    if(!client){
+      const{data:d}=await sb.from('clients').select('*').filter('card_number','ilike','%'+scannedNum.slice(0,4)+'%').limit(10);
+      if(d&&d.length){
+        client = d.find(c=>(c.card_number||'').replace(/\s/g,'')=== scannedNum) || d[0];
+      }
+    }
   }
+
+  if(!client){
+    setScanStatus('CLIENT INTROUVABLE','error');
+    toast('Code non reconnu — vérifiez la carte','error');
+    setTimeout(()=>{
+      setScanStatus('EN ATTENTE DU CODE-BARRES…','scanning');
+      // Restart scanner
+      if(scanStream) startScan();
+    },2000);
+    return;
+  }
+
+  setScanStatus('CLIENT TROUVÉ !','success');
   showScanResult(client);
 }
 
@@ -693,13 +714,15 @@ async function useReward(){
 function cancelScan(){
   scannedClient=null;
   document.getElementById('scanResult').classList.remove('show');
-  setScanStatus('EN ATTENTE DE QR CODE…','scanning');
+  setScanStatus('EN ATTENTE DU CODE-BARRES…','scanning');
   if(scanStream) scanAnimFrame=requestAnimationFrame(scanLoop);
 }
 
 function stopScan(){
+  if(zxingReader){ zxingReader.reset(); zxingReader=null; }
   if(scanAnimFrame){cancelAnimationFrame(scanAnimFrame);scanAnimFrame=null;}
-  if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null;}
+  if(scanStream && scanStream.getTracks){scanStream.getTracks().forEach(t=>t.stop());}
+  scanStream=null;
   resetScanUI();
   document.getElementById('scanResult').classList.remove('show');
   scannedClient=null;
