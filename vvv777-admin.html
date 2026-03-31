@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="theme-color" content="#080807">
+<title>VVV777 — Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<!-- QR Scanner -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script>
+  const SUPABASE_URL = 'https://bmnjamkhjjthctdawxtu.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
+  const ADMIN_PASSWORD = 'VVV777**';
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--gold:#D4A843;--gold2:#F0C96A;--gold3:rgba(212,168,67,.12);--bg:#080807;--s1:#0F0F0E;--s2:#141410;--border:#1E1D18;--border2:rgba(212,168,67,.18);--text:#F2EFE8;--muted:#5A5545;--muted2:#2A2820;--green:#4CAF50;--red:#E05555;--r:14px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
+
+/* LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:20px}
+.login-box{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:40px 32px;width:100%;max-width:360px;animation:fu .5s ease both}
+.login-logo{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--text);letter-spacing:-1px;text-align:center;margin-bottom:4px}
+.login-logo em{color:var(--gold);font-style:normal}
+.login-sub{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:28px}
+.login-err{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.3);border-radius:8px;padding:10px 14px;font-size:12.5px;color:#E88;margin-bottom:14px;display:none}
+.field-lbl{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:7px}
+.field-inp{width:100%;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:13px 15px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:border-color .2s}
+.field-inp:focus{border-color:var(--gold)}
+.field-inp::placeholder{color:var(--muted2)}
+.field-mb{margin-bottom:14px}
+
+/* APP LAYOUT */
+.app{display:none;height:100dvh;flex-direction:column}
+.app.show{display:flex}
+
+/* TOP NAV BAR */
+.topnav{
+  background:var(--s1);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 18px;height:56px;flex-shrink:0;
+}
+.tn-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);letter-spacing:-0.5px}
+.tn-logo em{color:var(--gold);font-style:normal}
+.tn-right{display:flex;align-items:center;gap:12px}
+.tn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s}
+.tn-logout:hover{border-color:var(--red);color:var(--red)}
+
+/* TAB BAR (bottom mobile style) */
+.tabbar{
+  background:var(--s1);border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-around;
+  padding:8px 0 12px;flex-shrink:0;
+  position:sticky;bottom:0;z-index:10;
+}
+.tab-btn{
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+  background:transparent;border:none;cursor:pointer;
+  padding:6px 16px;border-radius:10px;transition:all .2s;
+  font-family:'DM Sans',sans-serif;
+}
+.tab-btn .t-icon{font-size:22px;transition:transform .2s}
+.tab-btn .t-label{font-size:10px;letter-spacing:.5px;color:var(--muted);transition:color .2s}
+.tab-btn.active .t-label{color:var(--gold)}
+.tab-btn.active .t-icon{transform:scale(1.1)}
+
+/* SCAN tab special */
+.tab-btn.scan-btn{
+  background:var(--gold);border-radius:16px;padding:8px 22px;
+  transform:translateY(-8px);
+  box-shadow:0 4px 20px rgba(212,168,67,.3);
+}
+.tab-btn.scan-btn .t-icon{font-size:24px}
+.tab-btn.scan-btn .t-label{color:#080807;font-weight:600}
+.tab-btn.scan-btn.active{background:var(--gold2)}
+
+/* PAGES */
+.pages{flex:1;overflow-y:auto;overflow-x:hidden}
+.page{display:none;padding:20px 16px 20px;animation:fu .3s ease both}
+.page.active{display:block}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.stat-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 14px}
+.stat-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.stat-val{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--text);line-height:1}
+.stat-val.gold{color:var(--gold)}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* CLIENTS TABLE */
+.toolbar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
+.search-box{flex:1;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .2s}
+.search-box:focus{border-color:var(--gold)}
+.search-box::placeholder{color:var(--muted2)}
+.btn-sm{padding:10px 14px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
+.btn-gold{background:var(--gold);color:#080807}.btn-gold:hover{background:var(--gold2)}
+.btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+.btn-red{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.25);color:#E88}.btn-red:hover{background:rgba(224,85,85,.2)}
+
+.client-card{
+  background:var(--s1);border:1px solid var(--border);border-radius:12px;
+  padding:14px 16px;margin-bottom:10px;cursor:pointer;
+  display:flex;align-items:center;gap:14px;
+  transition:border-color .18s,background .18s;
+}
+.client-card:hover{border-color:var(--border2);background:var(--s2)}
+.cc-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--gold3);border:1px solid rgba(212,168,67,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);
+  flex-shrink:0;
+}
+.cc-info{flex:1;min-width:0}
+.cc-name{font-weight:600;font-size:14px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cc-detail{font-size:11.5px;color:var(--muted);margin-top:2px}
+.cc-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0}
+.cc-stamps-mini{display:flex;gap:3px;flex-wrap:wrap;max-width:70px;justify-content:flex-end}
+.sm-dot{width:9px;height:9px;border-radius:50%;background:var(--border)}
+.sm-dot.on{background:var(--gold)}
+.sm-dot.full{background:var(--green)}
+.badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;letter-spacing:.5px;font-weight:500}
+.badge.reward{background:rgba(212,168,67,.12);color:var(--gold)}
+.badge.active{background:rgba(76,175,80,.1);color:#6EDD72}
+
+.empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
+.empty-icon{font-size:36px;margin-bottom:12px}
+
+/* ========================
+   SCAN PAGE
+======================== */
+.scan-page{padding:0 !important}
+.scan-wrap{
+  display:flex;flex-direction:column;align-items:center;
+  min-height:calc(100dvh - 56px - 76px);
+  padding:24px 18px;
+}
+
+/* Camera viewfinder */
+.viewfinder-wrap{
+  position:relative;width:100%;max-width:320px;
+  margin:0 auto 24px;
+}
+.viewfinder-frame{
+  position:relative;width:100%;aspect-ratio:1;
+  border-radius:20px;overflow:hidden;
+  background:#000;
+  box-shadow:0 0 0 1px var(--border), 0 20px 60px rgba(0,0,0,.8);
+}
+#scanVideo{width:100%;height:100%;object-fit:cover;display:block}
+.vf-overlay{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:none;
+}
+.vf-corner{
+  position:absolute;width:48px;height:48px;
+  border-color:var(--gold);border-style:solid;
+  opacity:.8;
+}
+.vf-corner.tl{top:14px;left:14px;border-width:3px 0 0 3px;border-radius:8px 0 0 0}
+.vf-corner.tr{top:14px;right:14px;border-width:3px 3px 0 0;border-radius:0 8px 0 0}
+.vf-corner.bl{bottom:14px;left:14px;border-width:0 0 3px 3px;border-radius:0 0 0 8px}
+.vf-corner.br{bottom:14px;right:14px;border-width:0 3px 3px 0;border-radius:0 0 8px 0}
+.scan-line{
+  position:absolute;left:14px;right:14px;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:scanMove 2s ease-in-out infinite;
+  opacity:.7;
+}
+@keyframes scanMove{0%{top:14px}100%{top:calc(100% - 16px)}}
+
+.vf-idle{
+  position:absolute;inset:0;background:rgba(8,8,7,.85);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;border-radius:20px;
+}
+.vf-idle-icon{font-size:48px;opacity:.5}
+.vf-idle-text{font-size:13px;color:var(--muted);text-align:center;line-height:1.5}
+
+/* Scan status */
+.scan-status{
+  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;
+  color:var(--muted);text-align:center;margin-bottom:16px;min-height:28px;
+}
+.scan-status.scanning{color:var(--gold);animation:pulse .8s ease-in-out infinite}
+.scan-status.success{color:var(--green)}
+.scan-status.error{color:var(--red)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+/* Scan result card */
+.scan-result{
+  background:var(--s1);border:1px solid var(--border);border-radius:16px;
+  padding:20px;width:100%;max-width:320px;
+  display:none;animation:fu .35s ease both;
+}
+.scan-result.show{display:block}
+.sr-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.sr-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--gold3);border:1px solid rgba(212,168,67,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--gold);
+}
+.sr-name{font-size:17px;font-weight:600;color:var(--text)}
+.sr-card{font-size:11px;color:var(--muted);letter-spacing:1.5px;margin-top:2px;font-family:monospace}
+.sr-stamps{
+  display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;
+}
+.sr-dot{width:22px;height:22px;border-radius:50%;background:var(--muted2);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .3s}
+.sr-dot.on{background:var(--gold3);border:1px solid rgba(212,168,67,.4)}
+.sr-dot.new-dot{animation:dotPop .4s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes dotPop{from{transform:scale(0);opacity:0}60%{transform:scale(1.3)}to{transform:scale(1);opacity:1}}
+.sr-btn{
+  width:100%;background:var(--gold);color:#080807;border:none;
+  border-radius:10px;padding:14px;font-family:'Bebas Neue',sans-serif;
+  font-size:18px;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-bottom:8px;
+}
+.sr-btn:hover{background:var(--gold2)}.sr-btn:active{transform:scale(.98)}
+.sr-btn:disabled{background:var(--muted2);color:var(--muted);cursor:not-allowed}
+.sr-cancel{width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
+.sr-cancel:hover{border-color:var(--border2);color:var(--text)}
+
+.reward-alert{
+  background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.08));
+  border:1.5px solid rgba(212,168,67,.4);border-radius:10px;
+  padding:12px 14px;margin-bottom:12px;
+  font-size:13px;color:var(--gold);line-height:1.5;
+  animation:glow 1.5s ease-in-out infinite;
+}
+@keyframes glow{0%,100%{box-shadow:0 0 15px rgba(212,168,67,.1)}50%{box-shadow:0 0 30px rgba(212,168,67,.25)}}
+
+.btn-start-scan{
+  background:var(--gold);color:#080807;border:none;border-radius:14px;
+  padding:16px 32px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;
+  cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:10px;
+}
+.btn-start-scan:hover{background:var(--gold2)}
+.btn-stop-scan{
+  background:transparent;border:1px solid var(--border);border-radius:10px;
+  padding:12px 24px;color:var(--muted);font-family:'DM Sans',sans-serif;
+  font-size:13px;cursor:pointer;transition:all .2s;margin-top:10px;
+}
+.btn-stop-scan:hover{border-color:var(--red);color:var(--red)}
+
+/* EXPORT / NOTIF page */
+.section-box{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text);margin-bottom:12px}
+.section-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+textarea{width:100%;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;resize:vertical;min-height:90px;transition:border-color .2s}
+textarea:focus{border-color:var(--gold)}
+.notif-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
+.ntab{padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s}
+.ntab.active{background:var(--gold3);border-color:var(--border2);color:var(--gold)}
+.recipients-list{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:12.5px;color:var(--muted);max-height:100px;overflow-y:auto;line-height:1.8}
+
+/* MODAL */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center;padding:0}
+.overlay.show{display:flex}
+.modal{background:var(--s1);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp .35s ease both;max-height:85dvh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--gold);letter-spacing:1px;margin-bottom:4px}
+.modal-sub{font-size:12.5px;color:var(--muted);margin-bottom:18px;line-height:1.5}
+.modal-cname{font-size:16px;font-weight:600;color:var(--text);margin-bottom:16px}
+.stamps-editor{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+.se-stamp{aspect-ratio:1;border-radius:10px;border:1.5px solid var(--border);background:var(--muted2);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;transition:all .2s;user-select:none}
+.se-stamp.on{border-color:rgba(212,168,67,.5);background:var(--gold3)}
+.se-count{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);margin-bottom:14px;letter-spacing:1px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
+
+/* TOAST */
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap;z-index:200}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast.success .ti{color:var(--green)}.toast.error .ti{color:var(--red)}
+.ti{font-size:18px}
+
+/* UTILS */
+.spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-wrap" id="loginWrap">
+  <div class="login-box">
+    <div class="login-logo">VVV<em>777</em></div>
+    <div class="login-sub">Espace Administrateur</div>
+    <div class="login-err" id="loginErr">⚠ Mot de passe incorrect.</div>
+    <div class="field-mb">
+      <label class="field-lbl">Mot de passe</label>
+      <input class="field-inp" type="password" id="pwdInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+    <button class="btn-sm btn-gold" style="width:100%;padding:14px;font-size:16px;font-family:'Bebas Neue';letter-spacing:2px;" onclick="doLogin()">ACCÉDER AU DASHBOARD →</button>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app" id="app">
+
+  <!-- TOP NAV -->
+  <div class="topnav">
+    <div class="tn-logo">VVV<em>777</em></div>
+    <div class="tn-right">
+      <span style="font-size:12px;color:var(--muted)" id="tn_count">— clients</span>
+      <button class="tn-logout" onclick="doLogout()">Déco</button>
+    </div>
+  </div>
+
+  <!-- PAGES -->
+  <div class="pages">
+
+    <!-- PAGE: DASHBOARD -->
+    <div class="page active" id="page_home">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-lbl">Clients</div><div class="stat-val gold" id="st_total">—</div><div class="stat-sub">inscrits</div></div>
+        <div class="stat-card"><div class="stat-lbl">Récompenses</div><div class="stat-val" id="st_rewards">—</div><div class="stat-sub">en attente</div></div>
+        <div class="stat-card"><div class="stat-lbl">Tampons total</div><div class="stat-val" id="st_stamps">—</div><div class="stat-sub">cumulés</div></div>
+        <div class="stat-card"><div class="stat-lbl">Nouveaux (7j)</div><div class="stat-val" id="st_new">—</div><div class="stat-sub">inscriptions</div></div>
+      </div>
+      <div style="font-family:'Bebas Neue';font-size:18px;letter-spacing:1px;color:var(--text);margin-bottom:12px;">CLIENTS RÉCENTS</div>
+      <div id="recent_clients"></div>
+    </div>
+
+    <!-- PAGE: CLIENTS -->
+    <div class="page" id="page_clients">
+      <div class="toolbar">
+        <input class="search-box" type="text" placeholder="🔍 Rechercher…" id="searchInput" oninput="filterClients()">
+        <button class="btn-sm btn-gold" onclick="loadClients()">↻</button>
+      </div>
+      <div id="clients_list"></div>
+    </div>
+
+    <!-- PAGE: SCAN -->
+    <div class="page scan-page" id="page_scan">
+      <div class="scan-wrap">
+        <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:6px;">SCANNER UNE CARTE</div>
+        <div style="font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5;">Pointez la caméra vers le QR code du client</div>
+
+        <!-- Viewfinder -->
+        <div class="viewfinder-wrap">
+          <div class="viewfinder-frame">
+            <video id="scanVideo" playsinline muted autoplay></video>
+            <div class="vf-overlay">
+              <div class="vf-corner tl"></div><div class="vf-corner tr"></div>
+              <div class="vf-corner bl"></div><div class="vf-corner br"></div>
+              <div class="scan-line" id="scanLine" style="display:none"></div>
+            </div>
+            <div class="vf-idle" id="vfIdle">
+              <div class="vf-idle-icon">📷</div>
+              <div class="vf-idle-text">Appuyez sur "Démarrer le scan"<br>pour activer la caméra</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="scan-status" id="scanStatus">PRÊT À SCANNER</div>
+
+        <!-- Result card -->
+        <div class="scan-result" id="scanResult">
+          <div class="reward-alert" id="rewardAlert" style="display:none">🎁 Ce client a complété sa carte ! Offrez-lui son 1 acheté = 1 offert et appuyez sur "Récompense utilisée".</div>
+          <div class="sr-header">
+            <div class="sr-avatar" id="sr_avatar">—</div>
+            <div><div class="sr-name" id="sr_name">—</div><div class="sr-card" id="sr_card">—</div></div>
+          </div>
+          <div class="sr-stamps" id="sr_stamps"></div>
+          <button class="sr-btn" id="sr_btn_stamp" onclick="addStampToScanned()">+ AJOUTER 1 TAMPON</button>
+          <button class="sr-btn" id="sr_btn_reward" onclick="useReward()" style="display:none;background:#2A4A2A;color:#6EDD72;border:1px solid rgba(76,175,80,.3)">✅ RÉCOMPENSE UTILISÉE (REMISE À 0)</button>
+          <button class="sr-cancel" onclick="cancelScan()">✕ Annuler / Scanner un autre</button>
+        </div>
+
+        <!-- Controls -->
+        <div id="scanControls">
+          <button class="btn-start-scan" id="btnStartScan" onclick="startScan()">
+            <span style="font-size:24px;">📷</span> DÉMARRER LE SCAN
+          </button>
+          <button class="btn-stop-scan" id="btnStopScan" style="display:none;" onclick="stopScan()">✕ Arrêter la caméra</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: NOTIFICATIONS -->
+    <div class="page" id="page_notif">
+      <div class="section-box">
+        <div class="section-title">Envoyer un message</div>
+        <div class="notif-tabs">
+          <button class="ntab active" onclick="setNotifTarget('all',this)">Tous</button>
+          <button class="ntab" onclick="setNotifTarget('reward',this)">Récompenses 🎁</button>
+          <button class="ntab" onclick="setNotifTarget('inactive',this)">Inactifs</button>
+        </div>
+        <div class="recipients-list" id="recipList">—</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="recipCount">—</div>
+        <textarea id="notifMsg">🍊 VVV777 — Merci pour votre fidélité ! Venez nous rendre visite pour cumuler vos tampons. 10 tampons = 1 acheté 1 offert 🎁</textarea>
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn-sm btn-gold" onclick="copyNumbers()">📋 Copier les numéros</button>
+          <button class="btn-sm btn-ghost" onclick="openWhatsApp()">💬 WhatsApp</button>
+        </div>
+        <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">Pour l'envoi SMS automatique, connectez Brevo ou Twilio.</div>
+      </div>
+      <div class="section-box">
+        <div class="section-title">Export données</div>
+        <div class="section-desc">Téléchargez la liste complète en CSV (compatible Excel, Google Sheets).</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn-sm btn-gold" onclick="exportCSV()">📥 Exporter tous les clients</button>
+          <button class="btn-sm btn-ghost" onclick="exportRewards()">🎁 Exporter récompenses uniquement</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- .pages -->
+
+  <!-- TAB BAR -->
+  <div class="tabbar">
+    <button class="tab-btn active" id="tab_home" onclick="navTo('home',this)">
+      <span class="t-icon">🏠</span><span class="t-label">Accueil</span>
+    </button>
+    <button class="tab-btn" id="tab_clients" onclick="navTo('clients',this)">
+      <span class="t-icon">👥</span><span class="t-label">Clients</span>
+    </button>
+    <button class="tab-btn scan-btn" id="tab_scan" onclick="navTo('scan',this)">
+      <span class="t-icon">📷</span><span class="t-label">Scanner</span>
+    </button>
+    <button class="tab-btn" id="tab_notif" onclick="navTo('notif',this)">
+      <span class="t-icon">📲</span><span class="t-label">Notifs</span>
+    </button>
+  </div>
+
+</div><!-- .app -->
+
+<!-- MODAL: Edit stamps -->
+<div class="overlay" id="modalStamps">
+  <div class="modal">
+    <div class="modal-title">Modifier les tampons</div>
+    <div class="modal-sub">Cliquez pour activer / désactiver les tampons.</div>
+    <div class="modal-cname" id="modal_cname">—</div>
+    <div class="se-count" id="se_count">0 / 10</div>
+    <div class="stamps-editor" id="seGrid"></div>
+    <div class="modal-footer">
+      <button class="btn-sm btn-ghost" onclick="closeModal('modalStamps')">Annuler</button>
+      <button class="btn-sm btn-gold" onclick="saveStamps()">ENREGISTRER</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"><span class="ti" id="toastIcon">✓</span><span id="toastMsg">OK</span></div>
+
+<script>
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+const FRUITS=['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
+let allClients=[];
+let editingClient=null,editingStamps=0;
+let scannedClient=null;
+let scanStream=null,scanAnimFrame=null;
+let notifTarget='all';
+
+// ── LOGIN ────────────────────────────────────────────
+function doLogin(){
+  const pwd=document.getElementById('pwdInput').value;
+  if(pwd===ADMIN_PASSWORD){
+    document.getElementById('loginWrap').style.display='none';
+    document.getElementById('app').classList.add('show');
+    loadClients();
+  } else { document.getElementById('loginErr').style.display='block'; }
+}
+function doLogout(){ stopScan(); document.getElementById('app').classList.remove('show'); document.getElementById('loginWrap').style.display='flex'; document.getElementById('pwdInput').value=''; }
+
+// ── NAVIGATION ────────────────────────────────────────
+function navTo(page,el){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page_'+page).classList.add('active');
+  if(page!=='scan') stopScan();
+  if(page==='notif') loadNotifRecipients();
+}
+
+// ── LOAD CLIENTS ──────────────────────────────────────
+async function loadClients(){
+  const{data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
+  if(error){toast('Erreur de chargement','error');return;}
+  allClients=data||[];
+  renderStats();
+  renderRecent();
+  renderClientsList(allClients);
+  document.getElementById('tn_count').textContent=`${allClients.length} client${allClients.length>1?'s':''}`;
+}
+
+function renderStats(){
+  const total=allClients.length;
+  const rewards=allClients.filter(c=>c.tampons>=10).length;
+  const stamps=allClients.reduce((s,c)=>s+(c.tampons||0),0);
+  const weekAgo=new Date(Date.now()-7*24*60*60*1000);
+  const newC=allClients.filter(c=>new Date(c.created_at)>weekAgo).length;
+  document.getElementById('st_total').textContent=total;
+  document.getElementById('st_rewards').textContent=rewards;
+  document.getElementById('st_stamps').textContent=stamps;
+  document.getElementById('st_new').textContent=newC;
+}
+
+function renderRecent(){
+  const el=document.getElementById('recent_clients');
+  el.innerHTML=allClients.slice(0,5).map(c=>clientCardHTML(c)).join('');
+}
+
+function clientCardHTML(c){
+  const init=c.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const dotsHtml=Array.from({length:10},(_,i)=>`<div class="sm-dot ${i<c.tampons?(c.tampons>=10?'full':'on'):''}"></div>`).join('');
+  const badge=c.tampons>=10?`<span class="badge reward">🎁 Récompense</span>`:`<span class="badge active">${c.tampons}/10</span>`;
+  return `<div class="client-card" onclick="openStampsModal('${c.id}')">
+    <div class="cc-avatar">${init}</div>
+    <div class="cc-info"><div class="cc-name">${esc(c.nom)}</div><div class="cc-detail">${esc(c.telephone)}</div></div>
+    <div class="cc-right"><div class="cc-stamps-mini">${dotsHtml}</div>${badge}</div>
+  </div>`;
+}
+
+function filterClients(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const filtered=allClients.filter(c=>c.nom.toLowerCase().includes(q)||c.telephone.includes(q)||c.email.toLowerCase().includes(q));
+  renderClientsList(filtered);
+}
+function renderClientsList(clients){
+  const el=document.getElementById('clients_list');
+  if(!clients.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👤</div><p>Aucun client trouvé</p></div>`;return;}
+  el.innerHTML=clients.map(c=>clientCardHTML(c)).join('');
+}
+
+// ── STAMPS MODAL ───────────────────────────────────────
+function openStampsModal(clientId){
+  const c=allClients.find(x=>x.id===clientId);
+  if(!c)return;
+  editingClient=c;editingStamps=c.tampons||0;
+  document.getElementById('modal_cname').textContent=c.nom;
+  renderSeGrid();openModal('modalStamps');
+}
+function renderSeGrid(){
+  const grid=document.getElementById('seGrid');
+  grid.innerHTML=Array.from({length:10},(_,i)=>
+    `<div class="se-stamp ${i<editingStamps?'on':''}" onclick="toggleSE(${i})">${i<editingStamps?FRUITS[i]:'○'}</div>`
+  ).join('');
+  document.getElementById('se_count').textContent=`${editingStamps} / 10 tampons`;
+}
+function toggleSE(i){editingStamps=i<editingStamps?i:i+1;renderSeGrid();}
+async function saveStamps(){
+  if(!editingClient)return;
+  const{error}=await sb.from('clients').update({tampons:editingStamps,reward_pending:editingStamps>=10,last_stamp:new Date().toISOString()}).eq('id',editingClient.id);
+  if(error){toast('Erreur','error');return;}
+  const idx=allClients.findIndex(c=>c.id===editingClient.id);
+  if(idx>=0){allClients[idx].tampons=editingStamps;allClients[idx].reward_pending=editingStamps>=10;}
+  renderStats();renderRecent();renderClientsList(allClients);
+  closeModal('modalStamps');toast(`Tampons mis à jour : ${editingStamps}/10 ✓`);
+}
+
+// ── SCANNER ────────────────────────────────────────────
+async function startScan(){
+  document.getElementById('btnStartScan').style.display='none';
+  document.getElementById('btnStopScan').style.display='block';
+  document.getElementById('vfIdle').style.display='none';
+  document.getElementById('scanLine').style.display='block';
+  setScanStatus('EN ATTENTE DE QR CODE…','scanning');
+  document.getElementById('scanResult').classList.remove('show');
+
+  try {
+    scanStream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}
+    });
+    const video=document.getElementById('scanVideo');
+    video.srcObject=scanStream;
+    await video.play();
+    requestAnimationFrame(scanLoop);
+  } catch(e){
+    setScanStatus('CAMÉRA NON ACCESSIBLE','error');
+    toast('Autorisez l\'accès à la caméra','error');
+    resetScanUI();
+  }
+}
+
+function scanLoop(){
+  const video=document.getElementById('scanVideo');
+  if(!scanStream||video.readyState!==video.HAVE_ENOUGH_DATA){
+    scanAnimFrame=requestAnimationFrame(scanLoop);return;
+  }
+  const canvas=document.createElement('canvas');
+  canvas.width=video.videoWidth;canvas.height=video.videoHeight;
+  const ctx=canvas.getContext('2d');
+  ctx.drawImage(video,0,0,canvas.width,canvas.height);
+  const imageData=ctx.getImageData(0,0,canvas.width,canvas.height);
+  const code=jsQR(imageData.data,imageData.width,imageData.height,{inversionAttempts:'dontInvert'});
+  if(code){
+    handleQRCode(code.data);
+  } else {
+    scanAnimFrame=requestAnimationFrame(scanLoop);
+  }
+}
+
+async function handleQRCode(data){
+  // Extract client ID from URL ?carte=UUID
+  const match=data.match(/[?&]carte=([a-f0-9-]{36})/i);
+  if(!match){setScanStatus('QR CODE INVALIDE','error');setTimeout(()=>{setScanStatus('EN ATTENTE DE QR CODE…','scanning');scanAnimFrame=requestAnimationFrame(scanLoop);},1500);return;}
+  const clientId=match[1];
+  setScanStatus('CLIENT TROUVÉ !','success');
+
+  // Look up client
+  let client=allClients.find(c=>c.id===clientId);
+  if(!client){
+    const{data:d}=await sb.from('clients').select('*').eq('id',clientId).single();
+    if(!d){setScanStatus('CLIENT INTROUVABLE','error');setTimeout(()=>{setScanStatus('EN ATTENTE DE QR CODE…','scanning');scanAnimFrame=requestAnimationFrame(scanLoop);},2000);return;}
+    client=d;
+  }
+  showScanResult(client);
+}
+
+function showScanResult(client){
+  scannedClient=client;
+  document.getElementById('sr_name').textContent=client.nom;
+  document.getElementById('sr_card').textContent=client.card_number||'';
+  const init=client.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('sr_avatar').textContent=init;
+  renderSrStamps(client.tampons||0);
+
+  if(client.tampons>=10){
+    document.getElementById('rewardAlert').style.display='block';
+    document.getElementById('sr_btn_stamp').style.display='none';
+    document.getElementById('sr_btn_reward').style.display='block';
+  } else {
+    document.getElementById('rewardAlert').style.display='none';
+    document.getElementById('sr_btn_stamp').style.display='block';
+    document.getElementById('sr_btn_reward').style.display='none';
+    document.getElementById('sr_btn_stamp').disabled=false;
+    document.getElementById('sr_btn_stamp').textContent='+ AJOUTER 1 TAMPON';
+  }
+  document.getElementById('scanResult').classList.add('show');
+}
+
+function renderSrStamps(count,isNew=false){
+  const el=document.getElementById('sr_stamps');
+  el.innerHTML=Array.from({length:10},(_,i)=>{
+    const on=i<count;const isNewDot=isNew&&i===count-1;
+    return `<div class="sr-dot ${on?'on':''} ${isNewDot?'new-dot':''}">${on?FRUITS[i]:''}</div>`;
+  }).join('');
+}
+
+async function addStampToScanned(){
+  if(!scannedClient)return;
+  const newCount=Math.min((scannedClient.tampons||0)+1,10);
+  document.getElementById('sr_btn_stamp').disabled=true;
+  document.getElementById('sr_btn_stamp').innerHTML='<span class="spin"></span>AJOUT…';
+
+  const{error}=await sb.from('clients').update({tampons:newCount,reward_pending:newCount>=10,last_stamp:new Date().toISOString()}).eq('id',scannedClient.id);
+  if(error){toast('Erreur réseau','error');document.getElementById('sr_btn_stamp').disabled=false;document.getElementById('sr_btn_stamp').textContent='+ AJOUTER 1 TAMPON';return;}
+
+  scannedClient.tampons=newCount;
+  const idx=allClients.findIndex(c=>c.id===scannedClient.id);
+  if(idx>=0){allClients[idx].tampons=newCount;allClients[idx].reward_pending=newCount>=10;}
+
+  renderSrStamps(newCount,true);
+  setScanStatus(`TAMPON ${newCount}/10 AJOUTÉ !`,'success');
+  toast(`🍊 Tampon ${newCount}/10 ajouté pour ${scannedClient.nom}`);
+
+  if(newCount>=10){
+    document.getElementById('rewardAlert').style.display='block';
+    document.getElementById('sr_btn_stamp').style.display='none';
+    document.getElementById('sr_btn_reward').style.display='block';
+  } else {
+    document.getElementById('sr_btn_stamp').disabled=false;
+    document.getElementById('sr_btn_stamp').textContent='+ AJOUTER 1 TAMPON';
+  }
+  renderStats();renderRecent();
+}
+
+async function useReward(){
+  if(!scannedClient)return;
+  const{error}=await sb.from('clients').update({tampons:0,reward_pending:false,last_stamp:new Date().toISOString()}).eq('id',scannedClient.id);
+  if(error){toast('Erreur','error');return;}
+  scannedClient.tampons=0;
+  const idx=allClients.findIndex(c=>c.id===scannedClient.id);
+  if(idx>=0){allClients[idx].tampons=0;allClients[idx].reward_pending=false;}
+  renderSrStamps(0);
+  document.getElementById('rewardAlert').style.display='none';
+  document.getElementById('sr_btn_stamp').style.display='block';
+  document.getElementById('sr_btn_reward').style.display='none';
+  setScanStatus('RÉCOMPENSE UTILISÉE — CARTE REMISE À 0','success');
+  toast(`✅ Récompense utilisée pour ${scannedClient.nom}`);
+  renderStats();renderRecent();
+}
+
+function cancelScan(){
+  scannedClient=null;
+  document.getElementById('scanResult').classList.remove('show');
+  setScanStatus('EN ATTENTE DE QR CODE…','scanning');
+  if(scanStream) scanAnimFrame=requestAnimationFrame(scanLoop);
+}
+
+function stopScan(){
+  if(scanAnimFrame){cancelAnimationFrame(scanAnimFrame);scanAnimFrame=null;}
+  if(scanStream){scanStream.getTracks().forEach(t=>t.stop());scanStream=null;}
+  resetScanUI();
+  document.getElementById('scanResult').classList.remove('show');
+  scannedClient=null;
+}
+
+function resetScanUI(){
+  document.getElementById('btnStartScan').style.display='flex';
+  document.getElementById('btnStopScan').style.display='none';
+  document.getElementById('vfIdle').style.display='flex';
+  document.getElementById('scanLine').style.display='none';
+  setScanStatus('PRÊT À SCANNER','');
+}
+
+function setScanStatus(msg,type){
+  const el=document.getElementById('scanStatus');
+  el.textContent=msg;el.className='scan-status'+(type?' '+type:'');
+}
+
+// ── NOTIFICATIONS ─────────────────────────────────────
+function setNotifTarget(t,el){notifTarget=t;document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));el.classList.add('active');loadNotifRecipients();}
+function getRecipients(){
+  if(notifTarget==='reward')return allClients.filter(c=>c.tampons>=10);
+  if(notifTarget==='inactive'){const cut=new Date(Date.now()-180*24*60*60*1000);return allClients.filter(c=>!c.last_stamp||new Date(c.last_stamp)<cut);}
+  return allClients;
+}
+function loadNotifRecipients(){
+  const r=getRecipients();
+  document.getElementById('recipCount').textContent=`${r.length} destinataire${r.length>1?'s':''}`;
+  document.getElementById('recipList').innerHTML=r.length?r.map(c=>`<strong>${esc(c.nom)}</strong> — ${esc(c.telephone)}`).join('<br>'):'<em>Aucun</em>';
+}
+function copyNumbers(){const r=getRecipients();navigator.clipboard.writeText(r.map(c=>c.telephone).join(', ')).then(()=>toast('Numéros copiés ✓'));}
+function openWhatsApp(){const msg=encodeURIComponent(document.getElementById('notifMsg').value);window.open(`https://wa.me/?text=${msg}`);}
+
+// ── EXPORT ─────────────────────────────────────────────
+function exportCSV(){
+  const h=['Nom','Téléphone','Email','Tampons','Récompense','Inscrit le'];
+  const rows=allClients.map(c=>[c.nom,c.telephone,c.email,c.tampons,c.reward_pending?'Oui':'Non',new Date(c.created_at).toLocaleDateString('fr-FR')]);
+  dlCSV([h,...rows],`vvv777-clients-${new Date().toISOString().slice(0,10)}.csv`);
+  toast('Export téléchargé ✓');
+}
+function exportRewards(){
+  const r=allClients.filter(c=>c.tampons>=10);
+  const h=['Nom','Téléphone','Email'];
+  dlCSV([h,...r.map(c=>[c.nom,c.telephone,c.email])],`vvv777-recompenses.csv`);
+  toast('Export récompenses ✓');
+}
+function dlCSV(rows,filename){
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');
+  a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);
+}
+
+// ── MODAL ─────────────────────────────────────────────
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+
+// ── TOAST ─────────────────────────────────────────────
+let toastTimer;
+function toast(msg,type='success'){
+  const el=document.getElementById('toast');
+  el.className=`toast ${type}`;
+  document.getElementById('toastIcon').textContent=type==='success'?'✓':'⚠';
+  document.getElementById('toastMsg').textContent=msg;
+  el.classList.add('show');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),3200);
+}
+
+function esc(s){return(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ── REALTIME ───────────────────────────────────────────
+sb.channel('admin-rt').on('postgres_changes',{event:'*',schema:'public',table:'clients'},()=>loadClients()).subscribe();
+</script>
+</body>
+</html>
