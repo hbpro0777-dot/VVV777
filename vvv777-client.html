@@ -7,10 +7,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black">
 <meta name="apple-mobile-web-app-title" content="VVV777">
 <meta name="theme-color" content="#080807">
-<link rel="apple-touch-icon" href="https://em-content.zobj.net/source/apple/354/tangerine_1f34a.png">
 <title>VVV777 — Ma Carte</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<!-- Librairie QR fiable pour iOS -->
+<script src="https://cdn.jsdelivr.net/npm/kjua@0.9.0/dist/kjua.min.js"></script>
 <script>
   const SUPABASE_URL = 'https://bmnjamkhjjthctdawxtu.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
@@ -56,57 +56,80 @@ input::placeholder{color:var(--muted2)}
 .lookup-note{text-align:center;font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6}
 .lookup-note a{color:var(--gold);text-decoration:none;font-weight:500}
 
-/* CARTE */
+/* ========================
+   CARTE DE FIDÉLITÉ
+======================== */
 .lcard-wrap{margin:0 auto 20px;perspective:1200px}
-.lcard{width:100%;border-radius:20px;background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);border:1px solid rgba(212,168,67,.2);padding:18px 18px 16px;position:relative;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);animation:cardIn .7s cubic-bezier(.22,1,.36,1) both}
+.lcard{
+  width:100%;border-radius:20px;
+  background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);
+  border:1px solid rgba(212,168,67,.2);
+  padding:18px 18px 0;
+  position:relative;overflow:hidden;
+  box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);
+  animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;
+}
 @keyframes cardIn{from{transform:rotateY(-25deg) translateY(20px) scale(.95);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
 .lcard::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.14) 0%,transparent 65%);pointer-events:none}
-.lcard::after{content:'';position:absolute;bottom:-60px;left:-30px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.07) 0%,transparent 65%);pointer-events:none}
+
+/* Top section */
 .lcard-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;position:relative;z-index:1}
 .lcard-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:1px;line-height:1}
 .lcard-type{font-size:7px;letter-spacing:4px;text-transform:uppercase;color:rgba(212,168,67,.4);margin-top:1px}
 .lcard-reward-chip{background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.22);border-radius:20px;padding:5px 10px;font-size:8.5px;letter-spacing:1px;color:var(--gold);text-align:right;line-height:1.4}
+
+/* Stamps grid */
 .lcard-stamps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:12px;position:relative;z-index:1}
 .lcard-stamp{aspect-ratio:1;border-radius:10px;border:1.5px solid rgba(212,168,67,.12);background:rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-size:20px;transition:all .4s cubic-bezier(.34,1.56,.64,1);position:relative;overflow:hidden}
-.lcard-stamp.filled{border-color:rgba(212,168,67,.45);background:rgba(212,168,67,.1);box-shadow:0 0 14px rgba(212,168,67,.2),inset 0 1px 0 rgba(212,168,67,.1)}
+.lcard-stamp.filled{border-color:rgba(212,168,67,.45);background:rgba(212,168,67,.1);box-shadow:0 0 14px rgba(212,168,67,.2)}
 .lcard-stamp.filled::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 40% 30%,rgba(255,220,80,.15) 0%,transparent 60%)}
 .lcard-stamp.pop{animation:stampPop .5s cubic-bezier(.34,1.56,.64,1) both}
 @keyframes stampPop{0%{transform:scale(.15) rotate(-25deg);opacity:0}60%{transform:scale(1.2) rotate(5deg)}100%{transform:scale(1) rotate(0);opacity:1}}
 .lcard-stamp-inner{z-index:1;filter:drop-shadow(0 2px 6px rgba(0,0,0,.5))}
 .lcard-stamp-dot{width:7px;height:7px;border-radius:50%;border:1.5px dashed rgba(212,168,67,.2)}
+
+/* Progress bar */
 .lcard-progress-wrap{margin-bottom:12px;position:relative;z-index:1}
 .lcard-progress-bg{height:3px;border-radius:2px;background:rgba(212,168,67,.08);overflow:hidden}
 .lcard-progress-fill{height:3px;border-radius:2px;background:linear-gradient(90deg,#8A5E10,var(--gold),var(--gold2));transition:width .7s ease;box-shadow:0 0 8px rgba(212,168,67,.4)}
-.lcard-bottom{display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:1}
+
+/* Card bottom info */
+.lcard-info{display:flex;justify-content:space-between;align-items:flex-end;position:relative;z-index:1;padding-bottom:14px}
 .lcard-holder{font-size:12px;font-weight:600;color:var(--gold2);letter-spacing:.5px;max-width:160px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .lcard-num{font-size:8px;color:rgba(212,168,67,.28);letter-spacing:2.5px;font-family:monospace;margin-top:2px}
 .lcard-counter-val{font-family:'Bebas Neue',sans-serif;font-size:26px;color:var(--gold);letter-spacing:1px;line-height:1;text-align:right}
 .lcard-counter-label{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.35);text-align:right}
 
-/* REWARD */
-.reward-banner{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.06));border:1px solid rgba(212,168,67,.22);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;margin-top:14px}
-.reward-banner.unlocked{border-color:rgba(212,168,67,.5);animation:glow 2s ease-in-out infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(212,168,67,.1)}50%{box-shadow:0 0 40px rgba(212,168,67,.3)}}
-.rw-icon{font-size:24px;flex-shrink:0}
-.rw-text strong{display:block;color:var(--gold);font-size:13px;font-weight:600;margin-bottom:2px}
-.rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
-
-/* QR */
-.qr-section{margin-top:18px}
-.qr-toggle{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;transition:all .2s;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500}
-.qr-toggle:hover{border-color:var(--gold);background:var(--gold4)}
-.qt-left{display:flex;align-items:center;gap:10px}
-.qt-icon{font-size:20px}
-.qt-arrow{font-size:12px;color:var(--muted);transition:transform .25s}
-.qr-toggle.open .qt-arrow{transform:rotate(180deg)}
-.qr-panel{background:var(--s1);border:1px solid var(--border);border-radius:0 0 16px 16px;border-top:none;padding:22px;display:none;flex-direction:column;align-items:center;gap:14px;margin-top:-4px}
-.qr-panel.open{display:flex;animation:fu .3s ease both}
-.qr-frame{background:#fff;border-radius:16px;padding:14px;display:inline-block;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.qr-frame canvas{display:block;border-radius:8px}
-.qr-name{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;color:var(--gold);text-align:center}
-.qr-hint{font-size:11px;color:var(--muted);text-align:center;line-height:1.6;max-width:240px}
-.btn-fullscreen{width:100%;background:var(--gold3);border:1.5px solid rgba(212,168,67,.25);border-radius:10px;padding:11px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-fullscreen:hover{background:rgba(212,168,67,.18)}
+/* QR CODE SECTION ON CARD */
+.lcard-qr-section{
+  border-top:1px solid rgba(212,168,67,.1);
+  margin:0 -18px;
+  padding:16px 18px;
+  display:flex;align-items:center;gap:16px;
+  background:rgba(0,0,0,.2);
+  position:relative;z-index:1;
+  cursor:pointer;
+}
+.lcard-qr-box{
+  background:#fff;border-radius:10px;
+  padding:8px;flex-shrink:0;
+  width:80px;height:80px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.5);
+}
+.lcard-qr-box img{width:64px;height:64px;border-radius:4px;display:block;}
+.lcard-qr-loading{width:64px;height:64px;display:flex;align-items:center;justify-content:center;color:var(--muted2);font-size:22px}
+.lcard-qr-info{}
+.lcard-qr-title{font-family:'Bebas Neue',sans-serif;font-size:15px;letter-spacing:1px;color:var(--gold);margin-bottom:4px}
+.lcard-qr-hint{font-size:11px;color:var(--muted);line-height:1.5}
+.lcard-qr-fullscreen{
+  margin-left:auto;flex-shrink:0;
+  width:32px;height:32px;border-radius:8px;
+  background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;cursor:pointer;transition:all .2s;
+}
+.lcard-qr-fullscreen:hover{background:rgba(212,168,67,.2);}
 
 /* FULLSCREEN QR */
 .qr-fullscreen{position:fixed;inset:0;background:#080807;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:28px}
@@ -115,29 +138,29 @@ input::placeholder{color:var(--muted2)}
 .qr-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--text);letter-spacing:-1px;margin-bottom:4px}
 .qr-fs-logo em{color:var(--gold);font-style:normal}
 .qr-fs-sub{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--muted);margin-bottom:24px}
-.qr-fs-frame{background:#fff;border-radius:20px;padding:18px;box-shadow:0 0 80px rgba(212,168,67,.2),0 0 0 1px rgba(212,168,67,.1);margin-bottom:18px}
-.qr-fs-frame canvas{display:block;border-radius:10px}
-.qr-fs-name{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);letter-spacing:1px;margin-bottom:10px}
+.qr-fs-box{
+  background:#fff;border-radius:20px;padding:20px;
+  box-shadow:0 0 80px rgba(212,168,67,.2),0 0 0 1px rgba(212,168,67,.1);
+  margin-bottom:20px;
+  display:flex;align-items:center;justify-content:center;
+}
+.qr-fs-box img{width:220px;height:220px;border-radius:10px;display:block;}
+.qr-fs-name{font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;text-align:center}
 .qr-fs-stamps{display:flex;gap:8px;margin-bottom:6px;flex-wrap:wrap;justify-content:center}
 .fs-dot{width:22px;height:22px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:14px}
-.qr-fs-num{font-size:10px;color:var(--muted);letter-spacing:2px;font-family:monospace;margin-bottom:22px}
+.qr-fs-num{font-size:10px;color:var(--muted);letter-spacing:2px;font-family:monospace;margin-bottom:22px;text-align:center}
 .qr-fs-close{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:13px 28px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;transition:all .2s}
 .qr-fs-close:hover{border-color:var(--gold);color:var(--gold)}
 
-/* ========================
-   INSTALL BUTTON
-======================== */
-.install-banner{
-  background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.07));
-  border:1.5px solid rgba(212,168,67,.3);
-  border-radius:16px;padding:16px 18px;
-  display:flex;align-items:center;gap:14px;
-  margin-top:16px;
-  animation:fu .5s .2s ease both;
-}
-.ib-icon{font-size:32px;flex-shrink:0}
-.ib-text strong{display:block;color:var(--gold);font-size:14px;font-weight:600;margin-bottom:3px}
-.ib-text span{font-size:12px;color:var(--muted);line-height:1.4}
+/* REWARD */
+.reward-banner{background:linear-gradient(135deg,rgba(212,168,67,.12),rgba(212,168,67,.06));border:1px solid rgba(212,168,67,.22);border-radius:12px;padding:13px 15px;display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.reward-banner.unlocked{border-color:rgba(212,168,67,.5);animation:glow 2s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 20px rgba(212,168,67,.1)}50%{box-shadow:0 0 40px rgba(212,168,67,.3)}}
+.rw-icon{font-size:24px;flex-shrink:0}
+.rw-text strong{display:block;color:var(--gold);font-size:13px;font-weight:600;margin-bottom:2px}
+.rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
+
+/* INSTALL */
 .btn-install{
   width:100%;
   background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));
@@ -145,41 +168,13 @@ input::placeholder{color:var(--muted2)}
   padding:16px;margin-top:12px;
   font-family:'Bebas Neue',sans-serif;
   font-size:17px;letter-spacing:2px;
-  cursor:pointer;
-  transition:all .2s;
-  display:flex;align-items:center;justify-content:center;gap:10px;
+  cursor:pointer;transition:all .2s;
   box-shadow:0 4px 20px rgba(212,168,67,.3);
-  animation:fu .5s .3s ease both;
 }
-.btn-install:hover{transform:translateY(-1px);box-shadow:0 6px 28px rgba(212,168,67,.4)}
 .btn-install:active{transform:scale(.98)}
+.install-steps{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:12px;display:none}
 
-/* Steps instructions */
-.install-steps{
-  background:var(--s1);border:1px solid var(--border);
-  border-radius:14px;padding:18px;margin-top:12px;
-  animation:fu .4s ease both;
-}
-.install-steps-title{
-  font-family:'Bebas Neue',sans-serif;font-size:16px;
-  letter-spacing:1px;color:var(--gold);margin-bottom:14px;
-}
-.install-step{
-  display:flex;align-items:flex-start;gap:12px;
-  margin-bottom:12px;
-}
-.install-step:last-child{margin-bottom:0}
-.step-num{
-  width:24px;height:24px;border-radius:50%;
-  background:var(--gold3);border:1px solid rgba(212,168,67,.3);
-  display:flex;align-items:center;justify-content:center;
-  font-size:11px;font-weight:700;color:var(--gold);
-  flex-shrink:0;margin-top:1px;
-}
-.step-txt{font-size:13px;color:var(--muted);line-height:1.5}
-.step-txt strong{color:var(--text)}
-
-/* Confirm */
+/* CONFIRM */
 .confirm-icon{width:56px;height:56px;border-radius:50%;background:var(--gold3);border:1.5px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 16px;animation:popIn .5s cubic-bezier(.175,.885,.32,1.275) both}
 @keyframes popIn{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
@@ -231,17 +226,32 @@ input::placeholder{color:var(--muted2)}
   <div class="screen" id="s2">
     <div class="lcard-wrap">
       <div class="lcard">
+        <!-- Top -->
         <div class="lcard-top">
           <div><div class="lcard-logo">VVV777</div><div class="lcard-type">Carte de Fidélité</div></div>
           <div class="lcard-reward-chip">1 acheté<br>= 1 offert</div>
         </div>
+        <!-- Tampons fruits -->
         <div class="lcard-stamps-grid" id="card_stamps"></div>
+        <!-- Progress -->
         <div class="lcard-progress-wrap">
           <div class="lcard-progress-bg"><div class="lcard-progress-fill" id="card_progress" style="width:0%"></div></div>
         </div>
-        <div class="lcard-bottom">
+        <!-- Info + counter -->
+        <div class="lcard-info">
           <div><div class="lcard-holder" id="c_name">—</div><div class="lcard-num" id="c_num">—</div></div>
           <div><div class="lcard-counter-val" id="c_scount">0/10</div><div class="lcard-counter-label">tampons</div></div>
+        </div>
+        <!-- QR CODE INTÉGRÉ À LA CARTE -->
+        <div class="lcard-qr-section" onclick="openFullscreenQR()">
+          <div class="lcard-qr-box" id="qr_small">
+            <div class="lcard-qr-loading">⏳</div>
+          </div>
+          <div class="lcard-qr-info">
+            <div class="lcard-qr-title">Mon QR Code</div>
+            <div class="lcard-qr-hint">Présentez cette carte au commerçant pour recevoir votre tampon.</div>
+          </div>
+          <div class="lcard-qr-fullscreen">⛶</div>
         </div>
       </div>
     </div>
@@ -254,56 +264,38 @@ input::placeholder{color:var(--muted2)}
           <span>pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
         </div>
       </div>
-      <div class="qr-section">
-        <button class="qr-toggle" id="qr_toggle" onclick="toggleQR()">
-          <div class="qt-left"><span class="qt-icon">📲</span><span>Afficher mon QR code</span></div>
-          <span class="qt-arrow">▼</span>
-        </button>
-        <div class="qr-panel" id="qr_panel">
-          <div class="qr-frame"><div id="qr_canvas"></div></div>
-          <div class="qr-name" id="qr_name">—</div>
-          <div class="qr-hint">Présentez ce QR code au commerçant pour recevoir votre tampon.</div>
-          <button class="btn-fullscreen" onclick="openFullscreenQR()">⛶ Afficher en plein écran</button>
-        </div>
-      </div>
+      <!-- Install button -->
+      <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
+      <div class="install-steps" id="install_steps_card"></div>
     </div>
-
-    <!-- Bouton installer depuis la carte aussi -->
-    <div style="margin-top:12px;" id="install_section_card"></div>
   </div>
 
-  <!-- S3: CONFIRMATION + INSTALL -->
+  <!-- S3: CONFIRMATION -->
   <div class="screen" id="s3">
     <div class="panel" style="text-align:center;padding:36px 20px;">
       <div class="confirm-icon">✦</div>
       <div class="panel-title" style="text-align:center;font-size:30px;">Bienvenue !</div>
-      <div class="panel-sub" style="text-align:center;margin-top:10px;margin-bottom:0;">Votre carte VVV777 est activée.<br>Présentez votre QR code à chaque visite.</div>
+      <div class="panel-sub" style="text-align:center;margin-top:10px;margin-bottom:0;">Votre carte VVV777 est activée.<br>Votre QR code est visible directement sur votre carte.</div>
       <div class="fruits-anim" style="margin:20px 0 0;"><span>🍊</span><span>🍇</span><span>🍋</span><span>🍒</span><span>🥭</span></div>
     </div>
-
-    <!-- INSTALL BANNER -->
-    <div class="install-banner">
-      <div class="ib-icon">📲</div>
-      <div class="ib-text">
-        <strong>Installez votre carte !</strong>
-        <span>Ajoutez-la à votre écran d'accueil pour y accéder en 1 tap, comme une vraie app.</span>
-      </div>
+    <div style="background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.07));border:1.5px solid rgba(212,168,67,.3);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;margin-top:16px;">
+      <div style="font-size:32px;">📲</div>
+      <div><strong style="display:block;color:#D4A843;font-size:14px;margin-bottom:3px;">Installez votre carte !</strong><span style="font-size:12px;color:#5A5545;line-height:1.5;">Ajoutez-la à votre écran d'accueil pour y accéder en 1 tap.</span></div>
     </div>
-    <button class="btn-install" onclick="installApp()">
-      🍊 AJOUTER À MON ÉCRAN D'ACCUEIL
-    </button>
-    <div class="install-steps" id="install_steps" style="display:none"></div>
-
-    <div class="lookup-note" style="margin-top:16px;">10 tampons = <strong style="color:var(--gold)">1 acheté 1 offert</strong><br>Merci de votre confiance — <strong>VVV777</strong></div>
-    <button class="btn ghost" style="margin-top:10px;" onclick="setStep(2);showScreen('s2')">VOIR MA CARTE + QR CODE →</button>
+    <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
+    <div class="install-steps" id="install_steps"></div>
+    <div class="lookup-note" style="margin-top:16px;">10 tampons = <strong style="color:#D4A843;">1 acheté 1 offert</strong><br>Merci de votre confiance — <strong>VVV777</strong></div>
+    <button class="btn ghost" style="margin-top:10px;" onclick="setStep(2);showScreen('s2')">VOIR MA CARTE →</button>
   </div>
 </div>
 
 <!-- FULLSCREEN QR -->
 <div class="qr-fullscreen" id="qr_fullscreen">
   <div class="qr-fs-logo">VVV<em>777</em></div>
-  <div class="qr-fs-sub">Carte de fidélité</div>
-  <div class="qr-fs-frame"><div id="qr_fs_canvas"></div></div>
+  <div class="qr-fs-sub">Carte de fidélité — Scan pour tampon</div>
+  <div class="qr-fs-box" id="qr_big">
+    <div style="width:220px;height:220px;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:14px;">Chargement…</div>
+  </div>
   <div class="qr-fs-name" id="qr_fs_name">—</div>
   <div class="qr-fs-stamps" id="qr_fs_dots"></div>
   <div class="qr-fs-num" id="qr_fs_num">—</div>
@@ -315,93 +307,51 @@ const sb=supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
 const FRUITS=['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
 let currentClient=null;
 let deferredPrompt=null;
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+const isStandalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
 
-// ── Detect device ────────────────────────────────────
-const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent);
-const isAndroid=/android/i.test(navigator.userAgent);
-const isInStandaloneMode=window.matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
 
-// Capture Android install prompt
-window.addEventListener('beforeinstallprompt',e=>{
-  e.preventDefault();deferredPrompt=e;
-});
-
-// ── Install function ──────────────────────────────────
-function installApp(){
-  const stepsEl=document.getElementById('install_steps');
-  if(isInStandaloneMode){
-    stepsEl.innerHTML='<div style="color:#D4A843;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:10px;">✅ Déjà installé !</div><div style="color:#5A5545;font-size:13px;">Vous utilisez déjà la version installée sur votre écran d\'accueil.</div>';
-    stepsEl.style.display='block';return;
-  }
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then(r=>{
-      if(r.outcome==='accepted'){
-        stepsEl.innerHTML='<div style="color:#D4A843;font-family:Bebas Neue,sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:10px;">🎉 Installé !</div><div style="color:#5A5545;font-size:13px;">Votre carte VVV777 est sur votre écran d\'accueil !</div>';
-        stepsEl.style.display='block';
-      }
-      deferredPrompt=null;
+// ── QR Generation (kjua - très compatible iOS) ──────────
+function makeQR(clientId, size){
+  const url = SITE_URL + '/vvv777-client.html?carte=' + clientId;
+  try {
+    const el = kjua({
+      text: url,
+      render: 'image',
+      size: size,
+      fill: '#111111',
+      back: '#ffffff',
+      rounded: 10,
+      quiet: 2
     });
-  } else if(isIOS){
-    stepsEl.innerHTML=`
-      <div style="color:#D4A843;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:14px;">📱 Sur iPhone — 3 étapes</div>
-      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">1</div>
-        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur le bouton <strong style="color:#F2EFE8;">Partager ↑</strong> en bas de Safari</div>
-      </div>
-      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">2</div>
-        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Faites défiler et appuyez sur <strong style="color:#F2EFE8;">"Sur l'écran d'accueil"</strong></div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">3</div>
-        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> en haut à droite — c'est fait ! 🎉</div>
-      </div>`;
-    stepsEl.style.cssText='display:block;background:#0F0F0E;border:1px solid #1E1D18;border-radius:14px;padding:18px;margin-top:12px;';
-    stepsEl.scrollIntoView({behavior:'smooth',block:'nearest'});
-  } else {
-    stepsEl.innerHTML=`
-      <div style="color:#D4A843;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:14px;">📱 Sur Android — 3 étapes</div>
-      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">1</div>
-        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur les <strong style="color:#F2EFE8;">3 points ⋮</strong> en haut à droite de Chrome</div>
-      </div>
-      <div style="display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">2</div>
-        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter à l'écran d'accueil"</strong></div>
-      </div>
-      <div style="display:flex;gap:12px;align-items:flex-start;">
-        <div style="width:26px;height:26px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#D4A843;flex-shrink:0;">3</div>
-        <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:4px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> — c'est fait ! 🎉</div>
-      </div>`;
-    stepsEl.style.cssText='display:block;background:#0F0F0E;border:1px solid #1E1D18;border-radius:14px;padding:18px;margin-top:12px;';
-    stepsEl.scrollIntoView({behavior:'smooth',block:'nearest'});
+    return el;
+  } catch(e) {
+    console.error('QR error:', e);
+    return null;
   }
 }
 
-function showInstallSteps(type){
-  const stepsEl=document.getElementById('install_steps');
-  let html='';
-  if(type==='ios'){
-    html=`<div class="install-steps-title">📱 Sur iPhone / iPad</div>
-    <div class="install-step"><div class="step-num">1</div><div class="step-txt">Appuyez sur <strong>le bouton Partager</strong> ↑ en bas de Safari</div></div>
-    <div class="install-step"><div class="step-num">2</div><div class="step-txt">Faites défiler et appuyez sur <strong>"Sur l'écran d'accueil"</strong></div></div>
-    <div class="install-step"><div class="step-num">3</div><div class="step-txt">Appuyez sur <strong>"Ajouter"</strong> en haut à droite — c'est fait ! 🎉</div></div>`;
-  } else if(type==='done'){
-    html=`<div class="install-steps-title">✅ Installé !</div>
-    <div class="install-step"><div class="step-num">✓</div><div class="step-txt">Votre carte VVV777 est sur votre écran d'accueil !</div></div>`;
-  } else if(type==='already'){
-    html=`<div class="install-steps-title">✅ Déjà installé !</div>
-    <div class="install-step"><div class="step-num">✓</div><div class="step-txt">Vous utilisez déjà la version installée.</div></div>`;
+function renderQRSmall(clientId){
+  const box = document.getElementById('qr_small');
+  const img = makeQR(clientId, 64);
+  if(img){
+    img.style.cssText='width:64px;height:64px;border-radius:4px;display:block;';
+    box.innerHTML='';
+    box.appendChild(img);
   } else {
-    html=`<div class="install-steps-title">📱 Sur Android</div>
-    <div class="install-step"><div class="step-num">1</div><div class="step-txt">Appuyez sur les <strong>3 points ⋮</strong> en haut à droite de Chrome</div></div>
-    <div class="install-step"><div class="step-num">2</div><div class="step-txt">Appuyez sur <strong>"Ajouter à l'écran d'accueil"</strong></div></div>
-    <div class="install-step"><div class="step-num">3</div><div class="step-txt">Confirmez en appuyant sur <strong>"Ajouter"</strong> — c'est fait ! 🎉</div></div>`;
+    box.innerHTML='<div style="width:64px;height:64px;background:#eee;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;color:#999;">QR</div>';
   }
-  stepsEl.innerHTML=html;
-  stepsEl.style.display='block';
-  stepsEl.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function renderQRBig(clientId){
+  const box = document.getElementById('qr_big');
+  const img = makeQR(clientId, 220);
+  if(img){
+    img.style.cssText='width:220px;height:220px;border-radius:10px;display:block;';
+    box.innerHTML='';
+    box.appendChild(img);
+  }
 }
 
 // ── UI helpers ────────────────────────────────────────
@@ -429,51 +379,21 @@ function renderCardStamps(count,isNew=false){
   else{banner.classList.remove('unlocked');document.getElementById('rw_title').innerHTML=`Encore <span>${rem}</span> tampon${rem>1?'s':''}`;banner.querySelector('span').textContent='pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.';}
 }
 
-function generateQR(clientId,canvasId,size=180){
-  const url=`${SITE_URL}/vvv777-client.html?carte=${clientId}`;
-  const container=document.getElementById(canvasId);
-  if(!container)return;
-  // Clear previous
-  container.innerHTML='';
-  // Use img tag for better iOS compatibility
-  QRCode.toDataURL(url,{width:size,margin:2,color:{dark:'#111111',light:'#ffffff'}},function(err,dataUrl){
-    if(err){console.error('QR error:',err);return;}
-    const img=document.createElement('img');
-    img.src=dataUrl;
-    img.style.cssText='display:block;width:'+size+'px;height:'+size+'px;border-radius:8px;';
-    container.innerHTML='';
-    container.appendChild(img);
-  });
-}
-
 function showCard(client,isNew=false){
   currentClient=client;
   document.getElementById('c_name').textContent=client.nom.toUpperCase();
   document.getElementById('c_num').textContent=client.card_number||'—';
-  document.getElementById('qr_name').textContent=client.nom.toUpperCase();
   renderCardStamps(client.tampons||0,isNew);
-  setTimeout(()=>generateQR(client.id,'qr_canvas',180),150);
-  // Show install button on card screen too if not installed
-  if(!isInStandaloneMode){
-    document.getElementById('install_section_card').innerHTML=`
-      <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
-      <div class="install-steps" id="install_steps_card" style="display:none"></div>`;
-  }
+  // Render QR after short delay so DOM is ready
+  setTimeout(()=>renderQRSmall(client.id), 300);
   setStep(2);showScreen('s2');subscribeRealtime(client.id);
-}
-
-function toggleQR(){
-  const toggle=document.getElementById('qr_toggle');const panel=document.getElementById('qr_panel');
-  const isOpen=panel.classList.contains('open');
-  panel.classList.toggle('open');toggle.classList.toggle('open');
-  if(!isOpen&&currentClient)setTimeout(()=>generateQR(currentClient.id,'qr_canvas',180),50);
 }
 
 function openFullscreenQR(){
   if(!currentClient)return;
   document.getElementById('qr_fs_name').textContent=currentClient.nom.toUpperCase();
   document.getElementById('qr_fs_num').textContent=currentClient.card_number||'';
-  generateQR(currentClient.id,'qr_fs_canvas',220);
+  renderQRBig(currentClient.id);
   const dots=document.getElementById('qr_fs_dots');
   dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="fs-dot">${i<(currentClient.tampons||0)?FRUITS[i]:''}</div>`).join('');
   document.getElementById('qr_fullscreen').classList.add('show');
@@ -481,6 +401,61 @@ function openFullscreenQR(){
 }
 function closeFullscreenQR(){document.getElementById('qr_fullscreen').classList.remove('show');}
 
+// ── Install ─────────────────────────────────────────────
+function installApp(){
+  const s1=document.getElementById('install_steps');
+  const s2=document.getElementById('install_steps_card');
+  function showSteps(el, html){
+    if(!el)return;
+    el.innerHTML=html;el.style.display='block';
+    el.scrollIntoView({behavior:'smooth',block:'nearest'});
+  }
+  const iosHTML=`
+    <div style="color:#D4A843;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:14px;">📱 Sur iPhone — 3 étapes simples</div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D4A843;">1</div>
+      <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:3px;">Appuyez sur <strong style="color:#F2EFE8;">le bouton Partager ↑</strong> en bas de Safari</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D4A843;">2</div>
+      <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:3px;">Faites défiler et appuyez sur <strong style="color:#F2EFE8;">"Sur l'écran d'accueil"</strong></div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D4A843;">3</div>
+      <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:3px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter"</strong> en haut à droite — c'est fait ! 🎉</div>
+    </div>`;
+  const androidHTML=`
+    <div style="color:#D4A843;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:1px;margin-bottom:14px;">📱 Sur Android — 3 étapes simples</div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D4A843;">1</div>
+      <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:3px;">Appuyez sur les <strong style="color:#F2EFE8;">3 points ⋮</strong> en haut de Chrome</div>
+    </div>
+    <div style="display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D4A843;">2</div>
+      <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:3px;">Appuyez sur <strong style="color:#F2EFE8;">"Ajouter à l'écran d'accueil"</strong></div>
+    </div>
+    <div style="display:flex;gap:10px;align-items:flex-start;">
+      <div style="min-width:24px;height:24px;border-radius:50%;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#D4A843;">3</div>
+      <div style="color:#A09070;font-size:13px;line-height:1.5;padding-top:3px;">Confirmez en appuyant sur <strong style="color:#F2EFE8;">"Ajouter"</strong> — c'est fait ! 🎉</div>
+    </div>`;
+
+  if(isStandalone){
+    const msg='<div style="color:#D4A843;font-size:13px;">✅ Déjà installé sur votre écran d\'accueil !</div>';
+    showSteps(s1,msg);showSteps(s2,msg);
+  } else if(deferredPrompt){
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(r=>{
+      if(r.outcome==='accepted'){const m='<div style="color:#D4A843;font-size:13px;">🎉 Installé avec succès !</div>';showSteps(s1,m);showSteps(s2,m);}
+      deferredPrompt=null;
+    });
+  } else if(isIOS){
+    showSteps(s1,iosHTML);showSteps(s2,iosHTML);
+  } else {
+    showSteps(s1,androidHTML);showSteps(s2,androidHTML);
+  }
+}
+
+// ── Create ───────────────────────────────────────────────
 async function handleCreate(){
   hideErr('err1');
   const nom=document.getElementById('i_name').value.trim();
@@ -496,6 +471,7 @@ async function handleCreate(){
   currentClient=data;setStep(3);showScreen('s3');
 }
 
+// ── Lookup ───────────────────────────────────────────────
 async function handleLookup(){
   hideErr('err_lk');
   const val=document.getElementById('i_lookup').value.trim();
@@ -507,6 +483,7 @@ async function handleLookup(){
   showCard(data[0]);
 }
 
+// ── Realtime ─────────────────────────────────────────────
 function subscribeRealtime(id){
   sb.channel('stamps-'+id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},p=>{
     const u=p.new;currentClient={...currentClient,...u};renderCardStamps(u.tampons,true);
@@ -515,6 +492,7 @@ function subscribeRealtime(id){
   }).subscribe();
 }
 
+// ── Init: check ?carte=id ────────────────────────────────
 (async()=>{
   const p=new URLSearchParams(window.location.search);
   const id=p.get('carte');
