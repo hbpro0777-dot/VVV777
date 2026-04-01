@@ -722,16 +722,15 @@ function cancelScan(){
 }
 
 function stopScan(){
-  try {
-    if(zxingReader){ zxingReader.reset(); zxingReader=null; }
-  } catch(e){}
-  if(scanAnimFrame){cancelAnimationFrame(scanAnimFrame);scanAnimFrame=null;}
-  const video = document.getElementById('scanVideo');
-  if(video && video.srcObject){
-    video.srcObject.getTracks().forEach(t=>t.stop());
-    video.srcObject=null;
+  try { if(zxingReader){ zxingReader.reset(); zxingReader=null; } } catch(e){}
+  if(scanAnimFrame){ cancelAnimationFrame(scanAnimFrame); scanAnimFrame=null; }
+  if(scanStream && scanStream.getTracks){
+    scanStream.getTracks().forEach(t=>t.stop());
   }
+  const video = document.getElementById('scanVideo');
+  if(video){ video.srcObject=null; }
   scanStream=null;
+  isProcessing=false;
   resetScanUI();
   document.getElementById('scanResult').classList.remove('show');
   scannedClient=null;
