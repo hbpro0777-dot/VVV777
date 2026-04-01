@@ -280,7 +280,7 @@ function encodeC128(text) {
   return vals.map(v=>C128P[v]).join('')+'11';
 }
 
-function drawBarcode(svgId, text, barW, barH) {
+function drawBarcode(svgId, text, barW, barH, color) {
   const svg = document.getElementById(svgId);
   if(!svg) return;
   const pat = encodeC128(text);
@@ -288,9 +288,10 @@ function drawBarcode(svgId, text, barW, barH) {
   svg.setAttribute('width', W);
   svg.setAttribute('height', barH);
   svg.setAttribute('viewBox', `0 0 ${W} ${barH}`);
-  let html = `<rect width="${W}" height="${barH}" fill="transparent"/>`;
+  const bg = color === '#111111' ? '#ffffff' : 'transparent';
+  let html = `<rect width="${W}" height="${barH}" fill="${bg}"/>`;
   for(let i=0;i<pat.length;i++){
-    if(pat[i]==='1') html+=`<rect x="${i*barW}" y="0" width="${barW}" height="${barH}" fill="rgba(240,201,106,0.9)"/>`;
+    if(pat[i]==='1') html+=`<rect x="${i*barW}" y="0" width="${barW}" height="${barH}" fill="${color}"/>`;
   }
   svg.innerHTML = html;
 }
@@ -298,8 +299,10 @@ function drawBarcode(svgId, text, barW, barH) {
 function getBCText(client){
   return (client.card_number||'000000000000').replace(/\s/g,'');
 }
-function renderBC(client){ drawBarcode('barcode_svg', getBCText(client), 1.6, 42); }
-function renderBCBig(client){ drawBarcode('barcode_svg_big', getBCText(client), 2.6, 72); }
+// Card barcode: gold color on dark background
+function renderBC(client){ drawBarcode('barcode_svg', getBCText(client), 1.6, 42, 'rgba(240,201,106,0.9)'); }
+// Fullscreen barcode: BLACK on white for easy scanning
+function renderBCBig(client){ drawBarcode('barcode_svg_big', getBCText(client), 2.8, 80, '#111111'); }
 
 // ── UI ─────────────────────────────────────────────────────
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
