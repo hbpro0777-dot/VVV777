@@ -589,7 +589,10 @@ function scanLoop(){
   // This function is kept for compatibility but ZXing is started in startScan
 }
 
+let isProcessing = false;
 async function handleBarcodeResult(data){
+  if(isProcessing) return;
+  isProcessing = true;
   if(!scanStream) return; // already stopped
   setScanStatus('CODE DÉTECTÉ…','success');
 
@@ -626,15 +629,15 @@ async function handleBarcodeResult(data){
     setScanStatus('CLIENT INTROUVABLE','error');
     toast('Code non reconnu — vérifiez la carte','error');
     setTimeout(()=>{
+      isProcessing = false;
       setScanStatus('EN ATTENTE DU CODE-BARRES…','scanning');
-      // Restart scanner
-      if(scanStream) startScan();
     },2000);
     return;
   }
 
   setScanStatus('CLIENT TROUVÉ !','success');
   showScanResult(client);
+  isProcessing = false;
 }
 
 function showScanResult(client){
@@ -719,9 +722,15 @@ function cancelScan(){
 }
 
 function stopScan(){
-  if(zxingReader){ zxingReader.reset(); zxingReader=null; }
+  try {
+    if(zxingReader){ zxingReader.reset(); zxingReader=null; }
+  } catch(e){}
   if(scanAnimFrame){cancelAnimationFrame(scanAnimFrame);scanAnimFrame=null;}
-  if(scanStream && scanStream.getTracks){scanStream.getTracks().forEach(t=>t.stop());}
+  const video = document.getElementById('scanVideo');
+  if(video && video.srcObject){
+    video.srcObject.getTracks().forEach(t=>t.stop());
+    video.srcObject=null;
+  }
   scanStream=null;
   resetScanUI();
   document.getElementById('scanResult').classList.remove('show');
