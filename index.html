@@ -9,20 +9,9 @@
 <meta name="theme-color" content="#080807">
 <title>VVV777 — Ma Carte</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script>
-  const firebaseConfig = {
-    apiKey: "AIzaSyBlr9lLq7hCWXdz1Qu8dsCMW3ZZidDHjlQ",
-    authDomain: "vvv777-fidelite.firebaseapp.com",
-    projectId: "vvv777-fidelite",
-    storageBucket: "vvv777-fidelite.firebasestorage.app",
-    messagingSenderId: "54834250886",
-    appId: "1:54834250886:web:e4fe144d5b64c8f4a5fd07"
-  };
-  firebase.initializeApp(firebaseConfig);
   const SUPABASE_URL = 'https://bmnjamkhjjthctdawxtu.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
   const SITE_URL = 'https://vvv777fidelite.com';
@@ -66,27 +55,19 @@ input::placeholder{color:var(--muted2)}
 .ok-box{background:rgba(67,212,100,.08);border:1px solid rgba(67,212,100,.25);border-radius:10px;padding:11px 14px;font-size:12.5px;color:#6EE89A;margin-bottom:14px;display:none}
 .lookup-note{text-align:center;font-size:12px;color:var(--muted);margin-top:16px;line-height:1.6}
 .lookup-note a{color:var(--gold);text-decoration:none;font-weight:500}
-
-/* Country selector */
 .phone-wrap{display:flex;gap:8px;align-items:stretch}
-.country-select{background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:0 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;transition:border-color .2s;appearance:none;-webkit-appearance:none;min-width:90px;height:50px}
-.country-select:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,168,67,.1)}
+.country-select{background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:0 10px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:90px;height:50px;transition:border-color .2s}
+.country-select:focus{border-color:var(--gold)}
 .country-select option{background:#1A1200;color:var(--text)}
 .phone-wrap input{flex:1}
-
-/* OTP */
 .otp-wrap{display:flex;gap:8px;justify-content:center;margin-bottom:16px}
 .otp-wrap input{width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;border-radius:10px;padding:0}
-
-/* Bottom nav */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,7,.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:none;justify-content:space-around;padding:10px 0 20px;z-index:100}
 .bottom-nav.show{display:flex}
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 16px;border-radius:12px;transition:all .2s;border:none;background:transparent}
 .nav-item.active .nav-icon,.nav-item.active .nav-label{color:var(--gold)}
 .nav-icon{font-size:22px;color:var(--muted);transition:color .2s}
 .nav-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s}
-
-/* Card */
 .lcard-wrap{margin:0 auto 20px}
 .lcard{width:100%;border-radius:20px;background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);border:1px solid rgba(212,168,67,.2);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;position:relative}
 @keyframes cardIn{from{transform:rotateY(-20deg) translateY(16px) scale(.96);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
@@ -116,8 +97,6 @@ input::placeholder{color:var(--muted2)}
 .lcard-barcode-wrap:active{opacity:.7}
 .barcode-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
 #barcode_svg{display:block;border-radius:6px}
-
-/* Fullscreen barcode */
 .bc-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px}
 .bc-fullscreen.show{display:flex;animation:fadeIn .25s ease both}
 .bc-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#1A1200;letter-spacing:-1px;margin-bottom:2px}
@@ -131,8 +110,6 @@ input::placeholder{color:var(--muted2)}
 .bc-dot.on{background:transparent}
 .bc-fs-hint{font-size:11px;color:#888;text-align:center;margin-bottom:20px}
 .bc-fs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
-
-/* Banners */
 .welcome-banner{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.08));border:1.5px solid rgba(212,168,67,.4);border-radius:14px;padding:14px 16px;display:none;align-items:center;gap:12px;margin-bottom:14px}
 .wb-icon{font-size:28px;flex-shrink:0}
 .wb-text strong{display:block;color:var(--gold);font-size:14px;font-weight:600;margin-bottom:2px}
@@ -146,8 +123,6 @@ input::placeholder{color:var(--muted2)}
 .btn-install{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25)}
 .btn-install:active{transform:scale(.98)}
 .install-steps{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px;display:none;font-size:13px;color:var(--muted);line-height:1.7}
-
-/* Coupons */
 .coupons-empty{text-align:center;padding:40px 20px;color:var(--muted)}
 .coupons-empty .ce-icon{font-size:48px;margin-bottom:12px}
 .coupons-empty p{font-size:13px;line-height:1.6}
@@ -180,8 +155,6 @@ input::placeholder{color:var(--muted2)}
 .cfs-code{font-family:monospace;font-size:12px;color:#888;letter-spacing:3px;margin-bottom:6px}
 .cfs-validity{font-size:11px;color:#aaa;margin-bottom:24px}
 .cfs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
-
-/* Misc */
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fd{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
@@ -224,7 +197,6 @@ input::placeholder{color:var(--muted2)}
           <input type="tel" id="i_phone" placeholder="472 00 00 00" autocomplete="tel">
         </div>
       </div>
-      <div id="recaptcha-container"></div>
       <button class="btn" id="btn_create" onclick="handleCreate()">RECEVOIR MON CODE SMS →</button>
       <div class="lookup-note">Déjà inscrit ? <a href="#" onclick="showLookup();return false;">Retrouver ma carte →</a></div>
     </div>
@@ -255,7 +227,7 @@ input::placeholder{color:var(--muted2)}
   <div class="screen" id="s_lookup">
     <div class="panel">
       <div class="panel-title">Retrouver ma carte</div>
-      <div class="panel-sub">Entrez le numéro de téléphone utilisé à l'inscription.</div>
+      <div class="panel-sub">Entrez le numéro utilisé à l'inscription.</div>
       <div class="err-box" id="err_lk"></div>
       <div class="field">
         <label>Téléphone</label>
@@ -271,7 +243,6 @@ input::placeholder{color:var(--muted2)}
           <input type="tel" id="i_lookup" placeholder="472 00 00 00">
         </div>
       </div>
-      <div id="recaptcha-container-lk"></div>
       <button class="btn" id="btn_lookup" onclick="handleLookup()">RECEVOIR MON CODE →</button>
       <button class="btn ghost" onclick="showScreen('s1');setStep(1)">← Retour</button>
     </div>
@@ -381,26 +352,12 @@ input::placeholder{color:var(--muted2)}
 
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-const auth = firebase.auth();
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
-let currentClient=null, confirmationResult=null, pendingPhone=null, pendingName=null;
+let currentClient=null, pendingPhone=null, pendingName=null, isLookup=false;
 let deferredPrompt=null;
 const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
 const isStandalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
-
-// ── Country / phone helpers ──────────────────────────────────────────────────
-function getPrefix(selectId){ return document.getElementById(selectId).value; }
-
-function fmtPhone(prefix, raw){
-  // Strip spaces, dashes, dots
-  let n = raw.replace(/[\s\-\.]/g,'');
-  // Remove leading zero if present (European convention)
-  if(n.startsWith('0')) n = n.substring(1);
-  // Remove leading + if user typed it
-  if(n.startsWith('+')) return n;
-  return prefix + n;
-}
 
 // ── Barcode ──────────────────────────────────────────────────────────────────
 const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
@@ -411,7 +368,7 @@ function getBCT(c){return(c.card_number||'000000000000').replace(/\s/g,'');}
 function renderBC(c){drawBC('barcode_svg',getBCT(c),1.6,42,'rgba(240,201,106,0.9)');}
 function renderBCBig(c){drawBC('barcode_svg_big',getBCT(c),2.8,80,'#111');}
 
-// ── UI helpers ───────────────────────────────────────────────────────────────
+// ── UI ───────────────────────────────────────────────────────────────────────
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function setStep(n){[1,2,3].forEach(i=>{const c=document.getElementById('sc'+i);c.className='step-circle';if(i<n){c.classList.add('done');c.textContent='✓';}else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}else c.textContent=i===3?'✦':i;if(i<3)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');});}
 function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
@@ -421,8 +378,9 @@ function setBtn(id,html,off){const b=document.getElementById(id);b.innerHTML=htm
 function showLookup(){hideErr('err_lk');document.getElementById('i_lookup').value='';showScreen('s_lookup');}
 function genCard(){return Array.from({length:3},()=>Math.floor(1000+Math.random()*9000)).join(' ');}
 function genCouponCode(){return 'VVV-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);}
+function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith('0'))n=n.substring(1);if(n.startsWith('+'))return n;return prefix+n;}
 
-// ── OTP helpers ──────────────────────────────────────────────────────────────
+// ── OTP ──────────────────────────────────────────────────────────────────────
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
   if(el.value&&idx<5)document.getElementById(prefix+(idx+1)).focus();
@@ -431,37 +389,19 @@ function otpNext(el,idx,prefix){
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
 function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
 
-// ── reCAPTCHA ────────────────────────────────────────────────────────────────
-function initRC(containerId,varName){
-  try{
-    if(window[varName]){
-      window[varName].clear();
-      window[varName]=null;
-    }
-  }catch(e){}
-  // Vider le conteneur HTML pour éviter "already rendered"
-  const container=document.getElementById(containerId);
-  if(container) container.innerHTML='';
-  window[varName]=new firebase.auth.RecaptchaVerifier(containerId,{
-    size:'invisible',
-    callback:()=>{},
-    'expired-callback':()=>{ try{window[varName].clear();window[varName]=null;}catch(e){} }
-  });
-}
-
 // ── CREATE ───────────────────────────────────────────────────────────────────
 async function handleCreate(){
   hideErr('err1');
   const nom=document.getElementById('i_name').value.trim();
   const raw=document.getElementById('i_phone').value.trim();
   if(!nom||!raw){showErr('err1','⚠ Merci de remplir tous les champs.');return;}
-  const prefix=getPrefix('country_create');
+  const prefix=document.getElementById('country_create').value;
   const phone=fmtPhone(prefix,raw);
-  pendingName=nom; pendingPhone=phone;
+  pendingName=nom; pendingPhone=phone; isLookup=false;
   setBtn('btn_create','<span class="spin"></span>ENVOI DU CODE…',true);
   try{
-    initRC('recaptcha-container','rcCreate');
-    confirmationResult=await auth.signInWithPhoneNumber(phone,window.rcCreate);
+    const{error}=await sb.auth.signInWithOtp({phone});
+    if(error)throw error;
     document.getElementById('otp_phone').textContent=phone;
     showScreen('s_otp'); setStep(2); document.getElementById('otp0').focus();
   }catch(e){showErr('err1','⚠ Erreur : '+e.message);}
@@ -474,17 +414,19 @@ async function verifyOTP(){
   if(code.length<6){showErr('err_otp','⚠ Entrez les 6 chiffres.');return;}
   setBtn('btn_verify','<span class="spin"></span>VÉRIFICATION…',true);
   try{
-    await confirmationResult.confirm(code);
+    const{error}=await sb.auth.verifyOtp({phone:pendingPhone,token:code,type:'sms'});
+    if(error)throw error;
+    // Check if client exists in our table
     const{data:ex}=await sb.from('clients').select('*').eq('telephone',pendingPhone).limit(1);
     let client;
     if(ex?.length){client=ex[0];}
     else{
-      const{data,error}=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
-      if(error)throw new Error('Erreur base de données');
+      const{data,error:err}=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
+      if(err)throw err;
       client=data;
     }
     localStorage.setItem('vvv777_client_id',client.id);
-    showCard(client,false,true);
+    showCard(client,false,!ex?.length);
   }catch(e){showErr('err_otp','⚠ Code incorrect ou expiré.');}
   setBtn('btn_verify','VALIDER →',false);
 }
@@ -492,8 +434,8 @@ async function verifyOTP(){
 async function resendOTP(){
   clearOTP('otp'); hideErr('err_otp');
   try{
-    initRC('recaptcha-container','rcCreate');
-    confirmationResult=await auth.signInWithPhoneNumber(pendingPhone,window.rcCreate);
+    const{error}=await sb.auth.signInWithOtp({phone:pendingPhone});
+    if(error)throw error;
     showOk('ok_otp','✅ Nouveau code envoyé !');
     setTimeout(()=>hideErr('ok_otp'),3000);
   }catch(e){showErr('err_otp','⚠ Erreur lors du renvoi.');}
@@ -504,15 +446,15 @@ async function handleLookup(){
   hideErr('err_lk');
   const raw=document.getElementById('i_lookup').value.trim();
   if(!raw){showErr('err_lk','⚠ Entrez votre numéro.');return;}
-  const prefix=getPrefix('country_lookup');
+  const prefix=document.getElementById('country_lookup').value;
   const phone=fmtPhone(prefix,raw);
   const{data}=await sb.from('clients').select('id').eq('telephone',phone).limit(1);
   if(!data?.length){showErr('err_lk','⚠ Aucun compte trouvé avec ce numéro.');return;}
-  pendingPhone=phone;
+  pendingPhone=phone; isLookup=true;
   setBtn('btn_lookup','<span class="spin"></span>ENVOI DU CODE…',true);
   try{
-    initRC('recaptcha-container-lk','rcLookup');
-    confirmationResult=await auth.signInWithPhoneNumber(phone,window.rcLookup);
+    const{error}=await sb.auth.signInWithOtp({phone});
+    if(error)throw error;
     showScreen('s_otp_lk'); setStep(2); document.getElementById('otplk0').focus();
   }catch(e){showErr('err_lk','⚠ Erreur : '+e.message);}
   setBtn('btn_lookup','RECEVOIR MON CODE →',false);
@@ -524,7 +466,8 @@ async function verifyOTPLookup(){
   if(code.length<6){showErr('err_otp_lk','⚠ Entrez les 6 chiffres.');return;}
   setBtn('btn_verify_lk','<span class="spin"></span>VÉRIFICATION…',true);
   try{
-    await confirmationResult.confirm(code);
+    const{error}=await sb.auth.verifyOtp({phone:pendingPhone,token:code,type:'sms'});
+    if(error)throw error;
     const{data}=await sb.from('clients').select('*').eq('telephone',pendingPhone).single();
     if(!data)throw new Error('Introuvable');
     localStorage.setItem('vvv777_client_id',data.id);
@@ -569,11 +512,11 @@ function switchTab(name){
   if(name==='coupons')loadCoupons();
 }
 
-function logout(){
+async function logout(){
   localStorage.removeItem('vvv777_client_id');
   currentClient=null;
   document.getElementById('bottom_nav').classList.remove('show');
-  auth.signOut().catch(()=>{});
+  await sb.auth.signOut();
   showScreen('s1'); setStep(1);
 }
 
