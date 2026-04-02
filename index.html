@@ -553,6 +553,8 @@ async function handleCreate(){
 
 async function verifyOTP(){
   hideErr('err_otp');
+  hideErr('ok_otp');
+  document.getElementById('err_otp').textContent='';
   const code=getOTP('otp');
   if(code.length<6){showErr('err_otp','⚠ Entrez les 6 chiffres.');return;}
   setBtn('btn_verify','<span class="spin"></span>VÉRIFICATION…',true);
@@ -591,6 +593,7 @@ async function handleLookup(){
 
 async function verifyOTPLookup(){
   hideErr('err_otp_lk');
+  document.getElementById('err_otp_lk').textContent='';
   const code=getOTP('otplk');
   if(code.length<6){showErr('err_otp_lk','⚠ Entrez les 6 chiffres.');return;}
   setBtn('btn_verify_lk','<span class="spin"></span>VÉRIFICATION…',true);
