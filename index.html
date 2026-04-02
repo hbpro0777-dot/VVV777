@@ -433,8 +433,20 @@ function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value
 
 // ── reCAPTCHA ────────────────────────────────────────────────────────────────
 function initRC(containerId,varName){
-  try{if(window[varName])window[varName].clear();}catch(e){}
-  window[varName]=new firebase.auth.RecaptchaVerifier(containerId,{size:'invisible',callback:()=>{},'expired-callback':()=>initRC(containerId,varName)});
+  try{
+    if(window[varName]){
+      window[varName].clear();
+      window[varName]=null;
+    }
+  }catch(e){}
+  // Vider le conteneur HTML pour éviter "already rendered"
+  const container=document.getElementById(containerId);
+  if(container) container.innerHTML='';
+  window[varName]=new firebase.auth.RecaptchaVerifier(containerId,{
+    size:'invisible',
+    callback:()=>{},
+    'expired-callback':()=>{ try{window[varName].clear();window[varName]=null;}catch(e){} }
+  });
 }
 
 // ── CREATE ───────────────────────────────────────────────────────────────────
