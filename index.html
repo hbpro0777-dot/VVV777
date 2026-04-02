@@ -419,7 +419,7 @@ async function verifyOTP(){
     else{const{data,error}=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();if(error)throw error;client=data;}
     localStorage.setItem('vvv777_client_id',client.id);
     showCard(client,false,!ex?.length);
-  }catch(e){showErr('err_otp','⚠ Code incorrect ou expiré.');}
+  }catch(e){showErr('err_otp','⚠ Erreur: '+e.message);}
   setBtn('btn_verify','VALIDER →',false);
 }
 
