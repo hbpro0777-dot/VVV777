@@ -752,6 +752,7 @@ function copyCouponCode(evt, code){
 
 // ── REALTIME ──
 function subscribeRealtime(id){
+  // Écoute les changements de tampons
   sb.channel('stamps-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
       const u=p.new, prevTampons=currentClient.tampons||0;
@@ -763,6 +764,22 @@ function subscribeRealtime(id){
         showRewardToast();loadCouponsBadge();
         if(document.getElementById('tab_coupons').classList.contains('active'))loadCoupons();
       }
+    }).subscribe();
+
+  // ✅ Écoute l'expiration des coupons en temps réel
+  sb.channel('coupons-'+id)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:`client_id=eq.${id}`},async p=>{
+      const updated=p.new;
+      // Mettre à jour dans le tableau local
+      const idx=allCoupons.findIndex(c=>c.id===updated.id);
+      if(idx>=0) allCoupons[idx]={...allCoupons[idx],...updated};
+      else allCoupons.unshift(updated);
+      // Rafraîchir l'affichage si l'onglet coupons est ouvert
+      if(document.getElementById('tab_coupons').classList.contains('active')){
+        renderCouponsList();
+      }
+      // Mettre à jour le badge
+      loadCouponsBadge();
     }).subscribe();
 }
 let rewardToastTimer;
