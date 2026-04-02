@@ -69,7 +69,6 @@ input::placeholder{color:var(--muted2)}
 .nav-item.active .nav-icon,.nav-item.active .nav-label{color:var(--gold)}
 .nav-icon{font-size:22px;color:var(--muted);transition:color .2s}
 .nav-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s}
-/* badge sur l'onglet coupons */
 .nav-badge{position:absolute;top:2px;right:8px;background:var(--gold);color:#080807;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center;display:none}
 .nav-badge.show{display:block}
 .lcard-wrap{margin:0 auto 20px}
@@ -129,7 +128,7 @@ input::placeholder{color:var(--muted2)}
 .install-steps{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px;display:none;font-size:13px;color:var(--muted);line-height:1.7}
 
 /* =====================
-   COUPONS — AMÉLIORÉS
+   COUPONS
 ===================== */
 .coupons-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .coupons-count{font-size:11px;color:var(--muted);letter-spacing:1px}
@@ -138,10 +137,9 @@ input::placeholder{color:var(--muted2)}
 .coupons-empty p{font-size:13px;line-height:1.7}
 .coupons-empty strong{color:var(--gold)}
 
-/* Filtre onglets */
 .coupon-filters{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px}
 .cf-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0}
-.cf-btn.active{background:var(--gold3);border-color:var(--border2);color:var(--gold)}
+.cf-btn.active{background:var(--gold3);border-color:rgba(212,168,67,.3);color:var(--gold)}
 
 .coupon-card{
   background:linear-gradient(145deg,#1A1200,#211600);
@@ -156,7 +154,6 @@ input::placeholder{color:var(--muted2)}
 .coupon-card.used{opacity:.4;filter:grayscale(.7)}
 .coupon-card.expired{opacity:.3;filter:grayscale(.9)}
 
-/* Trait pointillé au milieu */
 .coupon-divider{
   display:flex;align-items:center;
   padding:0 12px;
@@ -194,11 +191,21 @@ input::placeholder{color:var(--muted2)}
   background:rgba(0,0,0,.2);
 }
 .coupon-left{flex:1;min-width:0}
+
+/* ✅ FIX 1 : Code coupon sur une seule ligne, plus de coupure verticale */
 .coupon-code{
-  font-family:monospace;font-size:11px;
-  color:rgba(212,168,67,.5);letter-spacing:1.5px;
-  margin-bottom:8px;word-break:break-all;
+  font-family:monospace;
+  font-size:13px;
+  color:rgba(212,168,67,.65);
+  letter-spacing:2px;
+  margin-bottom:8px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:100%;
+  display:block;
 }
+
 .coupon-status{
   display:inline-block;padding:4px 10px;border-radius:20px;
   font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;
@@ -207,10 +214,26 @@ input::placeholder{color:var(--muted2)}
 .coupon-status.used{background:rgba(90,85,69,.15);color:var(--muted);border:1px solid var(--border)}
 .coupon-status.expired{background:rgba(192,64,64,.1);color:#E88;border:1px solid rgba(192,64,64,.2)}
 
+/* ✅ FIX 2 : QR code — conteneur avec taille fixe pour éviter canvas vide */
 .coupon-qr-wrap{
-  background:#fff;border-radius:12px;padding:7px;flex-shrink:0;
+  background:#ffffff;
+  border-radius:12px;
+  padding:7px;
+  flex-shrink:0;
+  width:86px;
+  height:86px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   box-shadow:0 4px 16px rgba(0,0,0,.3);
+  overflow:hidden;
 }
+.coupon-qr-wrap canvas{
+  display:block;
+  width:72px !important;
+  height:72px !important;
+}
+
 .btn-use-coupon{
   margin-top:10px;background:var(--gold);color:#080807;border:none;
   border-radius:8px;padding:9px 14px;
@@ -219,7 +242,6 @@ input::placeholder{color:var(--muted2)}
 }
 .btn-use-coupon:hover{background:var(--gold2)}
 
-/* Coupon plein écran amélioré */
 .coupon-fullscreen{
   position:fixed;inset:0;background:#FFFDF5;z-index:999;
   display:none;flex-direction:column;align-items:center;justify-content:center;
@@ -243,7 +265,6 @@ input::placeholder{color:var(--muted2)}
 .cfs-close{background:#1A1200;border:none;border-radius:12px;padding:14px 32px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
 .cfs-close:hover{background:#2A1C00}
 
-/* Toast coupon débloqué */
 .reward-toast{
   position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
   background:linear-gradient(135deg,#2A1C00,#1A1200);
@@ -677,7 +698,6 @@ async function loadCoupons(){
   if(!currentClient)return;
   const list=document.getElementById('coupons_list');
   list.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)"><span class="spin"></span></div>';
-
   const{data}=await sb.from('coupons').select('*').eq('client_id',currentClient.id).order('created_at',{ascending:false});
   allCoupons=data||[];
   renderCouponsList();
@@ -701,12 +721,9 @@ function renderCouponsList(){
   const list=document.getElementById('coupons_list');
   const now=new Date();
   let filtered=allCoupons;
-
   if(currentCouponFilter!=='all'){
     filtered=allCoupons.filter(c=>getCouponStatus(c)===currentCouponFilter);
   }
-
-  const activeCount=allCoupons.filter(c=>getCouponStatus(c)==='active').length;
   document.getElementById('coupons_count').textContent=
     allCoupons.length>0?`${allCoupons.length} coupon${allCoupons.length>1?'s':''}`:'' ;
 
@@ -720,7 +737,6 @@ function renderCouponsList(){
     list.innerHTML=`<div class="coupons-empty">${msgs[currentCouponFilter]||msgs.all}</div>`;
     return;
   }
-
   list.innerHTML='';
   filtered.forEach(c=>list.appendChild(buildCouponCard(c)));
 }
@@ -748,6 +764,10 @@ function buildCouponCard(c){
 
   const div=document.createElement('div');
   div.className=`coupon-card ${status}`;
+
+  // ✅ FIX 2 : id unique sur le wrapper pour pouvoir y injecter le canvas
+  const qrWrapperId = 'qr_wrap_'+c.id;
+
   div.innerHTML=`
     <div class="coupon-top">
       <div class="coupon-badge">🎁 Récompense VVV777</div>
@@ -765,14 +785,28 @@ function buildCouponCard(c){
         <span class="coupon-status ${status}">${labels[status]}</span>
         ${status==='active'?`<button class="btn-use-coupon" onclick="openCouponFS('${c.id}')">PRÉSENTER AU COMMERÇANT →</button>`:''}
       </div>
-      <div class="coupon-qr-wrap" id="qr_${c.id}"></div>
+      <div class="coupon-qr-wrap" id="${qrWrapperId}"></div>
     </div>
   `;
+
+  // ✅ FIX 2 : Générer le QR avec dimensions explicites + couleurs garanties
   setTimeout(()=>{
-    const canvas=document.createElement('canvas');
-    const wrap=document.getElementById('qr_'+c.id);
-    if(wrap){wrap.appendChild(canvas);QRCode.toCanvas(canvas,c.code,{width:72,margin:0,color:{dark:'#1A1200',light:'#ffffff'}}).catch(()=>{});}
-  },80);
+    const wrap = document.getElementById(qrWrapperId);
+    if(!wrap) return;
+    const canvas = document.createElement('canvas');
+    canvas.width = 72;
+    canvas.height = 72;
+    wrap.appendChild(canvas);
+    QRCode.toCanvas(canvas, c.code, {
+      width: 72,
+      margin: 1,
+      color: { dark: '#000000', light: '#ffffff' }
+    }).catch(err => {
+      // Fallback texte si QR échoue
+      wrap.innerHTML = `<div style="font-size:8px;color:#999;text-align:center;padding:4px;word-break:break-all;">${c.code}</div>`;
+    });
+  }, 100);
+
   return div;
 }
 
@@ -785,15 +819,13 @@ async function openCouponFS(couponId){
   document.getElementById('cfs_validity').textContent=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=14?' · '+days+' j restants':''}`;
   const canvas=document.getElementById('cfs_qr_canvas');
   canvas.width=220;canvas.height=220;
-  QRCode.toCanvas(canvas,data.code,{width:220,margin:2,color:{dark:'#1A1200',light:'#ffffff'}}).catch(()=>{});
+  QRCode.toCanvas(canvas,data.code,{width:220,margin:2,color:{dark:'#000000',light:'#ffffff'}}).catch(()=>{});
   document.getElementById('coupon_fullscreen').classList.add('show');
   if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
 }
 function closeCouponFullscreen(){document.getElementById('coupon_fullscreen').classList.remove('show');}
 
-// ── REALTIME — côté client simplifié ──────────────────
-// Le trigger SQL gère la création du coupon.
-// Ici on écoute juste les changements pour mettre à jour l'affichage.
+// ── REALTIME ───────────────────────────────────────────
 function subscribeRealtime(id){
   sb.channel('stamps-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
@@ -801,16 +833,11 @@ function subscribeRealtime(id){
       const prevTampons=currentClient.tampons||0;
       currentClient={...currentClient,...u};
       renderStamps(u.tampons, u.tampons > prevTampons);
-
-      // Mise à jour du code-barres plein écran si ouvert
       const dots=document.getElementById('bc_fs_dots');
       if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
-
-      // Si un coupon vient d'être généré (tampons remis à 0 par le trigger)
       if(prevTampons >= 9 && u.tampons === 0){
         showRewardToast();
         loadCouponsBadge();
-        // Recharge les coupons si l'onglet est ouvert
         if(document.getElementById('tab_coupons').classList.contains('active')){
           loadCoupons();
         }
@@ -819,7 +846,6 @@ function subscribeRealtime(id){
     .subscribe();
 }
 
-// Toast "Récompense débloquée"
 let rewardToastTimer;
 function showRewardToast(){
   const t=document.getElementById('reward_toast');
