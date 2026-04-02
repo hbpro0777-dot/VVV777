@@ -373,7 +373,7 @@ function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith(
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
   if(el.value&&idx<5)document.getElementById(prefix+(idx+1)).focus();
-  if(idx===5){setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},400);}
+  if(idx===5){setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},1500);}
 }
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
 function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
