@@ -529,6 +529,8 @@ async function validateCoupon(){
     setScanStatus('COUPON VALIDÉ ✓','success');
     toast(`✅ Coupon de ${clientName} validé !`);
     loadClients();
+    // ✅ Reset automatique après 2.5s
+    setTimeout(()=>cancelScan(), 2500);
   }catch(e){
     btn.disabled=false;btn.textContent='✅ VALIDER L\'UTILISATION';
     toast('Erreur lors de la validation','error');
