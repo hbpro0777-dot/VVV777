@@ -65,10 +65,13 @@ input::placeholder{color:var(--muted2)}
 .otp-wrap input{width:44px;height:52px;text-align:center;font-size:22px;font-weight:700;border-radius:10px;padding:0}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(8,8,7,.96);backdrop-filter:blur(20px);border-top:1px solid var(--border);display:none;justify-content:space-around;padding:10px 0 20px;z-index:100}
 .bottom-nav.show{display:flex}
-.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 16px;border-radius:12px;transition:all .2s;border:none;background:transparent}
+.nav-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;padding:6px 16px;border-radius:12px;transition:all .2s;border:none;background:transparent;position:relative}
 .nav-item.active .nav-icon,.nav-item.active .nav-label{color:var(--gold)}
 .nav-icon{font-size:22px;color:var(--muted);transition:color .2s}
 .nav-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s}
+/* badge sur l'onglet coupons */
+.nav-badge{position:absolute;top:2px;right:8px;background:var(--gold);color:#080807;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center;display:none}
+.nav-badge.show{display:block}
 .lcard-wrap{margin:0 auto 20px}
 .lcard{width:100%;border-radius:20px;background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);border:1px solid rgba(212,168,67,.2);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;position:relative}
 @keyframes cardIn{from{transform:rotateY(-20deg) translateY(16px) scale(.96);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
@@ -124,38 +127,137 @@ input::placeholder{color:var(--muted2)}
 .btn-install{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25)}
 .btn-install:active{transform:scale(.98)}
 .install-steps{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px;display:none;font-size:13px;color:var(--muted);line-height:1.7}
-.coupons-empty{text-align:center;padding:40px 20px;color:var(--muted)}
-.coupons-empty .ce-icon{font-size:48px;margin-bottom:12px}
-.coupons-empty p{font-size:13px;line-height:1.6}
+
+/* =====================
+   COUPONS — AMÉLIORÉS
+===================== */
+.coupons-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.coupons-count{font-size:11px;color:var(--muted);letter-spacing:1px}
+.coupons-empty{text-align:center;padding:48px 20px;color:var(--muted)}
+.coupons-empty .ce-icon{font-size:52px;margin-bottom:14px}
+.coupons-empty p{font-size:13px;line-height:1.7}
 .coupons-empty strong{color:var(--gold)}
-.coupon-card{background:linear-gradient(135deg,#1A1200,#2A1C00);border:1px solid rgba(212,168,67,.3);border-radius:16px;overflow:hidden;margin-bottom:14px;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.5)}
-.coupon-card.used{opacity:.45;filter:grayscale(.6)}
-.coupon-card.expired{opacity:.35;filter:grayscale(.8)}
-.coupon-notch{position:absolute;left:-12px;top:50%;transform:translateY(-50%);width:24px;height:24px;background:var(--bg);border-radius:50%}
-.coupon-notch-r{left:auto;right:-12px}
-.coupon-top{padding:16px 18px 12px;border-bottom:1px dashed rgba(212,168,67,.15)}
-.coupon-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(212,168,67,.12);border:1px solid rgba(212,168,67,.25);border-radius:20px;padding:4px 10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
-.coupon-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold2);letter-spacing:1px;line-height:1;margin-bottom:4px}
-.coupon-desc{font-size:12px;color:var(--muted);line-height:1.5}
-.coupon-validity{font-size:10px;color:rgba(212,168,67,.4);margin-top:6px}
-.coupon-validity.urgent{color:#E88}
-.coupon-bottom{padding:12px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px}
-.coupon-qr{background:#fff;border-radius:10px;padding:6px;flex-shrink:0}
-.coupon-code{font-family:monospace;font-size:10px;color:rgba(212,168,67,.5);letter-spacing:1px;word-break:break-all;margin-bottom:8px}
-.coupon-status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+
+/* Filtre onglets */
+.coupon-filters{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px}
+.cf-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0}
+.cf-btn.active{background:var(--gold3);border-color:var(--border2);color:var(--gold)}
+
+.coupon-card{
+  background:linear-gradient(145deg,#1A1200,#211600);
+  border:1px solid rgba(212,168,67,.22);
+  border-radius:18px;overflow:hidden;
+  margin-bottom:16px;position:relative;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  transition:transform .2s,box-shadow .2s;
+  animation:fu .4s ease both;
+}
+.coupon-card:active{transform:scale(.98)}
+.coupon-card.used{opacity:.4;filter:grayscale(.7)}
+.coupon-card.expired{opacity:.3;filter:grayscale(.9)}
+
+/* Trait pointillé au milieu */
+.coupon-divider{
+  display:flex;align-items:center;
+  padding:0 12px;
+  position:relative;
+}
+.coupon-divider::before{
+  content:'';position:absolute;left:0;right:0;top:50%;
+  border-top:1.5px dashed rgba(212,168,67,.15);
+}
+.coupon-notch{
+  width:20px;height:20px;border-radius:50%;
+  background:var(--bg);flex-shrink:0;position:relative;z-index:1;
+}
+.coupon-notch-r{margin-left:auto}
+
+.coupon-top{padding:18px 18px 14px}
+.coupon-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);
+  border-radius:20px;padding:4px 10px;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
+  margin-bottom:10px;
+}
+.coupon-title{
+  font-family:'Bebas Neue',sans-serif;font-size:32px;
+  color:var(--gold2);letter-spacing:1px;line-height:1;margin-bottom:5px;
+}
+.coupon-desc{font-size:12.5px;color:var(--muted);line-height:1.5}
+.coupon-validity{font-size:10.5px;color:rgba(212,168,67,.4);margin-top:8px;display:flex;align-items:center;gap:5px}
+.coupon-validity.urgent{color:#E99}
+
+.coupon-bottom{
+  padding:14px 18px;
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  background:rgba(0,0,0,.2);
+}
+.coupon-left{flex:1;min-width:0}
+.coupon-code{
+  font-family:monospace;font-size:11px;
+  color:rgba(212,168,67,.5);letter-spacing:1.5px;
+  margin-bottom:8px;word-break:break-all;
+}
+.coupon-status{
+  display:inline-block;padding:4px 10px;border-radius:20px;
+  font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;
+}
 .coupon-status.active{background:rgba(67,212,100,.1);color:#6EE89A;border:1px solid rgba(67,212,100,.2)}
 .coupon-status.used{background:rgba(90,85,69,.15);color:var(--muted);border:1px solid var(--border)}
 .coupon-status.expired{background:rgba(192,64,64,.1);color:#E88;border:1px solid rgba(192,64,64,.2)}
-.coupon-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px;text-align:center}
+
+.coupon-qr-wrap{
+  background:#fff;border-radius:12px;padding:7px;flex-shrink:0;
+  box-shadow:0 4px 16px rgba(0,0,0,.3);
+}
+.btn-use-coupon{
+  margin-top:10px;background:var(--gold);color:#080807;border:none;
+  border-radius:8px;padding:9px 14px;
+  font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1.5px;
+  cursor:pointer;transition:all .18s;display:block;width:100%;text-align:center;
+}
+.btn-use-coupon:hover{background:var(--gold2)}
+
+/* Coupon plein écran amélioré */
+.coupon-fullscreen{
+  position:fixed;inset:0;background:#FFFDF5;z-index:999;
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:32px;text-align:center;
+}
 .coupon-fullscreen.show{display:flex;animation:fadeIn .25s ease both}
-.cfs-logo{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#1A1200;margin-bottom:4px}
+.cfs-logo{font-family:'Bebas Neue',sans-serif;font-size:32px;color:#1A1200;margin-bottom:2px}
 .cfs-logo em{color:#B8860B;font-style:normal}
-.cfs-title{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#2A1C00;letter-spacing:1px;margin:12px 0 4px}
-.cfs-desc{font-size:13px;color:#888;margin-bottom:20px}
-.cfs-qr{background:#fff;border-radius:16px;padding:12px;border:2px solid #f0e8c8;margin-bottom:12px}
-.cfs-code{font-family:monospace;font-size:12px;color:#888;letter-spacing:3px;margin-bottom:6px}
-.cfs-validity{font-size:11px;color:#aaa;margin-bottom:24px}
-.cfs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+.cfs-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  background:#FFF0CC;border:1px solid #D4A843;border-radius:20px;
+  padding:5px 14px;font-size:9px;letter-spacing:2px;text-transform:uppercase;
+  color:#7A5010;margin-bottom:14px;margin-top:6px;
+}
+.cfs-title{font-family:'Bebas Neue',sans-serif;font-size:40px;color:#1A1200;letter-spacing:1px;margin-bottom:4px;line-height:1}
+.cfs-subtitle{font-size:13px;color:#888;margin-bottom:18px}
+.cfs-qr{background:#fff;border-radius:16px;padding:14px;border:2px solid #F0E8C0;margin-bottom:14px;box-shadow:0 8px 32px rgba(0,0,0,.1)}
+.cfs-code{font-family:monospace;font-size:12px;color:#B8A070;letter-spacing:3px;margin-bottom:6px}
+.cfs-validity{font-size:12px;color:#999;margin-bottom:28px}
+.cfs-hint{font-size:12px;color:#aaa;margin-bottom:20px;line-height:1.6;max-width:260px}
+.cfs-close{background:#1A1200;border:none;border-radius:12px;padding:14px 32px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .2s}
+.cfs-close:hover{background:#2A1C00}
+
+/* Toast coupon débloqué */
+.reward-toast{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
+  background:linear-gradient(135deg,#2A1C00,#1A1200);
+  border:1.5px solid rgba(212,168,67,.5);border-radius:16px;
+  padding:14px 20px;display:flex;align-items:center;gap:12px;
+  box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 30px rgba(212,168,67,.2);
+  z-index:500;transition:transform .5s cubic-bezier(.34,1.56,.64,1);
+  white-space:nowrap;
+}
+.reward-toast.show{transform:translateX(-50%) translateY(0)}
+.rt-icon{font-size:26px}
+.rt-text strong{display:block;color:var(--gold);font-size:14px}
+.rt-text span{font-size:12px;color:var(--muted)}
+
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fd{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
@@ -177,6 +279,7 @@ input::placeholder{color:var(--muted2)}
     <div class="step-item"><div class="step-circle" id="sc3">✦</div><div class="step-label">Ma carte</div></div>
   </div>
 
+  <!-- ÉCRAN 1 : Inscription -->
   <div class="screen active" id="s1">
     <div class="panel">
       <div class="panel-title">Créer ma carte</div>
@@ -202,6 +305,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN OTP Inscription -->
   <div class="screen" id="s_otp">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -222,6 +326,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN Retrouver -->
   <div class="screen" id="s_lookup">
     <div class="panel">
       <div class="panel-title">Retrouver ma carte</div>
@@ -246,6 +351,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN OTP Lookup -->
   <div class="screen" id="s_otp_lk">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -264,7 +370,10 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN PRINCIPAL -->
   <div class="screen" id="s2">
+
+    <!-- TAB CARTE -->
     <div class="tab active" id="tab_carte">
       <div class="lcard-wrap">
         <div class="lcard">
@@ -295,32 +404,50 @@ input::placeholder{color:var(--muted2)}
           <div class="rw-icon">🎁</div>
           <div class="rw-text">
             <strong id="rw_title">Encore <span>10</span> tampons</strong>
-            <span>pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
+            <span id="rw_sub">pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
           </div>
         </div>
         <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
         <div class="install-steps" id="install_steps_card"></div>
       </div>
     </div>
+
+    <!-- TAB COUPONS -->
     <div class="tab" id="tab_coupons">
-      <div class="panel"><div class="panel-title">Mes Coupons</div><div class="panel-sub" style="margin-bottom:0">Vos récompenses débloquées. QR code à présenter au commerçant.</div></div>
+      <div class="panel" style="margin-bottom:16px">
+        <div class="coupons-header">
+          <div class="panel-title" style="margin-bottom:0">Mes Coupons</div>
+          <div class="coupons-count" id="coupons_count"></div>
+        </div>
+        <div class="panel-sub" style="margin-bottom:12px">Vos récompenses débloquées. QR code à présenter au commerçant.</div>
+        <div class="coupon-filters">
+          <button class="cf-btn active" id="cf_all" onclick="filterCoupons('all',this)">Tous</button>
+          <button class="cf-btn" id="cf_active" onclick="filterCoupons('active',this)">🟢 Actifs</button>
+          <button class="cf-btn" id="cf_used" onclick="filterCoupons('used',this)">✓ Utilisés</button>
+          <button class="cf-btn" id="cf_expired" onclick="filterCoupons('expired',this)">⏳ Expirés</button>
+        </div>
+      </div>
       <div id="coupons_list"></div>
     </div>
+
   </div>
 </div>
 
+<!-- BOTTOM NAV -->
 <nav class="bottom-nav" id="bottom_nav">
   <button class="nav-item active" id="nav_carte" onclick="switchTab('carte')">
     <span class="nav-icon">🃏</span><span class="nav-label">Ma Carte</span>
   </button>
   <button class="nav-item" id="nav_coupons" onclick="switchTab('coupons')">
     <span class="nav-icon">🎟️</span><span class="nav-label">Coupons</span>
+    <span class="nav-badge" id="nav_badge_coupons"></span>
   </button>
   <button class="nav-item" onclick="logout()">
     <span class="nav-icon">↩️</span><span class="nav-label">Quitter</span>
   </button>
 </nav>
 
+<!-- FULLSCREEN CODE-BARRES -->
 <div class="bc-fullscreen" id="bc_fullscreen">
   <div class="bc-fs-logo">VVV<em>777</em></div>
   <div class="bc-fs-sub">Carte de fidélité</div>
@@ -332,25 +459,40 @@ input::placeholder{color:var(--muted2)}
   <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
 </div>
 
+<!-- FULLSCREEN COUPON -->
 <div class="coupon-fullscreen" id="coupon_fullscreen">
   <div class="cfs-logo">VVV<em>777</em></div>
-  <div class="cfs-title">1 ACHETÉ = 1 OFFERT</div>
-  <div class="cfs-desc">Présentez ce QR code au commerçant</div>
+  <div class="cfs-badge">🎁 Récompense VVV777</div>
+  <div class="cfs-title">1 ACHETÉ<br>= 1 OFFERT</div>
+  <div class="cfs-subtitle">Sur votre prochain achat chez VVV777</div>
   <div class="cfs-qr"><canvas id="cfs_qr_canvas"></canvas></div>
   <div class="cfs-code" id="cfs_code">—</div>
   <div class="cfs-validity" id="cfs_validity">—</div>
+  <div class="cfs-hint">Montrez ce QR code au commerçant.<br>Il sera scanné et votre récompense validée.</div>
   <button class="cfs-close" onclick="closeCouponFullscreen()">✕ Fermer</button>
+</div>
+
+<!-- TOAST RÉCOMPENSE DÉBLOQUÉE -->
+<div class="reward-toast" id="reward_toast">
+  <div class="rt-icon">🎁</div>
+  <div class="rt-text">
+    <strong>Récompense débloquée !</strong>
+    <span>Consultez vos coupons</span>
+  </div>
 </div>
 
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
-let currentClient=null, pendingPhone=null, pendingName=null;
-let deferredPrompt=null;
-const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
-const isStandalone=window.matchMedia('(display-mode:standalone)').matches||navigator.standalone;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
+let currentClient = null, pendingPhone = null, pendingName = null;
+let deferredPrompt = null;
+let allCoupons = [];
+let currentCouponFilter = 'all';
+const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+const isStandalone = window.matchMedia('(display-mode:standalone)').matches || navigator.standalone;
+window.addEventListener('beforeinstallprompt', e => { e.preventDefault(); deferredPrompt = e; });
 
+// ── BARCODE ────────────────────────────────────────────
 const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
 const C128C=' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
 function encodeC128(t){let v=[104],c=104;for(let i=0;i<t.length;i++){const x=C128C.indexOf(t[i]);if(x<0)continue;v.push(x);c+=(i+1)*x;}v.push(c%103);v.push(106);return v.map(x=>C128P[x]).join('')+'11';}
@@ -359,6 +501,7 @@ function getBCT(c){return(c.card_number||'000000000000').replace(/\s/g,'');}
 function renderBC(c){drawBC('barcode_svg',getBCT(c),1.6,42,'rgba(240,201,106,0.9)');}
 function renderBCBig(c){drawBC('barcode_svg_big',getBCT(c),2.8,80,'#111');}
 
+// ── NAVIGATION ─────────────────────────────────────────
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function setStep(n){[1,2,3].forEach(i=>{const c=document.getElementById('sc'+i);c.className='step-circle';if(i<n){c.classList.add('done');c.textContent='✓';}else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}else c.textContent=i===3?'✦':i;if(i<3)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');});}
 function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
@@ -367,9 +510,9 @@ function showOk(id,msg){const e=document.getElementById(id);e.textContent=msg;e.
 function setBtn(id,html,off){const b=document.getElementById(id);b.innerHTML=html;b.disabled=!!off;}
 function showLookup(){hideErr('err_lk');document.getElementById('i_lookup').value='';showScreen('s_lookup');}
 function genCard(){return Array.from({length:3},()=>Math.floor(1000+Math.random()*9000)).join(' ');}
-function genCouponCode(){return 'VVV-'+Math.random().toString(36).substring(2,6).toUpperCase()+'-'+Date.now().toString(36).toUpperCase().slice(-4);}
 function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith('0'))n=n.substring(1);if(n.startsWith('+'))return n;return prefix+n;}
 
+// ── OTP ────────────────────────────────────────────────
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
   if(el.value&&idx<5)document.getElementById(prefix+(idx+1)).focus();
@@ -378,6 +521,7 @@ function otpNext(el,idx,prefix){
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
 function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
 
+// ── VERIFY API ─────────────────────────────────────────
 async function sendVerify(phone){
   const res=await fetch(VERIFY_SEND_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone})});
   const data=await res.json();
@@ -392,6 +536,7 @@ async function checkVerify(phone,code){
   return data;
 }
 
+// ── AUTH ────────────────────────────────────────────────
 async function handleCreate(){
   hideErr('err1');
   const nom=document.getElementById('i_name').value.trim();
@@ -459,7 +604,8 @@ async function verifyOTPLookup(){
   setBtn('btn_verify_lk','ACCÉDER À MA CARTE →',false);
 }
 
-function renderStamps(count,isNew=false){
+// ── AFFICHAGE CARTE ────────────────────────────────────
+function renderStamps(count, isNew=false){
   const grid=document.getElementById('card_stamps');grid.innerHTML='';
   for(let i=0;i<10;i++){
     const d=document.createElement('div');d.className='ls'+(i<count?' on':'');
@@ -469,12 +615,20 @@ function renderStamps(count,isNew=false){
   }
   document.getElementById('card_prog').style.width=Math.round(count/10*100)+'%';
   document.getElementById('c_scount').textContent=count+'/10';
-  const rem=10-count,banner=document.getElementById('reward_banner');
-  if(count>=10){banner.classList.add('unlocked');document.getElementById('rw_title').innerHTML='🎉 Récompense débloquée !';banner.querySelector('span').textContent='Allez dans "Coupons" pour utiliser votre récompense !';}
-  else{banner.classList.remove('unlocked');document.getElementById('rw_title').innerHTML=`Encore <span>${rem}</span> tampon${rem>1?'s':''}`;banner.querySelector('span').textContent='pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.';}
+  const rem=10-count;
+  const banner=document.getElementById('reward_banner');
+  if(count>=10){
+    banner.classList.add('unlocked');
+    document.getElementById('rw_title').innerHTML='🎉 Récompense débloquée !';
+    document.getElementById('rw_sub').textContent='Allez dans "Coupons" pour utiliser votre récompense !';
+  }else{
+    banner.classList.remove('unlocked');
+    document.getElementById('rw_title').innerHTML=`Encore <span>${rem}</span> tampon${rem>1?'s':''}`;
+    document.getElementById('rw_sub').textContent='pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.';
+  }
 }
 
-function showCard(client,isNew=false,showWelcome=false){
+function showCard(client, isNew=false, showWelcome=false){
   currentClient=client;
   document.getElementById('c_name').textContent=client.nom.toUpperCase();
   document.getElementById('c_num').textContent=client.card_number||'—';
@@ -483,6 +637,7 @@ function showCard(client,isNew=false,showWelcome=false){
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
+  loadCouponsBadge();
   subscribeRealtime(client.id);
 }
 
@@ -494,13 +649,14 @@ function switchTab(name){
   if(name==='coupons')loadCoupons();
 }
 
-async function logout(){
+function logout(){
   localStorage.removeItem('vvv777_client_id');
   currentClient=null;
   document.getElementById('bottom_nav').classList.remove('show');
   showScreen('s1');setStep(1);
 }
 
+// ── FULLSCREEN BARCODE ─────────────────────────────────
 function openFullscreenBC(){
   if(!currentClient)return;
   document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
@@ -513,28 +669,107 @@ function openFullscreenBC(){
 }
 function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
 
+// ── COUPONS ────────────────────────────────────────────
 async function loadCoupons(){
   if(!currentClient)return;
   const list=document.getElementById('coupons_list');
-  list.innerHTML='<div style="text-align:center;padding:20px;color:var(--muted)"><span class="spin"></span></div>';
+  list.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)"><span class="spin"></span></div>';
+
   const{data}=await sb.from('coupons').select('*').eq('client_id',currentClient.id).order('created_at',{ascending:false});
-  if(!data?.length){list.innerHTML=`<div class="coupons-empty"><div class="ce-icon">🎟️</div><p>Pas encore de coupon.<br>Collectez <strong>10 tampons</strong> pour débloquer votre premier <strong>1 acheté = 1 offert</strong> !</p></div>`;return;}
+  allCoupons=data||[];
+  renderCouponsList();
+}
+
+function filterCoupons(filter, el){
+  currentCouponFilter=filter;
+  document.querySelectorAll('.cf-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderCouponsList();
+}
+
+function getCouponStatus(c){
+  const now=new Date();
+  if(c.used_at)return 'used';
+  if(now>new Date(c.expires_at))return 'expired';
+  return 'active';
+}
+
+function renderCouponsList(){
+  const list=document.getElementById('coupons_list');
+  const now=new Date();
+  let filtered=allCoupons;
+
+  if(currentCouponFilter!=='all'){
+    filtered=allCoupons.filter(c=>getCouponStatus(c)===currentCouponFilter);
+  }
+
+  const activeCount=allCoupons.filter(c=>getCouponStatus(c)==='active').length;
+  document.getElementById('coupons_count').textContent=
+    allCoupons.length>0?`${allCoupons.length} coupon${allCoupons.length>1?'s':''}`:'' ;
+
+  if(!filtered.length){
+    const msgs={
+      all:'<div class="ce-icon">🎟️</div><p>Pas encore de coupon.<br>Collectez <strong>10 tampons</strong><br>pour débloquer votre premier<br><strong>1 acheté = 1 offert</strong> !</p>',
+      active:'<div class="ce-icon">🎟️</div><p>Aucun coupon actif.<br>Collectez 10 tampons pour en obtenir un !</p>',
+      used:'<div class="ce-icon">✅</div><p>Aucun coupon utilisé pour l\'instant.</p>',
+      expired:'<div class="ce-icon">⏳</div><p>Aucun coupon expiré.</p>',
+    };
+    list.innerHTML=`<div class="coupons-empty">${msgs[currentCouponFilter]||msgs.all}</div>`;
+    return;
+  }
+
   list.innerHTML='';
-  data.forEach(c=>list.appendChild(buildCouponCard(c)));
+  filtered.forEach(c=>list.appendChild(buildCouponCard(c)));
+}
+
+async function loadCouponsBadge(){
+  if(!currentClient)return;
+  const{data}=await sb.from('coupons').select('id').eq('client_id',currentClient.id).is('used_at',null).gt('expires_at',new Date().toISOString());
+  const count=data?.length||0;
+  const badge=document.getElementById('nav_badge_coupons');
+  if(count>0){badge.textContent=count;badge.classList.add('show');}
+  else{badge.classList.remove('show');}
 }
 
 function buildCouponCard(c){
-  const now=new Date(),exp=new Date(c.expires_at);
+  const now=new Date();
+  const exp=new Date(c.expires_at);
   const days=Math.ceil((exp-now)/86400000);
-  let status='active',label='Actif';
-  if(c.used_at){status='used';label='Utilisé';}
-  else if(now>exp){status='expired';label='Expiré';}
-  const urgentClass=(!c.used_at&&days<=7&&days>0)?'urgent':'';
-  const validity=c.used_at?`Utilisé le ${new Date(c.used_at).toLocaleDateString('fr-FR')}`:(now>exp?`Expiré le ${exp.toLocaleDateString('fr-FR')}`:`⏳ Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=7?' ('+days+' j)':''}`);
+  const status=getCouponStatus(c);
+  const labels={active:'Actif',used:'Utilisé',expired:'Expiré'};
+  const urgentClass=(status==='active'&&days<=7&&days>0)?'urgent':'';
+  let validity;
+  if(c.used_at)validity=`Utilisé le ${new Date(c.used_at).toLocaleDateString('fr-FR')}`;
+  else if(now>exp)validity=`Expiré le ${exp.toLocaleDateString('fr-FR')}`;
+  else validity=`⏳ Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=7?' · '+days+' j restants':''}`;
+
   const div=document.createElement('div');
   div.className=`coupon-card ${status}`;
-  div.innerHTML=`<div class="coupon-notch"></div><div class="coupon-notch coupon-notch-r"></div><div class="coupon-top"><div class="coupon-badge">🎁 Récompense VVV777</div><div class="coupon-title">1 ACHETÉ = 1 OFFERT</div><div class="coupon-desc">Sur votre prochain achat chez VVV777</div><div class="coupon-validity ${urgentClass}">${validity}</div></div><div class="coupon-bottom"><div><div class="coupon-code">${c.code}</div><span class="coupon-status ${status}">${label}</span>${status==='active'?`<br><button onclick="openCouponFS('${c.id}')" style="margin-top:10px;background:var(--gold);color:#080807;border:none;border-radius:8px;padding:8px 14px;font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:1.5px;cursor:pointer">AGRANDIR →</button>`:''}</div><div class="coupon-qr" id="qr_${c.id}"></div></div>`;
-  setTimeout(()=>{const canvas=document.createElement('canvas');document.getElementById('qr_'+c.id).appendChild(canvas);QRCode.toCanvas(canvas,c.code,{width:70,margin:0,color:{dark:'#1A1200',light:'#ffffff'}}).catch(()=>{});},100);
+  div.innerHTML=`
+    <div class="coupon-top">
+      <div class="coupon-badge">🎁 Récompense VVV777</div>
+      <div class="coupon-title">1 ACHETÉ = 1 OFFERT</div>
+      <div class="coupon-desc">Sur votre prochain achat chez VVV777</div>
+      <div class="coupon-validity ${urgentClass}">${validity}</div>
+    </div>
+    <div class="coupon-divider">
+      <div class="coupon-notch"></div>
+      <div class="coupon-notch coupon-notch-r"></div>
+    </div>
+    <div class="coupon-bottom">
+      <div class="coupon-left">
+        <div class="coupon-code">${c.code}</div>
+        <span class="coupon-status ${status}">${labels[status]}</span>
+        ${status==='active'?`<button class="btn-use-coupon" onclick="openCouponFS('${c.id}')">PRÉSENTER AU COMMERÇANT →</button>`:''}
+      </div>
+      <div class="coupon-qr-wrap" id="qr_${c.id}"></div>
+    </div>
+  `;
+  setTimeout(()=>{
+    const canvas=document.createElement('canvas');
+    const wrap=document.getElementById('qr_'+c.id);
+    if(wrap){wrap.appendChild(canvas);QRCode.toCanvas(canvas,c.code,{width:72,margin:0,color:{dark:'#1A1200',light:'#ffffff'}}).catch(()=>{});}
+  },80);
   return div;
 }
 
@@ -542,29 +777,55 @@ async function openCouponFS(couponId){
   const{data}=await sb.from('coupons').select('*').eq('id',couponId).single();
   if(!data)return;
   document.getElementById('cfs_code').textContent=data.code;
-  document.getElementById('cfs_validity').textContent=`Valable jusqu'au ${new Date(data.expires_at).toLocaleDateString('fr-FR')}`;
-  const canvas=document.getElementById('cfs_qr_canvas');canvas.width=200;canvas.height=200;
-  QRCode.toCanvas(canvas,data.code,{width:200,margin:1,color:{dark:'#1A1200',light:'#ffffff'}}).catch(()=>{});
+  const exp=new Date(data.expires_at);
+  const days=Math.ceil((exp-new Date())/86400000);
+  document.getElementById('cfs_validity').textContent=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=14?' · '+days+' j restants':''}`;
+  const canvas=document.getElementById('cfs_qr_canvas');
+  canvas.width=220;canvas.height=220;
+  QRCode.toCanvas(canvas,data.code,{width:220,margin:2,color:{dark:'#1A1200',light:'#ffffff'}}).catch(()=>{});
   document.getElementById('coupon_fullscreen').classList.add('show');
   if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
 }
 function closeCouponFullscreen(){document.getElementById('coupon_fullscreen').classList.remove('show');}
 
+// ── REALTIME — côté client simplifié ──────────────────
+// Le trigger SQL gère la création du coupon.
+// Ici on écoute juste les changements pour mettre à jour l'affichage.
 function subscribeRealtime(id){
-  sb.channel('stamps-'+id).on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
-    const u=p.new,prev=currentClient.tampons||0;
-    currentClient={...currentClient,...u};
-    renderStamps(u.tampons,true);
-    if(u.tampons>=10&&prev<10){
-      const code=genCouponCode();const exp=new Date();exp.setMonth(exp.getMonth()+6);
-      await sb.from('coupons').insert([{client_id:id,code,expires_at:exp.toISOString(),used_at:null}]);
-      await sb.from('clients').update({tampons:0}).eq('id',id);
-    }
-    const dots=document.getElementById('bc_fs_dots');
-    if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
-  }).subscribe();
+  sb.channel('stamps-'+id)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
+      const u=p.new;
+      const prevTampons=currentClient.tampons||0;
+      currentClient={...currentClient,...u};
+      renderStamps(u.tampons, u.tampons > prevTampons);
+
+      // Mise à jour du code-barres plein écran si ouvert
+      const dots=document.getElementById('bc_fs_dots');
+      if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
+
+      // Si un coupon vient d'être généré (tampons remis à 0 par le trigger)
+      if(prevTampons >= 9 && u.tampons === 0){
+        showRewardToast();
+        loadCouponsBadge();
+        // Recharge les coupons si l'onglet est ouvert
+        if(document.getElementById('tab_coupons').classList.contains('active')){
+          loadCoupons();
+        }
+      }
+    })
+    .subscribe();
 }
 
+// Toast "Récompense débloquée"
+let rewardToastTimer;
+function showRewardToast(){
+  const t=document.getElementById('reward_toast');
+  t.classList.add('show');
+  clearTimeout(rewardToastTimer);
+  rewardToastTimer=setTimeout(()=>t.classList.remove('show'),5000);
+}
+
+// ── INSTALL ────────────────────────────────────────────
 function installApp(){
   function show(id,html){const el=document.getElementById(id);if(!el)return;el.innerHTML=html;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
   if(isStandalone)show('install_steps_card','✅ Déjà installé !');
@@ -573,11 +834,19 @@ function installApp(){
   else show('install_steps_card','<strong style="color:#D4A843;">📱 Sur Android :</strong><br>1. Les <strong>3 points ⋮</strong> de Chrome<br>2. <strong>"Ajouter à l\'écran d\'accueil"</strong> 🎉');
 }
 
+// ── AUTO-LOGIN ─────────────────────────────────────────
 (async()=>{
   const p=new URLSearchParams(window.location.search),urlId=p.get('carte');
-  if(urlId){const{data}=await sb.from('clients').select('*').eq('id',urlId).single();if(data){localStorage.setItem('vvv777_client_id',data.id);showCard(data);return;}}
+  if(urlId){
+    const{data}=await sb.from('clients').select('*').eq('id',urlId).single();
+    if(data){localStorage.setItem('vvv777_client_id',data.id);showCard(data);return;}
+  }
   const savedId=localStorage.getItem('vvv777_client_id');
-  if(savedId){const{data}=await sb.from('clients').select('*').eq('id',savedId).single();if(data){showCard(data);return;}else localStorage.removeItem('vvv777_client_id');}
+  if(savedId){
+    const{data}=await sb.from('clients').select('*').eq('id',savedId).single();
+    if(data){showCard(data);return;}
+    else localStorage.removeItem('vvv777_client_id');
+  }
 })();
 </script>
 </body>
