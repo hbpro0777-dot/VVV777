@@ -20,8 +20,6 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
-
-/* LOGIN */
 .login-wrap{display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:20px}
 .login-box{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:40px 32px;width:100%;max-width:360px;animation:fu .5s ease both}
 .login-logo{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--text);letter-spacing:-1px;text-align:center;margin-bottom:4px}
@@ -33,20 +31,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .field-inp:focus{border-color:var(--gold)}
 .field-inp::placeholder{color:var(--muted2)}
 .field-mb{margin-bottom:14px}
-
-/* APP LAYOUT */
 .app{display:none;height:100dvh;flex-direction:column}
 .app.show{display:flex}
-
-/* TOP NAV BAR */
 .topnav{background:var(--s1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:56px;flex-shrink:0}
 .tn-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);letter-spacing:-0.5px}
 .tn-logo em{color:var(--gold);font-style:normal}
 .tn-right{display:flex;align-items:center;gap:12px}
 .tn-logout{background:transparent;border:1px solid var(--border);border-radius:8px;padding:7px 12px;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s}
 .tn-logout:hover{border-color:var(--red);color:var(--red)}
-
-/* TAB BAR */
 .tabbar{background:var(--s1);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-around;padding:8px 0 12px;flex-shrink:0;position:sticky;bottom:0;z-index:10}
 .tab-btn{display:flex;flex-direction:column;align-items:center;gap:4px;background:transparent;border:none;cursor:pointer;padding:6px 16px;border-radius:10px;transition:all .2s;font-family:'DM Sans',sans-serif}
 .tab-btn .t-icon{font-size:22px;transition:transform .2s}
@@ -57,21 +49,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .tab-btn.scan-btn .t-icon{font-size:24px}
 .tab-btn.scan-btn .t-label{color:#080807;font-weight:600}
 .tab-btn.scan-btn.active{background:var(--gold2)}
-
-/* PAGES */
 .pages{flex:1;overflow-y:auto;overflow-x:hidden}
-.page{display:none;padding:20px 16px 20px;animation:fu .3s ease both}
+.page{display:none;padding:20px 16px;animation:fu .3s ease both}
 .page.active{display:block}
-
-/* STATS */
 .stats-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
 .stat-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:16px 14px}
 .stat-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
 .stat-val{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;color:var(--text);line-height:1}
 .stat-val.gold{color:var(--gold)}
 .stat-sub{font-size:11px;color:var(--muted);margin-top:3px}
-
-/* CLIENTS TABLE */
 .toolbar{display:flex;gap:10px;margin-bottom:14px;align-items:center}
 .search-box{flex:1;background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:10px 13px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;transition:border-color .2s}
 .search-box:focus{border-color:var(--gold)}
@@ -79,8 +65,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .btn-sm{padding:10px 14px;border-radius:10px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
 .btn-gold{background:var(--gold);color:#080807}.btn-gold:hover{background:var(--gold2)}
 .btn-ghost{background:transparent;border:1px solid var(--border);color:var(--muted)}.btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
-.btn-red{background:rgba(224,85,85,.1);border:1px solid rgba(224,85,85,.25);color:#E88}.btn-red:hover{background:rgba(224,85,85,.2)}
-
 .client-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:14px 16px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:border-color .18s,background .18s}
 .client-card:hover{border-color:var(--border2);background:var(--s2)}
 .cc-avatar{width:40px;height:40px;border-radius:50%;background:var(--gold3);border:1px solid rgba(212,168,67,.2);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--gold);flex-shrink:0}
@@ -91,35 +75,20 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .cc-stamps-mini{display:flex;gap:3px;flex-wrap:wrap;max-width:70px;justify-content:flex-end}
 .sm-dot{width:9px;height:9px;border-radius:50%;background:var(--border)}
 .sm-dot.on{background:var(--gold)}
-.sm-dot.full{background:var(--green)}
 .badge{display:inline-block;padding:2px 7px;border-radius:20px;font-size:10px;letter-spacing:.5px;font-weight:500}
 .badge.reward{background:rgba(212,168,67,.12);color:var(--gold)}
 .badge.active{background:rgba(76,175,80,.1);color:#6EDD72}
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty-icon{font-size:36px;margin-bottom:12px}
 
-/* ========================
-   SCAN PAGE — VERSION AMÉLIORÉE
-======================== */
+/* SCAN PAGE */
 .scan-page{padding:0 !important}
-.scan-wrap{display:flex;flex-direction:column;align-items:center;min-height:calc(100dvh - 56px - 76px);padding:24px 18px}
-
-/* Toggle Camera / Manuel */
-.scan-mode-toggle{
-  display:flex;gap:0;margin-bottom:20px;
-  background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:4px;
-  width:100%;max-width:320px;
-}
-.smt-btn{
-  flex:1;padding:10px 8px;border:none;border-radius:9px;
-  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;
-  cursor:pointer;transition:all .2s;color:var(--muted);background:transparent;
-}
+.scan-wrap{display:flex;flex-direction:column;align-items:center;min-height:calc(100dvh - 56px - 76px);padding:20px 18px}
+.scan-mode-toggle{display:flex;gap:0;margin-bottom:20px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:4px;width:100%;max-width:320px}
+.smt-btn{flex:1;padding:10px 8px;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);background:transparent}
 .smt-btn.active{background:var(--gold);color:#080807;font-weight:600}
-
-/* Camera viewfinder */
-.viewfinder-wrap{position:relative;width:100%;max-width:320px;margin:0 auto 24px}
-.viewfinder-frame{position:relative;width:100%;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--border), 0 20px 60px rgba(0,0,0,.8)}
+.viewfinder-wrap{position:relative;width:100%;max-width:320px;margin:0 auto 20px}
+.viewfinder-frame{position:relative;width:100%;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--border),0 20px 60px rgba(0,0,0,.8)}
 #scanVideo{width:100%;height:100%;object-fit:cover;display:block}
 .vf-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
 .vf-corner{position:absolute;width:48px;height:48px;border-color:var(--gold);border-style:solid;opacity:.8}
@@ -132,40 +101,23 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .vf-idle{position:absolute;inset:0;background:rgba(8,8,7,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:20px}
 .vf-idle-icon{font-size:48px;opacity:.5}
 .vf-idle-text{font-size:13px;color:var(--muted);text-align:center;line-height:1.5}
-
-/* ── SAISIE MANUELLE ── */
-.manual-panel{
-  width:100%;max-width:320px;
-  background:var(--s1);border:1px solid var(--border);border-radius:16px;
-  padding:20px;margin-bottom:20px;
-  display:none;animation:fu .3s ease both;
-}
+.manual-panel{width:100%;max-width:320px;background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;display:none;animation:fu .3s ease both}
 .manual-panel.show{display:block}
 .manual-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
 .manual-input-row{display:flex;gap:8px}
-.manual-inp{
-  flex:1;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;
-  padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:15px;
-  outline:none;transition:border-color .2s;letter-spacing:1px;
-}
+.manual-inp{flex:1;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:13px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;letter-spacing:.5px}
 .manual-inp:focus{border-color:var(--gold)}
 .manual-inp::placeholder{color:var(--muted2)}
-.btn-manual-search{
-  background:var(--gold);color:#080807;border:none;border-radius:10px;
-  padding:13px 16px;font-size:20px;cursor:pointer;transition:all .2s;flex-shrink:0;
-}
+.btn-manual-search{background:var(--gold);color:#080807;border:none;border-radius:10px;padding:13px 16px;font-size:20px;cursor:pointer;transition:all .2s;flex-shrink:0}
 .btn-manual-search:hover{background:var(--gold2)}
-.btn-manual-search:active{transform:scale(.95)}
 .manual-hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
-
-/* Scan status */
-.scan-status{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--muted);text-align:center;margin-bottom:16px;min-height:28px}
+.scan-status{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--muted);text-align:center;margin-bottom:16px;min-height:26px}
 .scan-status.scanning{color:var(--gold);animation:pulse .8s ease-in-out infinite}
 .scan-status.success{color:var(--green)}
 .scan-status.error{color:var(--red)}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
-/* Scan result card */
+/* RESULT : CARTE */
 .scan-result{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:320px;display:none;animation:fu .35s ease both}
 .scan-result.show{display:block}
 .sr-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
@@ -182,16 +134,30 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .sr-btn:disabled{background:var(--muted2);color:var(--muted);cursor:not-allowed}
 .sr-cancel{width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s}
 .sr-cancel:hover{border-color:var(--border2);color:var(--text)}
+.coupon-alert{background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.08));border:1.5px solid rgba(212,168,67,.4);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--gold);line-height:1.5}
 
-.reward-alert{background:linear-gradient(135deg,rgba(212,168,67,.15),rgba(212,168,67,.08));border:1.5px solid rgba(212,168,67,.4);border-radius:10px;padding:12px 14px;margin-bottom:12px;font-size:13px;color:var(--gold);line-height:1.5;animation:glow 1.5s ease-in-out infinite}
-@keyframes glow{0%,100%{box-shadow:0 0 15px rgba(212,168,67,.1)}50%{box-shadow:0 0 30px rgba(212,168,67,.25)}}
+/* RESULT : COUPON */
+.coupon-result{background:linear-gradient(145deg,#1A1200,#211600);border:1.5px solid rgba(212,168,67,.3);border-radius:16px;padding:20px;width:100%;max-width:320px;display:none;animation:fu .35s ease both}
+.coupon-result.show{display:block}
+.cr-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);border-radius:20px;padding:4px 10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.cr-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold2);letter-spacing:1px;line-height:1;margin-bottom:8px}
+.cr-client{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px}
+.cr-phone{font-size:12px;color:var(--muted);margin-bottom:10px}
+.cr-code{font-family:monospace;font-size:11px;color:rgba(212,168,67,.4);letter-spacing:1.5px;margin-bottom:6px;word-break:break-all}
+.cr-validity{font-size:11px;color:rgba(212,168,67,.4);margin-bottom:14px}
+.cr-status{display:inline-block;padding:5px 12px;border-radius:20px;font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:600;margin-bottom:16px}
+.cr-status.active{background:rgba(67,212,100,.1);color:#6EDD72;border:1px solid rgba(67,212,100,.2)}
+.cr-status.used{background:rgba(90,85,69,.15);color:var(--muted);border:1px solid var(--border)}
+.cr-status.expired{background:rgba(192,64,64,.1);color:#E88;border:1px solid rgba(192,64,64,.2)}
+.btn-validate{width:100%;background:linear-gradient(135deg,#1A3A1A,#2A4A2A);color:#6EDD72;border:1px solid rgba(76,175,80,.3);border-radius:10px;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-bottom:8px}
+.btn-validate:hover{background:linear-gradient(135deg,#2A4A2A,#3A5A3A)}
+.btn-validate:disabled{background:var(--muted2);color:var(--muted);cursor:not-allowed;border-color:var(--border)}
 
 .btn-start-scan{background:var(--gold);color:#080807;border:none;border-radius:14px;padding:16px 32px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
 .btn-start-scan:hover{background:var(--gold2)}
 .btn-stop-scan{background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px 24px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;margin-top:10px}
 .btn-stop-scan:hover{border-color:var(--red);color:var(--red)}
 
-/* EXPORT / NOTIF page */
 .section-box{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
 .section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text);margin-bottom:12px}
 .section-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
@@ -201,8 +167,6 @@ textarea:focus{border-color:var(--gold)}
 .ntab{padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s}
 .ntab.active{background:var(--gold3);border-color:var(--border2);color:var(--gold)}
 .recipients-list{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:12.5px;color:var(--muted);max-height:100px;overflow-y:auto;line-height:1.8}
-
-/* MODAL */
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center;padding:0}
 .overlay.show{display:flex}
 .modal{background:var(--s1);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp .35s ease both;max-height:85dvh;overflow-y:auto}
@@ -215,14 +179,10 @@ textarea:focus{border-color:var(--gold)}
 .se-stamp.on{border-color:rgba(212,168,67,.5);background:var(--gold3)}
 .se-count{text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);margin-bottom:14px;letter-spacing:1px}
 .modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}
-
-/* TOAST */
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:12px 18px;display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--text);box-shadow:0 8px 32px rgba(0,0,0,.5);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);pointer-events:none;white-space:nowrap;z-index:200}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .toast.success .ti{color:var(--green)}.toast.error .ti{color:var(--red)}
 .ti{font-size:18px}
-
-/* UTILS */
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
@@ -230,7 +190,6 @@ textarea:focus{border-color:var(--gold)}
 </head>
 <body>
 
-<!-- LOGIN -->
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
     <div class="login-logo">VVV<em>777</em></div>
@@ -244,10 +203,7 @@ textarea:focus{border-color:var(--gold)}
   </div>
 </div>
 
-<!-- APP -->
 <div class="app" id="app">
-
-  <!-- TOP NAV -->
   <div class="topnav">
     <div class="tn-logo">VVV<em>777</em></div>
     <div class="tn-right">
@@ -256,14 +212,12 @@ textarea:focus{border-color:var(--gold)}
     </div>
   </div>
 
-  <!-- PAGES -->
   <div class="pages">
 
-    <!-- PAGE: DASHBOARD -->
     <div class="page active" id="page_home">
       <div class="stats-row">
         <div class="stat-card"><div class="stat-lbl">Clients</div><div class="stat-val gold" id="st_total">—</div><div class="stat-sub">inscrits</div></div>
-        <div class="stat-card"><div class="stat-lbl">Récompenses</div><div class="stat-val" id="st_rewards">—</div><div class="stat-sub">en attente</div></div>
+        <div class="stat-card"><div class="stat-lbl">Coupons actifs</div><div class="stat-val" id="st_rewards">—</div><div class="stat-sub">à utiliser</div></div>
         <div class="stat-card"><div class="stat-lbl">Tampons total</div><div class="stat-val" id="st_stamps">—</div><div class="stat-sub">cumulés</div></div>
         <div class="stat-card"><div class="stat-lbl">Nouveaux (7j)</div><div class="stat-val" id="st_new">—</div><div class="stat-sub">inscriptions</div></div>
       </div>
@@ -271,7 +225,6 @@ textarea:focus{border-color:var(--gold)}
       <div id="recent_clients"></div>
     </div>
 
-    <!-- PAGE: CLIENTS -->
     <div class="page" id="page_clients">
       <div class="toolbar">
         <input class="search-box" type="text" placeholder="🔍 Rechercher…" id="searchInput" oninput="filterClients()">
@@ -280,20 +233,17 @@ textarea:focus{border-color:var(--gold)}
       <div id="clients_list"></div>
     </div>
 
-    <!-- PAGE: SCAN -->
     <div class="page scan-page" id="page_scan">
       <div class="scan-wrap">
-        <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:6px;">SCANNER UNE CARTE</div>
-        <div style="font-size:12.5px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">Scannez le QR code ou saisissez le code manuellement</div>
+        <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:4px;">SCANNER</div>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">Carte de fidélité <span style="color:var(--border2)">·</span> Wallet <span style="color:var(--border2)">·</span> Coupon</div>
 
-        <!-- Mode toggle -->
         <div class="scan-mode-toggle">
           <button class="smt-btn active" id="modeCamera" onclick="setMode('camera')">📷 Caméra</button>
           <button class="smt-btn" id="modeManual" onclick="setMode('manual')">⌨️ Manuel</button>
         </div>
 
-        <!-- ── MODE CAMÉRA ── -->
-        <div id="cameraPanel">
+        <div id="cameraPanel" style="display:flex;flex-direction:column;align-items:center;width:100%">
           <div class="viewfinder-wrap">
             <div class="viewfinder-frame">
               <video id="scanVideo" playsinline muted autoplay></video>
@@ -304,62 +254,66 @@ textarea:focus{border-color:var(--gold)}
               </div>
               <div class="vf-idle" id="vfIdle">
                 <div class="vf-idle-icon">📷</div>
-                <div class="vf-idle-text">Appuyez sur "Démarrer le scan"<br>pour activer la caméra</div>
+                <div class="vf-idle-text">Appuyez sur "Démarrer"<br>pour activer la caméra</div>
               </div>
             </div>
           </div>
           <div class="scan-status" id="scanStatus">PRÊT À SCANNER</div>
           <div id="scanControls">
             <button class="btn-start-scan" id="btnStartScan" onclick="startScan()">
-              <span style="font-size:24px;">📷</span> DÉMARRER LE SCAN
+              <span style="font-size:24px;">📷</span> DÉMARRER
             </button>
             <button class="btn-stop-scan" id="btnStopScan" style="display:none;" onclick="stopScan()">✕ Arrêter la caméra</button>
           </div>
         </div>
 
-        <!-- ── MODE MANUEL ── -->
         <div class="manual-panel" id="manualPanel">
-          <div class="manual-title">Code du client</div>
+          <div class="manual-title">Code carte ou coupon</div>
           <div class="manual-input-row">
-            <input
-              class="manual-inp"
-              type="text"
-              id="manualCodeInput"
-              placeholder="Ex: 739546718825"
-              inputmode="text"
-              autocomplete="off"
-              autocorrect="off"
-              spellcheck="false"
-              onkeydown="if(event.key==='Enter')searchManual()"
-            >
-            <button class="btn-manual-search" onclick="searchManual()" title="Rechercher">🔍</button>
+            <input class="manual-inp" type="text" id="manualCodeInput"
+              placeholder="8701 1983 4056 ou VVV-XXXX-XXXX"
+              inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false"
+              onkeydown="if(event.key==='Enter')searchManual()">
+            <button class="btn-manual-search" onclick="searchManual()">🔍</button>
           </div>
-          <div class="manual-hint">Saisissez le numéro de carte affiché sous le QR code du client, puis appuyez sur 🔍</div>
+          <div class="manual-hint">Code de carte <strong style="color:var(--gold)">ou</strong> code coupon</div>
         </div>
 
-        <!-- Result card (partagée caméra + manuel) -->
+        <!-- Résultat carte -->
         <div class="scan-result" id="scanResult">
-          <div class="reward-alert" id="rewardAlert" style="display:none">🎁 Ce client a complété sa carte ! Offrez-lui son 1 acheté = 1 offert et appuyez sur "Récompense utilisée".</div>
+          <div class="coupon-alert" id="couponAlert" style="display:none">🎟️ Ce client a un coupon actif — scannez le coupon pour le valider.</div>
           <div class="sr-header">
             <div class="sr-avatar" id="sr_avatar">—</div>
             <div><div class="sr-name" id="sr_name">—</div><div class="sr-card" id="sr_card">—</div></div>
           </div>
           <div class="sr-stamps" id="sr_stamps"></div>
           <button class="sr-btn" id="sr_btn_stamp" onclick="addStampToScanned()">+ AJOUTER 1 TAMPON</button>
-          <button class="sr-btn" id="sr_btn_reward" onclick="useReward()" style="display:none;background:#2A4A2A;color:#6EDD72;border:1px solid rgba(76,175,80,.3)">✅ RÉCOMPENSE UTILISÉE (REMISE À 0)</button>
+          <button class="sr-cancel" onclick="cancelScan()">✕ Annuler / Scanner un autre</button>
+        </div>
+
+        <!-- Résultat coupon -->
+        <div class="coupon-result" id="couponResult">
+          <div class="cr-badge">🎟️ Coupon VVV777</div>
+          <div class="cr-title">1 ACHETÉ = 1 OFFERT</div>
+          <div class="cr-client" id="cr_client">—</div>
+          <div class="cr-phone" id="cr_phone">—</div>
+          <div class="cr-code" id="cr_code">—</div>
+          <div class="cr-validity" id="cr_validity">—</div>
+          <span class="cr-status" id="cr_status_badge">—</span>
+          <br><br>
+          <button class="btn-validate" id="btn_validate_coupon" onclick="validateCoupon()">✅ VALIDER L'UTILISATION</button>
           <button class="sr-cancel" onclick="cancelScan()">✕ Annuler / Scanner un autre</button>
         </div>
 
       </div>
     </div>
 
-    <!-- PAGE: NOTIFICATIONS -->
     <div class="page" id="page_notif">
       <div class="section-box">
         <div class="section-title">Envoyer un message</div>
         <div class="notif-tabs">
           <button class="ntab active" onclick="setNotifTarget('all',this)">Tous</button>
-          <button class="ntab" onclick="setNotifTarget('reward',this)">Récompenses 🎁</button>
+          <button class="ntab" onclick="setNotifTarget('reward',this)">Coupons actifs 🎁</button>
           <button class="ntab" onclick="setNotifTarget('inactive',this)">Inactifs</button>
         </div>
         <div class="recipients-list" id="recipList">—</div>
@@ -369,39 +323,27 @@ textarea:focus{border-color:var(--gold)}
           <button class="btn-sm btn-gold" onclick="copyNumbers()">📋 Copier les numéros</button>
           <button class="btn-sm btn-ghost" onclick="openWhatsApp()">💬 WhatsApp</button>
         </div>
-        <div style="font-size:11px;color:var(--muted);margin-top:10px;line-height:1.6">Pour l'envoi SMS automatique, connectez Brevo ou Twilio.</div>
       </div>
       <div class="section-box">
         <div class="section-title">Export données</div>
-        <div class="section-desc">Téléchargez la liste complète en CSV (compatible Excel, Google Sheets).</div>
+        <div class="section-desc">Téléchargez la liste complète en CSV.</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           <button class="btn-sm btn-gold" onclick="exportCSV()">📥 Exporter tous les clients</button>
-          <button class="btn-sm btn-ghost" onclick="exportRewards()">🎁 Exporter récompenses uniquement</button>
+          <button class="btn-sm btn-ghost" onclick="exportRewards()">🎟️ Exporter coupons actifs</button>
         </div>
       </div>
     </div>
 
-  </div><!-- .pages -->
-
-  <!-- TAB BAR -->
-  <div class="tabbar">
-    <button class="tab-btn active" id="tab_home" onclick="navTo('home',this)">
-      <span class="t-icon">🏠</span><span class="t-label">Accueil</span>
-    </button>
-    <button class="tab-btn" id="tab_clients" onclick="navTo('clients',this)">
-      <span class="t-icon">👥</span><span class="t-label">Clients</span>
-    </button>
-    <button class="tab-btn scan-btn" id="tab_scan" onclick="navTo('scan',this)">
-      <span class="t-icon">📷</span><span class="t-label">Scanner</span>
-    </button>
-    <button class="tab-btn" id="tab_notif" onclick="navTo('notif',this)">
-      <span class="t-icon">📲</span><span class="t-label">Notifs</span>
-    </button>
   </div>
 
-</div><!-- .app -->
+  <div class="tabbar">
+    <button class="tab-btn active" id="tab_home" onclick="navTo('home',this)"><span class="t-icon">🏠</span><span class="t-label">Accueil</span></button>
+    <button class="tab-btn" id="tab_clients" onclick="navTo('clients',this)"><span class="t-icon">👥</span><span class="t-label">Clients</span></button>
+    <button class="tab-btn scan-btn" id="tab_scan" onclick="navTo('scan',this)"><span class="t-icon">📷</span><span class="t-label">Scanner</span></button>
+    <button class="tab-btn" id="tab_notif" onclick="navTo('notif',this)"><span class="t-icon">📲</span><span class="t-label">Notifs</span></button>
+  </div>
+</div>
 
-<!-- MODAL: Edit stamps -->
 <div class="overlay" id="modalStamps">
   <div class="modal">
     <div class="modal-title">Modifier les tampons</div>
@@ -416,7 +358,6 @@ textarea:focus{border-color:var(--gold)}
   </div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"><span class="ti" id="toastIcon">✓</span><span id="toastMsg">OK</span></div>
 
 <script>
@@ -424,494 +365,388 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
 let allClients = [];
 let editingClient = null, editingStamps = 0;
-let scannedClient = null;
-let scanStream = null;
-let zxingReader = null;
-let isProcessing = false;
-let notifTarget = 'all';
-let currentMode = 'camera'; // 'camera' | 'manual'
+let scannedClient = null, scannedCoupon = null;
+let scanStream = null, zxingReader = null, isProcessing = false;
+let notifTarget = 'all', currentMode = 'camera';
 
-// ── LOGIN ────────────────────────────────────────────
-function doLogin() {
-  const pwd = document.getElementById('pwdInput').value;
-  if (pwd === ADMIN_PASSWORD) {
-    document.getElementById('loginWrap').style.display = 'none';
+// LOGIN
+function doLogin(){
+  if(document.getElementById('pwdInput').value===ADMIN_PASSWORD){
+    document.getElementById('loginWrap').style.display='none';
     document.getElementById('app').classList.add('show');
     loadClients();
-  } else {
-    document.getElementById('loginErr').style.display = 'block';
-  }
+  }else{document.getElementById('loginErr').style.display='block';}
 }
-function doLogout() {
-  stopScan();
-  document.getElementById('app').classList.remove('show');
-  document.getElementById('loginWrap').style.display = 'flex';
-  document.getElementById('pwdInput').value = '';
-}
+function doLogout(){stopScan();document.getElementById('app').classList.remove('show');document.getElementById('loginWrap').style.display='flex';document.getElementById('pwdInput').value='';}
 
-// ── NAVIGATION ────────────────────────────────────────
-function navTo(page, el) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.getElementById('page_' + page).classList.add('active');
-  if (page !== 'scan') stopScan();
-  if (page === 'notif') loadNotifRecipients();
+// NAV
+function navTo(page,el){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page_'+page).classList.add('active');
+  if(page!=='scan')stopScan();
+  if(page==='notif')loadNotifRecipients();
 }
 
-// ── MODE TOGGLE (caméra / manuel) ─────────────────────
-function setMode(mode) {
-  currentMode = mode;
-  document.getElementById('modeCamera').classList.toggle('active', mode === 'camera');
-  document.getElementById('modeManual').classList.toggle('active', mode === 'manual');
-  document.getElementById('cameraPanel').style.display = mode === 'camera' ? 'flex' : 'none';
-  document.getElementById('cameraPanel').style.flexDirection = 'column';
-  document.getElementById('cameraPanel').style.alignItems = 'center';
-
-  const mp = document.getElementById('manualPanel');
-  if (mode === 'manual') {
-    mp.classList.add('show');
-    stopScan();
-    document.getElementById('scanResult').classList.remove('show');
-    document.getElementById('scanStatus').className = 'scan-status';
-    document.getElementById('scanStatus').textContent = '';
-    setTimeout(() => document.getElementById('manualCodeInput').focus(), 150);
-  } else {
-    mp.classList.remove('show');
-  }
+// MODE
+function setMode(mode){
+  currentMode=mode;
+  document.getElementById('modeCamera').classList.toggle('active',mode==='camera');
+  document.getElementById('modeManual').classList.toggle('active',mode==='manual');
+  document.getElementById('cameraPanel').style.display=mode==='camera'?'flex':'none';
+  const mp=document.getElementById('manualPanel');
+  if(mode==='manual'){mp.classList.add('show');stopScan();resetResults();setTimeout(()=>document.getElementById('manualCodeInput').focus(),150);}
+  else{mp.classList.remove('show');}
 }
 
-// ── RECHERCHE MANUELLE ────────────────────────────────
-async function searchManual() {
-  const raw = document.getElementById('manualCodeInput').value.trim().replace(/\s/g, '');
-  if (!raw) { toast('Saisissez un code', 'error'); return; }
-
-  setScanStatus('RECHERCHE…', 'scanning');
+function resetResults(){
   document.getElementById('scanResult').classList.remove('show');
+  document.getElementById('couponResult').classList.remove('show');
+  scannedClient=null;scannedCoupon=null;setScanStatus('','');
+}
 
-  const client = await findClientByCode(raw);
-  if (!client) {
-    setScanStatus('CLIENT INTROUVABLE', 'error');
-    toast('Code non reconnu — vérifiez la saisie', 'error');
-    setTimeout(() => {
-      setScanStatus('', '');
-    }, 2500);
+// RECHERCHE MANUELLE
+async function searchManual(){
+  const raw=document.getElementById('manualCodeInput').value.trim();
+  if(!raw){toast('Saisissez un code','error');return;}
+  resetResults();setScanStatus('RECHERCHE…','scanning');
+  await processCode(raw);
+  document.getElementById('manualCodeInput').value='';
+}
+
+// TRAITEMENT UNIFIÉ
+async function processCode(raw){
+  const up=raw.toUpperCase().replace(/\s/g,'');
+  // Code coupon : contient un tiret et commence par VVV ou ressemble à VVV-XXXX-XXXX
+  if(up.startsWith('VVV-')||(/^[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+$/.test(up)&&up.length>8)){
+    await handleCouponCode(raw.trim());
+  } else {
+    await handleCardCode(raw);
+  }
+}
+
+async function handleCardCode(raw){
+  const client=await findClientByCode(raw);
+  if(!client){
+    setScanStatus('CLIENT INTROUVABLE','error');
+    toast('Code de carte non reconnu','error');
+    setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);
     return;
   }
-
-  setScanStatus('CLIENT TROUVÉ !', 'success');
-  showScanResult(client);
-  document.getElementById('manualCodeInput').value = '';
+  setScanStatus('CLIENT TROUVÉ !','success');
+  showCardResult(client);
 }
 
-// ── HELPERS RECHERCHE CLIENT ──────────────────────────
-async function findClientByCode(scannedNum) {
-  // 1. Essai URL (rétrocompat)
-  const urlMatch = scannedNum.match(/[?&]carte=([a-f0-9-]{36})/i);
-  if (urlMatch) {
-    const clientId = urlMatch[1];
-    let c = allClients.find(x => x.id === clientId);
-    if (!c) {
-      const { data } = await sb.from('clients').select('*').eq('id', clientId).single();
-      c = data;
-    }
-    return c || null;
+async function handleCouponCode(code){
+  const{data}=await sb.from('coupons').select('*,clients(nom,telephone)').ilike('code',code.toUpperCase()).limit(1);
+  if(!data||!data.length){
+    setScanStatus('COUPON INTROUVABLE','error');
+    toast('Code coupon non reconnu','error');
+    setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);
+    return;
   }
+  setScanStatus('COUPON TROUVÉ !','success');
+  showCouponResult(data[0]);
+}
 
-  // 2. Recherche par card_number (cache local)
-  let c = allClients.find(x => (x.card_number || '').replace(/\s/g, '') === scannedNum);
-  if (c) return c;
-
-  // 3. Fallback Supabase (préfixe 4 chiffres)
-  if (scannedNum.length >= 4) {
-    const { data } = await sb.from('clients').select('*')
-      .filter('card_number', 'ilike', '%' + scannedNum.slice(0, 4) + '%')
-      .limit(20);
-    if (data && data.length) {
-      c = data.find(x => (x.card_number || '').replace(/\s/g, '') === scannedNum) || null;
-      // Mise à jour du cache
-      if (c) {
-        const idx = allClients.findIndex(x => x.id === c.id);
-        if (idx < 0) allClients.push(c);
-      }
+async function findClientByCode(raw){
+  const num=raw.replace(/\s/g,'').trim();
+  const urlMatch=raw.match(/[?&]carte=([a-f0-9-]{36})/i);
+  if(urlMatch){
+    const id=urlMatch[1];
+    let c=allClients.find(x=>x.id===id);
+    if(!c){const{data}=await sb.from('clients').select('*').eq('id',id).single();c=data;}
+    return c||null;
+  }
+  let c=allClients.find(x=>(x.card_number||'').replace(/\s/g,'')===num);
+  if(c)return c;
+  if(num.length>=4){
+    const{data}=await sb.from('clients').select('*').filter('card_number','ilike','%'+num.slice(0,4)+'%').limit(20);
+    if(data&&data.length){
+      c=data.find(x=>(x.card_number||'').replace(/\s/g,'')===num)||null;
+      if(c&&!allClients.find(x=>x.id===c.id))allClients.push(c);
       return c;
     }
   }
-
   return null;
 }
 
-// ── LOAD CLIENTS ──────────────────────────────────────
-async function loadClients() {
-  const { data, error } = await sb.from('clients').select('*').order('created_at', { ascending: false });
-  if (error) { toast('Erreur de chargement', 'error'); return; }
-  allClients = data || [];
-  renderStats();
-  renderRecent();
-  renderClientsList(allClients);
-  document.getElementById('tn_count').textContent = `${allClients.length} client${allClients.length > 1 ? 's' : ''}`;
-}
-
-function renderStats() {
-  const total = allClients.length;
-  const rewards = allClients.filter(c => c.tampons >= 10).length;
-  const stamps = allClients.reduce((s, c) => s + (c.tampons || 0), 0);
-  const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-  const newC = allClients.filter(c => new Date(c.created_at) > weekAgo).length;
-  document.getElementById('st_total').textContent = total;
-  document.getElementById('st_rewards').textContent = rewards;
-  document.getElementById('st_stamps').textContent = stamps;
-  document.getElementById('st_new').textContent = newC;
-}
-
-function renderRecent() {
-  document.getElementById('recent_clients').innerHTML = allClients.slice(0, 5).map(c => clientCardHTML(c)).join('');
-}
-
-function clientCardHTML(c) {
-  const init = c.nom.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  const dotsHtml = Array.from({ length: 10 }, (_, i) =>
-    `<div class="sm-dot ${i < c.tampons ? (c.tampons >= 10 ? 'full' : 'on') : ''}"></div>`
-  ).join('');
-  const badge = c.tampons >= 10
-    ? `<span class="badge reward">🎁 Récompense</span>`
-    : `<span class="badge active">${c.tampons}/10</span>`;
-  return `<div class="client-card" onclick="openStampsModal('${c.id}')">
-    <div class="cc-avatar">${init}</div>
-    <div class="cc-info"><div class="cc-name">${esc(c.nom)}</div><div class="cc-detail">${esc(c.telephone)}</div></div>
-    <div class="cc-right"><div class="cc-stamps-mini">${dotsHtml}</div>${badge}</div>
-  </div>`;
-}
-
-function filterClients() {
-  const q = document.getElementById('searchInput').value.toLowerCase();
-  const filtered = allClients.filter(c =>
-    c.nom.toLowerCase().includes(q) || c.telephone.includes(q) || (c.email || '').toLowerCase().includes(q)
-  );
-  renderClientsList(filtered);
-}
-function renderClientsList(clients) {
-  const el = document.getElementById('clients_list');
-  if (!clients.length) {
-    el.innerHTML = `<div class="empty-state"><div class="empty-icon">👤</div><p>Aucun client trouvé</p></div>`;
-    return;
-  }
-  el.innerHTML = clients.map(c => clientCardHTML(c)).join('');
-}
-
-// ── STAMPS MODAL ───────────────────────────────────────
-function openStampsModal(clientId) {
-  const c = allClients.find(x => x.id === clientId);
-  if (!c) return;
-  editingClient = c; editingStamps = c.tampons || 0;
-  document.getElementById('modal_cname').textContent = c.nom;
-  renderSeGrid();
-  openModal('modalStamps');
-}
-function renderSeGrid() {
-  const grid = document.getElementById('seGrid');
-  grid.innerHTML = Array.from({ length: 10 }, (_, i) =>
-    `<div class="se-stamp ${i < editingStamps ? 'on' : ''}" onclick="toggleSE(${i})">${i < editingStamps ? FRUITS[i] : '○'}</div>`
-  ).join('');
-  document.getElementById('se_count').textContent = `${editingStamps} / 10 tampons`;
-}
-function toggleSE(i) { editingStamps = i < editingStamps ? i : i + 1; renderSeGrid(); }
-async function saveStamps() {
-  if (!editingClient) return;
-  const { error } = await sb.from('clients').update({
-    tampons: editingStamps,
-    reward_pending: editingStamps >= 10,
-    last_stamp: new Date().toISOString()
-  }).eq('id', editingClient.id);
-  if (error) { toast('Erreur', 'error'); return; }
-  const idx = allClients.findIndex(c => c.id === editingClient.id);
-  if (idx >= 0) { allClients[idx].tampons = editingStamps; allClients[idx].reward_pending = editingStamps >= 10; }
-  renderStats(); renderRecent(); renderClientsList(allClients);
-  closeModal('modalStamps');
-  toast(`Tampons mis à jour : ${editingStamps}/10 ✓`);
-}
-
-// ── SCANNER ZXing ──────────────────────────────────────
-async function startScan() {
-  document.getElementById('btnStartScan').style.display = 'none';
-  document.getElementById('btnStopScan').style.display = 'block';
-  document.getElementById('vfIdle').style.display = 'none';
-  document.getElementById('scanLine').style.display = 'block';
-  setScanStatus('EN ATTENTE DU CODE…', 'scanning');
-  document.getElementById('scanResult').classList.remove('show');
-  isProcessing = false;
-
-  try {
-    // Demande d'accès caméra
-    scanStream = await navigator.mediaDevices.getUserMedia({
-      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } }
-    });
-    const video = document.getElementById('scanVideo');
-    video.srcObject = scanStream;
-    await video.play();
-
-    // Démarrage ZXing
-    zxingReader = new ZXing.BrowserMultiFormatReader();
-    zxingReader.decodeFromStream(scanStream, video, (result, err) => {
-      if (result && !isProcessing) {
-        handleBarcodeResult(result.getText());
-      }
-      // Les erreurs "NotFoundException" sont normales (frame sans code) — on les ignore
-    });
-
-  } catch (e) {
-    console.error('Camera error:', e);
-    setScanStatus('CAMÉRA NON ACCESSIBLE', 'error');
-    toast('Autorisez l\'accès à la caméra', 'error');
-    resetScanUI();
-  }
-}
-
-async function handleBarcodeResult(data) {
-  if (isProcessing) return;
-  isProcessing = true;
-  setScanStatus('CODE DÉTECTÉ…', 'success');
-
-  // Arrêt du scan pendant traitement
-  try { if (zxingReader) { zxingReader.reset(); zxingReader = null; } } catch (e) {}
-
-  const scannedNum = data.replace(/\s/g, '').trim();
-  const client = await findClientByCode(scannedNum);
-
-  if (!client) {
-    setScanStatus('CLIENT INTROUVABLE', 'error');
-    toast('Code non reconnu — vérifiez la carte', 'error');
-    setTimeout(() => {
-      isProcessing = false;
-      // Relance le scan automatiquement
-      if (scanStream) {
-        zxingReader = new ZXing.BrowserMultiFormatReader();
-        const video = document.getElementById('scanVideo');
-        zxingReader.decodeFromStream(scanStream, video, (result, err) => {
-          if (result && !isProcessing) handleBarcodeResult(result.getText());
-        });
-        setScanStatus('EN ATTENTE DU CODE…', 'scanning');
-      }
-    }, 2500);
-    return;
-  }
-
-  setScanStatus('CLIENT TROUVÉ !', 'success');
-  showScanResult(client);
-  isProcessing = false;
-}
-
-function showScanResult(client) {
-  scannedClient = client;
-  document.getElementById('sr_name').textContent = client.nom;
-  document.getElementById('sr_card').textContent = client.card_number || '';
-  const init = client.nom.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2);
-  document.getElementById('sr_avatar').textContent = init;
-  renderSrStamps(client.tampons || 0);
-
-  if (client.tampons >= 10) {
-    document.getElementById('rewardAlert').style.display = 'block';
-    document.getElementById('sr_btn_stamp').style.display = 'none';
-    document.getElementById('sr_btn_reward').style.display = 'block';
-  } else {
-    document.getElementById('rewardAlert').style.display = 'none';
-    document.getElementById('sr_btn_stamp').style.display = 'block';
-    document.getElementById('sr_btn_reward').style.display = 'none';
-    document.getElementById('sr_btn_stamp').disabled = false;
-    document.getElementById('sr_btn_stamp').textContent = '+ AJOUTER 1 TAMPON';
-  }
+// AFFICHAGE CARTE
+function showCardResult(client){
+  scannedClient=client;scannedCoupon=null;
+  document.getElementById('sr_name').textContent=client.nom;
+  document.getElementById('sr_card').textContent=client.card_number||'';
+  document.getElementById('sr_avatar').textContent=client.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  renderSrStamps(client.tampons||0);
+  document.getElementById('sr_btn_stamp').disabled=false;
+  document.getElementById('sr_btn_stamp').textContent='+ AJOUTER 1 TAMPON';
+  checkActiveCoupon(client.id);
   document.getElementById('scanResult').classList.add('show');
+  document.getElementById('couponResult').classList.remove('show');
 }
 
-function renderSrStamps(count, isNew = false) {
-  const el = document.getElementById('sr_stamps');
-  el.innerHTML = Array.from({ length: 10 }, (_, i) => {
-    const on = i < count;
-    const isNewDot = isNew && i === count - 1;
-    return `<div class="sr-dot ${on ? 'on' : ''} ${isNewDot ? 'new-dot' : ''}">${on ? FRUITS[i] : ''}</div>`;
+async function checkActiveCoupon(clientId){
+  const{data}=await sb.from('coupons').select('id').eq('client_id',clientId).is('used_at',null).gt('expires_at',new Date().toISOString()).limit(1);
+  document.getElementById('couponAlert').style.display=(data&&data.length)?'block':'none';
+}
+
+// AFFICHAGE COUPON
+function showCouponResult(coupon){
+  scannedCoupon=coupon;scannedClient=null;
+  const client=coupon.clients;
+  const now=new Date(),exp=new Date(coupon.expires_at);
+  document.getElementById('cr_client').textContent=client?client.nom:'Client inconnu';
+  document.getElementById('cr_phone').textContent=client?client.telephone:'—';
+  document.getElementById('cr_code').textContent=coupon.code;
+  document.getElementById('cr_validity').textContent=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}`;
+  const statusEl=document.getElementById('cr_status_badge');
+  const btn=document.getElementById('btn_validate_coupon');
+  if(coupon.used_at){
+    statusEl.textContent='✓ Utilisé le '+new Date(coupon.used_at).toLocaleDateString('fr-FR');
+    statusEl.className='cr-status used';btn.disabled=true;btn.textContent='DÉJÀ UTILISÉ';
+  }else if(now>exp){
+    statusEl.textContent='⏳ Expiré';statusEl.className='cr-status expired';btn.disabled=true;btn.textContent='COUPON EXPIRÉ';
+  }else{
+    statusEl.textContent='🟢 Actif — usage unique';statusEl.className='cr-status active';
+    btn.disabled=false;btn.textContent='✅ VALIDER L\'UTILISATION';
+    btn.style.background='';btn.style.color='';btn.style.borderColor='';
+  }
+  document.getElementById('couponResult').classList.add('show');
+  document.getElementById('scanResult').classList.remove('show');
+}
+
+// VALIDER COUPON
+async function validateCoupon(){
+  if(!scannedCoupon)return;
+  const btn=document.getElementById('btn_validate_coupon');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>VALIDATION…';
+  try{
+    const{error}=await sb.from('coupons').update({used_at:new Date().toISOString()}).eq('id',scannedCoupon.id);
+    if(error)throw error;
+    const clientName=scannedCoupon.clients?scannedCoupon.clients.nom:'Client';
+    document.getElementById('cr_status_badge').textContent='✓ Validé maintenant';
+    document.getElementById('cr_status_badge').className='cr-status used';
+    btn.textContent='✓ COUPON VALIDÉ';btn.style.background='var(--muted2)';btn.style.color='var(--muted)';btn.style.borderColor='var(--border)';
+    setScanStatus('COUPON VALIDÉ ✓','success');
+    toast(`✅ Coupon de ${clientName} validé !`);
+    loadClients();
+  }catch(e){
+    btn.disabled=false;btn.textContent='✅ VALIDER L\'UTILISATION';
+    toast('Erreur lors de la validation','error');
+  }
+}
+
+// TAMPONS
+function renderSrStamps(count,isNew=false){
+  document.getElementById('sr_stamps').innerHTML=Array.from({length:10},(_,i)=>{
+    const on=i<count,isNewDot=isNew&&i===count-1;
+    return `<div class="sr-dot ${on?'on':''} ${isNewDot?'new-dot':''}">${on?FRUITS[i]:''}</div>`;
   }).join('');
 }
 
-async function addStampToScanned() {
-  if (!scannedClient) return;
-  const newCount = Math.min((scannedClient.tampons || 0) + 1, 10);
-  document.getElementById('sr_btn_stamp').disabled = true;
-  document.getElementById('sr_btn_stamp').innerHTML = '<span class="spin"></span>AJOUT…';
-
-  const { error } = await sb.from('clients').update({
-    tampons: newCount,
-    reward_pending: newCount >= 10,
-    last_stamp: new Date().toISOString()
-  }).eq('id', scannedClient.id);
-
-  if (error) {
-    toast('Erreur réseau', 'error');
-    document.getElementById('sr_btn_stamp').disabled = false;
-    document.getElementById('sr_btn_stamp').textContent = '+ AJOUTER 1 TAMPON';
-    return;
-  }
-
-  scannedClient.tampons = newCount;
-  const idx = allClients.findIndex(c => c.id === scannedClient.id);
-  if (idx >= 0) { allClients[idx].tampons = newCount; allClients[idx].reward_pending = newCount >= 10; }
-
-  renderSrStamps(newCount, true);
-  setScanStatus(`TAMPON ${newCount}/10 AJOUTÉ !`, 'success');
-  toast(`🍊 Tampon ${newCount}/10 ajouté pour ${scannedClient.nom}`);
-
-  if (newCount >= 10) {
-    document.getElementById('rewardAlert').style.display = 'block';
-    document.getElementById('sr_btn_stamp').style.display = 'none';
-    document.getElementById('sr_btn_reward').style.display = 'block';
-  } else {
-    document.getElementById('sr_btn_stamp').disabled = false;
-    document.getElementById('sr_btn_stamp').textContent = '+ AJOUTER 1 TAMPON';
-  }
-  renderStats(); renderRecent();
+async function addStampToScanned(){
+  if(!scannedClient)return;
+  const newCount=Math.min((scannedClient.tampons||0)+1,10);
+  const btn=document.getElementById('sr_btn_stamp');
+  btn.disabled=true;btn.innerHTML='<span class="spin"></span>AJOUT…';
+  const{error}=await sb.from('clients').update({tampons:newCount,reward_pending:newCount>=10,last_stamp:new Date().toISOString()}).eq('id',scannedClient.id);
+  if(error){toast('Erreur réseau','error');btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';return;}
+  scannedClient.tampons=newCount;
+  const idx=allClients.findIndex(c=>c.id===scannedClient.id);
+  if(idx>=0)allClients[idx].tampons=newCount;
+  renderSrStamps(newCount,true);
+  setScanStatus(`TAMPON ${newCount}/10 AJOUTÉ !`,'success');
+  toast(`🍊 Tampon ${newCount}/10 — ${scannedClient.nom}`);
+  if(newCount>=10){
+    btn.textContent='⏳ Traitement…';
+    setTimeout(async()=>{
+      const{data}=await sb.from('clients').select('*').eq('id',scannedClient.id).single();
+      if(data){
+        scannedClient=data;
+        const i=allClients.findIndex(c=>c.id===data.id);if(i>=0)allClients[i]=data;
+        renderSrStamps(data.tampons,false);
+        btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';
+        setScanStatus('CARTE REMISE À 0 · COUPON GÉNÉRÉ','success');
+        toast(`🎁 Coupon généré pour ${data.nom} !`);
+        checkActiveCoupon(data.id);
+      }
+    },1200);
+  }else{btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';}
+  renderStats();renderRecent();
 }
 
-async function useReward() {
-  if (!scannedClient) return;
-  const { error } = await sb.from('clients').update({
-    tampons: 0, reward_pending: false, last_stamp: new Date().toISOString()
-  }).eq('id', scannedClient.id);
-  if (error) { toast('Erreur', 'error'); return; }
-  scannedClient.tampons = 0;
-  const idx = allClients.findIndex(c => c.id === scannedClient.id);
-  if (idx >= 0) { allClients[idx].tampons = 0; allClients[idx].reward_pending = false; }
-  renderSrStamps(0);
-  document.getElementById('rewardAlert').style.display = 'none';
-  document.getElementById('sr_btn_stamp').style.display = 'block';
-  document.getElementById('sr_btn_reward').style.display = 'none';
-  setScanStatus('RÉCOMPENSE UTILISÉE — CARTE REMISE À 0', 'success');
-  toast(`✅ Récompense utilisée pour ${scannedClient.nom}`);
-  renderStats(); renderRecent();
+function cancelScan(){
+  resetResults();
+  if(currentMode==='camera'&&scanStream){isProcessing=false;restartZxing();setScanStatus('EN ATTENTE DU CODE…','scanning');}
+  if(currentMode==='manual')setTimeout(()=>document.getElementById('manualCodeInput').focus(),100);
 }
 
-function cancelScan() {
-  scannedClient = null;
-  document.getElementById('scanResult').classList.remove('show');
-
-  if (currentMode === 'camera' && scanStream) {
-    isProcessing = false;
-    // Relance ZXing
-    zxingReader = new ZXing.BrowserMultiFormatReader();
-    const video = document.getElementById('scanVideo');
-    zxingReader.decodeFromStream(scanStream, video, (result, err) => {
-      if (result && !isProcessing) handleBarcodeResult(result.getText());
-    });
-    setScanStatus('EN ATTENTE DU CODE…', 'scanning');
-  } else {
-    setScanStatus('', '');
-    document.getElementById('manualCodeInput').focus();
-  }
+// ZXING
+async function startScan(){
+  document.getElementById('btnStartScan').style.display='none';
+  document.getElementById('btnStopScan').style.display='block';
+  document.getElementById('vfIdle').style.display='none';
+  document.getElementById('scanLine').style.display='block';
+  setScanStatus('EN ATTENTE DU CODE…','scanning');
+  resetResults();isProcessing=false;
+  try{
+    scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
+    const video=document.getElementById('scanVideo');video.srcObject=scanStream;await video.play();
+    restartZxing();
+  }catch(e){setScanStatus('CAMÉRA NON ACCESSIBLE','error');toast('Autorisez l\'accès à la caméra','error');resetScanUI();}
 }
 
-function stopScan() {
-  try { if (zxingReader) { zxingReader.reset(); zxingReader = null; } } catch (e) {}
-  if (scanStream && scanStream.getTracks) {
-    scanStream.getTracks().forEach(t => t.stop());
-  }
-  const video = document.getElementById('scanVideo');
-  if (video) video.srcObject = null;
-  scanStream = null;
-  isProcessing = false;
-  resetScanUI();
-  document.getElementById('scanResult').classList.remove('show');
-  scannedClient = null;
+function restartZxing(){
+  try{if(zxingReader){zxingReader.reset();zxingReader=null;}}catch(e){}
+  if(!scanStream)return;
+  zxingReader=new ZXing.BrowserMultiFormatReader();
+  const video=document.getElementById('scanVideo');
+  zxingReader.decodeFromStream(scanStream,video,(result,err)=>{
+    if(result&&!isProcessing){
+      isProcessing=true;
+      try{zxingReader.reset();zxingReader=null;}catch(e){}
+      setScanStatus('CODE DÉTECTÉ…','success');
+      processCode(result.getText()).then(()=>{isProcessing=false;});
+    }
+  });
 }
 
-function resetScanUI() {
-  document.getElementById('btnStartScan').style.display = 'flex';
-  document.getElementById('btnStopScan').style.display = 'none';
-  document.getElementById('vfIdle').style.display = 'flex';
-  document.getElementById('scanLine').style.display = 'none';
-  setScanStatus('PRÊT À SCANNER', '');
+function stopScan(){
+  try{if(zxingReader){zxingReader.reset();zxingReader=null;}}catch(e){}
+  if(scanStream&&scanStream.getTracks)scanStream.getTracks().forEach(t=>t.stop());
+  const video=document.getElementById('scanVideo');if(video)video.srcObject=null;
+  scanStream=null;isProcessing=false;resetScanUI();resetResults();
 }
 
-function setScanStatus(msg, type) {
-  const el = document.getElementById('scanStatus');
-  el.textContent = msg;
-  el.className = 'scan-status' + (type ? ' ' + type : '');
+function resetScanUI(){
+  document.getElementById('btnStartScan').style.display='flex';
+  document.getElementById('btnStopScan').style.display='none';
+  document.getElementById('vfIdle').style.display='flex';
+  document.getElementById('scanLine').style.display='none';
+  setScanStatus('PRÊT À SCANNER','');
 }
 
-// ── NOTIFICATIONS ─────────────────────────────────────
-function setNotifTarget(t, el) {
-  notifTarget = t;
-  document.querySelectorAll('.ntab').forEach(b => b.classList.remove('active'));
-  el.classList.add('active');
-  loadNotifRecipients();
+function setScanStatus(msg,type){
+  const el=document.getElementById('scanStatus');el.textContent=msg;
+  el.className='scan-status'+(type?' '+type:'');
 }
-function getRecipients() {
-  if (notifTarget === 'reward') return allClients.filter(c => c.tampons >= 10);
-  if (notifTarget === 'inactive') {
-    const cut = new Date(Date.now() - 180 * 24 * 60 * 60 * 1000);
-    return allClients.filter(c => !c.last_stamp || new Date(c.last_stamp) < cut);
-  }
+
+// CLIENTS
+async function loadClients(){
+  const{data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
+  if(error){toast('Erreur de chargement','error');return;}
+  allClients=data||[];renderStats();renderRecent();renderClientsList(allClients);
+  document.getElementById('tn_count').textContent=`${allClients.length} client${allClients.length>1?'s':''}`;
+}
+
+async function renderStats(){
+  const total=allClients.length;
+  const stamps=allClients.reduce((s,c)=>s+(c.tampons||0),0);
+  const weekAgo=new Date(Date.now()-7*24*60*60*1000);
+  const newC=allClients.filter(c=>new Date(c.created_at)>weekAgo).length;
+  const{count}=await sb.from('coupons').select('id',{count:'exact',head:true}).is('used_at',null).gt('expires_at',new Date().toISOString());
+  document.getElementById('st_total').textContent=total;
+  document.getElementById('st_rewards').textContent=count||0;
+  document.getElementById('st_stamps').textContent=stamps;
+  document.getElementById('st_new').textContent=newC;
+}
+
+function renderRecent(){document.getElementById('recent_clients').innerHTML=allClients.slice(0,5).map(c=>clientCardHTML(c)).join('');}
+
+function clientCardHTML(c){
+  const init=c.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  const dots=Array.from({length:10},(_,i)=>`<div class="sm-dot ${i<c.tampons?'on':''}"></div>`).join('');
+  const badge=c.tampons>=10?`<span class="badge reward">🎁 Coupon</span>`:`<span class="badge active">${c.tampons}/10</span>`;
+  return `<div class="client-card" onclick="openStampsModal('${c.id}')">
+    <div class="cc-avatar">${init}</div>
+    <div class="cc-info"><div class="cc-name">${esc(c.nom)}</div><div class="cc-detail">${esc(c.telephone)}</div></div>
+    <div class="cc-right"><div class="cc-stamps-mini">${dots}</div>${badge}</div>
+  </div>`;
+}
+
+function filterClients(){
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  renderClientsList(allClients.filter(c=>c.nom.toLowerCase().includes(q)||c.telephone.includes(q)||(c.email||'').toLowerCase().includes(q)));
+}
+function renderClientsList(clients){
+  const el=document.getElementById('clients_list');
+  if(!clients.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👤</div><p>Aucun client trouvé</p></div>`;return;}
+  el.innerHTML=clients.map(c=>clientCardHTML(c)).join('');
+}
+
+// MODAL TAMPONS
+function openStampsModal(clientId){
+  const c=allClients.find(x=>x.id===clientId);if(!c)return;
+  editingClient=c;editingStamps=c.tampons||0;
+  document.getElementById('modal_cname').textContent=c.nom;
+  renderSeGrid();openModal('modalStamps');
+}
+function renderSeGrid(){
+  document.getElementById('seGrid').innerHTML=Array.from({length:10},(_,i)=>
+    `<div class="se-stamp ${i<editingStamps?'on':''}" onclick="toggleSE(${i})">${i<editingStamps?FRUITS[i]:'○'}</div>`
+  ).join('');
+  document.getElementById('se_count').textContent=`${editingStamps} / 10 tampons`;
+}
+function toggleSE(i){editingStamps=i<editingStamps?i:i+1;renderSeGrid();}
+async function saveStamps(){
+  if(!editingClient)return;
+  const{error}=await sb.from('clients').update({tampons:editingStamps,reward_pending:editingStamps>=10,last_stamp:new Date().toISOString()}).eq('id',editingClient.id);
+  if(error){toast('Erreur','error');return;}
+  const idx=allClients.findIndex(c=>c.id===editingClient.id);
+  if(idx>=0){allClients[idx].tampons=editingStamps;}
+  renderStats();renderRecent();renderClientsList(allClients);
+  closeModal('modalStamps');toast(`Tampons mis à jour : ${editingStamps}/10 ✓`);
+}
+
+// NOTIFS
+function setNotifTarget(t,el){notifTarget=t;document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));el.classList.add('active');loadNotifRecipients();}
+function getRecipients(){
+  if(notifTarget==='reward')return allClients.filter(c=>c.tampons>=10);
+  if(notifTarget==='inactive'){const cut=new Date(Date.now()-180*24*60*60*1000);return allClients.filter(c=>!c.last_stamp||new Date(c.last_stamp)<cut);}
   return allClients;
 }
-function loadNotifRecipients() {
-  const r = getRecipients();
-  document.getElementById('recipCount').textContent = `${r.length} destinataire${r.length > 1 ? 's' : ''}`;
-  document.getElementById('recipList').innerHTML = r.length
-    ? r.map(c => `<strong>${esc(c.nom)}</strong> — ${esc(c.telephone)}`).join('<br>')
-    : '<em>Aucun</em>';
+function loadNotifRecipients(){
+  const r=getRecipients();
+  document.getElementById('recipCount').textContent=`${r.length} destinataire${r.length>1?'s':''}`;
+  document.getElementById('recipList').innerHTML=r.length?r.map(c=>`<strong>${esc(c.nom)}</strong> — ${esc(c.telephone)}`).join('<br>'):'<em>Aucun</em>';
 }
-function copyNumbers() {
-  const r = getRecipients();
-  navigator.clipboard.writeText(r.map(c => c.telephone).join(', ')).then(() => toast('Numéros copiés ✓'));
-}
-function openWhatsApp() {
-  const msg = encodeURIComponent(document.getElementById('notifMsg').value);
-  window.open(`https://wa.me/?text=${msg}`);
-}
+function copyNumbers(){navigator.clipboard.writeText(getRecipients().map(c=>c.telephone).join(', ')).then(()=>toast('Numéros copiés ✓'));}
+function openWhatsApp(){window.open(`https://wa.me/?text=${encodeURIComponent(document.getElementById('notifMsg').value)}`);}
 
-// ── EXPORT ─────────────────────────────────────────────
-function exportCSV() {
-  const h = ['Nom', 'Téléphone', 'Email', 'Tampons', 'Récompense', 'Inscrit le'];
-  const rows = allClients.map(c => [c.nom, c.telephone, c.email, c.tampons, c.reward_pending ? 'Oui' : 'Non', new Date(c.created_at).toLocaleDateString('fr-FR')]);
-  dlCSV([h, ...rows], `vvv777-clients-${new Date().toISOString().slice(0, 10)}.csv`);
+// EXPORT
+function exportCSV(){
+  dlCSV([['Nom','Téléphone','Email','Tampons','Inscrit le'],...allClients.map(c=>[c.nom,c.telephone,c.email||'',c.tampons,new Date(c.created_at).toLocaleDateString('fr-FR')])],`vvv777-clients-${new Date().toISOString().slice(0,10)}.csv`);
   toast('Export téléchargé ✓');
 }
-function exportRewards() {
-  const r = allClients.filter(c => c.tampons >= 10);
-  dlCSV([['Nom', 'Téléphone', 'Email'], ...r.map(c => [c.nom, c.telephone, c.email])], 'vvv777-recompenses.csv');
-  toast('Export récompenses ✓');
+async function exportRewards(){
+  const{data}=await sb.from('coupons').select('*,clients(nom,telephone)').is('used_at',null).gt('expires_at',new Date().toISOString());
+  if(!data?.length){toast('Aucun coupon actif','error');return;}
+  dlCSV([['Client','Téléphone','Code','Expire le'],...data.map(c=>[c.clients?.nom||'',c.clients?.telephone||'',c.code,new Date(c.expires_at).toLocaleDateString('fr-FR')])],`vvv777-coupons-actifs.csv`);
+  toast('Export coupons ✓');
 }
-function dlCSV(rows, filename) {
-  const csv = rows.map(r => r.map(v => `"${v}"`).join(',')).join('\n');
-  const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = filename; a.click();
-  URL.revokeObjectURL(url);
+function dlCSV(rows,filename){
+  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
+  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);
 }
 
-// ── MODAL ─────────────────────────────────────────────
-function openModal(id) { document.getElementById(id).classList.add('show'); }
-function closeModal(id) { document.getElementById(id).classList.remove('show'); }
-document.querySelectorAll('.overlay').forEach(o =>
-  o.addEventListener('click', e => { if (e.target === o) o.classList.remove('show'); })
-);
+// MODAL
+function openModal(id){document.getElementById(id).classList.add('show');}
+function closeModal(id){document.getElementById(id).classList.remove('show');}
+document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
 
-// ── TOAST ─────────────────────────────────────────────
+// TOAST
 let toastTimer;
-function toast(msg, type = 'success') {
-  const el = document.getElementById('toast');
-  el.className = `toast ${type}`;
-  document.getElementById('toastIcon').textContent = type === 'success' ? '✓' : '⚠';
-  document.getElementById('toastMsg').textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
+function toast(msg,type='success'){
+  const el=document.getElementById('toast');el.className=`toast ${type}`;
+  document.getElementById('toastIcon').textContent=type==='success'?'✓':'⚠';
+  document.getElementById('toastMsg').textContent=msg;
+  el.classList.add('show');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),3200);
 }
 
-function esc(s) { return (s || '').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function esc(s){return(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-// ── REALTIME ───────────────────────────────────────────
-sb.channel('admin-rt')
-  .on('postgres_changes', { event: '*', schema: 'public', table: 'clients' }, () => loadClients())
-  .subscribe();
+sb.channel('admin-rt').on('postgres_changes',{event:'*',schema:'public',table:'clients'},()=>loadClients()).subscribe();
 </script>
 </body>
 </html>
