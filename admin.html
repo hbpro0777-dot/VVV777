@@ -689,19 +689,22 @@ function setScanStatus(msg,type){const el=document.getElementById('scanStatus');
 async function loadClients(){
   const{data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
   if(error){toast('Erreur de chargement','error');return;}
-  allClients=data||[];renderStats();renderRecent();renderClientsList(allClients);
+  allClients=data||[];renderStats(true);renderRecent();renderClientsList(allClients);
   document.getElementById('tn_count').textContent=`${allClients.length} client${allClients.length>1?'s':''}`;
 }
-async function renderStats(){
+async function renderStats(forceRefreshCoupons=false){
   const total=allClients.length;
   const stamps=allClients.reduce((s,c)=>s+(c.tampons||0),0);
   const weekAgo=new Date(Date.now()-7*24*60*60*1000);
   const newC=allClients.filter(c=>new Date(c.created_at)>weekAgo).length;
-  const{count}=await sb.from('coupons').select('id',{count:'exact',head:true}).is('used_at',null).gt('expires_at',new Date().toISOString());
   document.getElementById('st_total').textContent=total;
-  document.getElementById('st_rewards').textContent=count||0;
   document.getElementById('st_stamps').textContent=stamps;
   document.getElementById('st_new').textContent=newC;
+  // Requête coupons uniquement si demandé (chargement initial ou validation coupon)
+  if(forceRefreshCoupons){
+    const{count}=await sb.from('coupons').select('id',{count:'exact',head:true}).is('used_at',null).gt('expires_at',new Date().toISOString());
+    document.getElementById('st_rewards').textContent=count||0;
+  }
 }
 function renderRecent(){document.getElementById('recent_clients').innerHTML=allClients.slice(0,5).map(c=>clientCardHTML(c)).join('');}
 function clientCardHTML(c){
@@ -752,9 +755,12 @@ async function openClientModal(clientId){
     `<div class="cm-stamp ${i<c.tampons?'on':''}">${i<c.tampons?FRUITS[i]:''}</div>`
   ).join('');
 
-  // Masquer la confirmation de suppression
+  // Masquer la confirmation de suppression + reset bouton
   document.getElementById('cm_confirm_delete').classList.remove('show');
   document.getElementById('cm_delete_btn').style.display = 'block';
+  const confirmBtn = document.querySelector('.cm-btn-confirm-del');
+  confirmBtn.innerHTML = 'SUPPRIMER';
+  confirmBtn.disabled = false;
 
   // Charger les coupons
   document.getElementById('cm_coupons_list').innerHTML = '<div style="text-align:center;padding:12px;color:var(--muted)"><span class="spin"></span></div>';
@@ -802,8 +808,9 @@ function closeClientModal(){
 // Ouvrir le modal tampons depuis le profil
 function openStampsModalFromProfile(){
   if(!profileClient) return;
+  const clientId = profileClient.id; // sauvegarder avant closeClientModal qui remet profileClient à null
   closeClientModal();
-  setTimeout(()=>openStampsModal(profileClient.id), 200);
+  openStampsModal(clientId); // appel direct, pas de setTimeout fragile
 }
 
 // ── SUPPRESSION CLIENT ──
