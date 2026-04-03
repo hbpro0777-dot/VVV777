@@ -469,6 +469,7 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
 let currentClient=null, pendingPhone=null, pendingName=null;
 let deferredPrompt=null, allCoupons=[], currentCouponFilter='all';
+let realtimeChannels = []; // stocke les channels actifs pour cleanup
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
 const isStandalone = window.matchMedia('(display-mode:standalone)').matches || navigator.standalone;
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
@@ -496,8 +497,12 @@ function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith(
 // ── OTP ──
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
-  if(el.value&&idx<5)document.getElementById(prefix+(idx+1)).focus();
-  if(idx===5)setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},1500);
+  if(el.value&&idx<5){document.getElementById(prefix+(idx+1)).focus();}
+  // Soumission auto uniquement si les 6 cases sont remplies
+  if(idx===5&&el.value){
+    const code=[0,1,2,3,4,5].map(i=>document.getElementById(prefix+i).value).join('');
+    if(code.length===6) setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},300);
+  }
 }
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
 function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
@@ -605,7 +610,7 @@ function showCard(client,isNew=false,showWelcome=false){
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
-  loadCouponsBadge();subscribeRealtime(client.id);
+  loadCouponsBadgeFromDB();subscribeRealtime(client.id);
 }
 function switchTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -616,6 +621,10 @@ function switchTab(name){
 }
 function logout(){
   localStorage.removeItem('vvv777_client_id');currentClient=null;
+  // Détruire tous les channels Realtime actifs
+  realtimeChannels.forEach(ch=>{ try{ sb.removeChannel(ch); }catch(e){} });
+  realtimeChannels=[];
+  allCoupons=[];
   document.getElementById('bottom_nav').classList.remove('show');
   showScreen('s1');setStep(1);
 }
@@ -668,13 +677,20 @@ function renderCouponsList(){
   list.innerHTML='';
   filtered.forEach(c=>list.appendChild(buildCouponCard(c)));
 }
-async function loadCouponsBadge(){
-  if(!currentClient)return;
-  const{data}=await sb.from('coupons').select('id').eq('client_id',currentClient.id).is('used_at',null).gt('expires_at',new Date().toISOString());
-  const count=data?.length||0;
+function loadCouponsBadge(){
+  // Utilise allCoupons déjà en mémoire — pas de requête réseau inutile
+  const now = new Date();
+  const count = allCoupons.filter(c=>!c.used_at && now<=new Date(c.expires_at)).length;
   const badge=document.getElementById('nav_badge_coupons');
   if(count>0){badge.textContent=count;badge.classList.add('show');}
   else badge.classList.remove('show');
+}
+// Version async pour le premier chargement (avant que allCoupons soit rempli)
+async function loadCouponsBadgeFromDB(){
+  if(!currentClient)return;
+  const{data}=await sb.from('coupons').select('id,used_at,expires_at').eq('client_id',currentClient.id);
+  allCoupons = data || [];
+  loadCouponsBadge();
 }
 
 // ── BUILDER COUPON ──
@@ -752,8 +768,12 @@ function copyCouponCode(evt, code){
 
 // ── REALTIME ──
 function subscribeRealtime(id){
+  // Détruire les anciens channels avant de s'abonner à nouveau
+  realtimeChannels.forEach(ch=>{ try{ sb.removeChannel(ch); }catch(e){} });
+  realtimeChannels=[];
+
   // Écoute les changements de tampons
-  sb.channel('stamps-'+id)
+  const chClients = sb.channel('stamps-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
       const u=p.new, prevTampons=currentClient.tampons||0;
       currentClient={...currentClient,...u};
@@ -761,26 +781,27 @@ function subscribeRealtime(id){
       const dots=document.getElementById('bc_fs_dots');
       if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
       if(prevTampons>=9&&u.tampons===0){
-        showRewardToast();loadCouponsBadge();
-        if(document.getElementById('tab_coupons').classList.contains('active'))loadCoupons();
+        showRewardToast();
+        // Recharger les coupons depuis DB car un nouveau vient d'être créé
+        const{data}=await sb.from('coupons').select('*').eq('client_id',id).order('created_at',{ascending:false});
+        allCoupons=data||[];
+        loadCouponsBadge();
+        if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       }
     }).subscribe();
 
-  // ✅ Écoute l'expiration des coupons en temps réel
-  sb.channel('coupons-'+id)
-    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:`client_id=eq.${id}`},async p=>{
+  // Écoute les mises à jour de coupons en temps réel
+  const chCoupons = sb.channel('coupons-'+id)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:`client_id=eq.${id}`},p=>{
       const updated=p.new;
-      // Mettre à jour dans le tableau local
       const idx=allCoupons.findIndex(c=>c.id===updated.id);
       if(idx>=0) allCoupons[idx]={...allCoupons[idx],...updated};
       else allCoupons.unshift(updated);
-      // Rafraîchir l'affichage si l'onglet coupons est ouvert
-      if(document.getElementById('tab_coupons').classList.contains('active')){
-        renderCouponsList();
-      }
-      // Mettre à jour le badge
+      if(document.getElementById('tab_coupons').classList.contains('active')) renderCouponsList();
       loadCouponsBadge();
     }).subscribe();
+
+  realtimeChannels=[chClients, chCoupons];
 }
 let rewardToastTimer;
 function showRewardToast(){
