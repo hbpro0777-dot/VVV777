@@ -686,13 +686,28 @@ async function addToGoogleWallet(){
 async function addToAppleWallet(){
   if(!currentClient)return;
   document.getElementById('wallet_modal_overlay').classList.remove('show');
-  // Crée un lien direct sans window.open
-  const a = document.createElement('a');
-  a.href = WALLET_APPLE_URL + '?client_id=' + encodeURIComponent(currentClient.id);
-  a.style.display = 'none';
-  document.body.appendChild(a);
-  a.click();
-  setTimeout(() => document.body.removeChild(a), 1000);
+  try {
+    const response = await fetch(WALLET_APPLE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + SUPABASE_ANON_KEY
+      },
+      body: JSON.stringify({ clientId: currentClient.id })
+    });
+    if(!response.ok) throw new Error('Erreur ' + response.status);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'vvv777.pkpass';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  } catch(err) {
+    alert('Erreur Wallet: ' + err.message);
+  }
 }
   
 // ── COUPONS ──
