@@ -690,10 +690,30 @@ async function addToAppleWallet(){
   btn.style.pointerEvents='none';
   badge.textContent='Chargement…';
   try{
-    // Safari iOS ne supporte pas les blob URLs pour .pkpass
-    // On redirige directement vers l'Edge Function avec GET
+    const res=await fetch(WALLET_APPLE_URL,{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+SUPABASE_ANON_KEY
+      },
+      body:JSON.stringify({client_id:currentClient.id})
+    });
+    if(!res.ok){const err=await res.json();throw new Error(err.error||'Erreur');}
+    const arrayBuffer=await res.arrayBuffer();
+    const blob=new Blob([arrayBuffer],{type:'application/vnd.apple.pkpass'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.setAttribute('href',url);
+    a.setAttribute('download','vvv777.pkpass');
+    a.setAttribute('type','application/vnd.apple.pkpass');
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    },2000);
     document.getElementById('wallet_modal_overlay').classList.remove('show');
-    window.location.href=WALLET_APPLE_URL+'?client_id='+encodeURIComponent(currentClient.id)+'&auth='+encodeURIComponent(SUPABASE_ANON_KEY);
   }catch(e){
     badge.textContent='Erreur — réessayez';
     badge.style.color='#E88';
