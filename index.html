@@ -686,10 +686,13 @@ async function addToGoogleWallet(){
 async function addToAppleWallet(){
   if(!currentClient)return;
   document.getElementById('wallet_modal_overlay').classList.remove('show');
-  window.open(
-    WALLET_APPLE_URL+'?client_id='+encodeURIComponent(currentClient.id),
-    '_blank'
-  );
+  // Crée un lien direct sans window.open
+  const a = document.createElement('a');
+  a.href = WALLET_APPLE_URL + '?client_id=' + encodeURIComponent(currentClient.id);
+  a.style.display = 'none';
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => document.body.removeChild(a), 1000);
 }
   
 // ── COUPONS ──
