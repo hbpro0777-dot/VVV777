@@ -72,8 +72,6 @@ input::placeholder{color:var(--muted2)}
 .nav-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .nav-badge{position:absolute;top:2px;right:8px;background:var(--gold);color:#080807;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center;display:none}
 .nav-badge.show{display:block}
-
-/* ── CARTE ── */
 .lcard-wrap{margin:0 auto 20px}
 .lcard{width:100%;border-radius:20px;background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);border:1px solid rgba(212,168,67,.2);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;position:relative}
 @keyframes cardIn{from{transform:rotateY(-20deg) translateY(16px) scale(.96);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
@@ -126,72 +124,24 @@ input::placeholder{color:var(--muted2)}
 .rw-icon{font-size:24px;flex-shrink:0}
 .rw-text strong{display:block;color:var(--gold);font-size:13px;font-weight:600;margin-bottom:2px}
 .rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
-
-/* ── WALLET BUTTON ── */
-.btn-wallet{
-  width:100%;
-  background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));
-  color:#080807;border:none;border-radius:12px;
-  padding:15px;margin-top:4px;
-  font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;
-  cursor:pointer;transition:all .2s;
-  box-shadow:0 4px 20px rgba(212,168,67,.25);
-  display:flex;align-items:center;justify-content:center;gap:8px;
-}
+.btn-wallet{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25);display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-wallet:active{transform:scale(.98)}
-.btn-wallet:disabled{background:#1E1D18;color:var(--muted);cursor:not-allowed;box-shadow:none}
-
-/* ── WALLET MODAL ── */
-.wallet-modal-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.85);
-  z-index:200;display:none;align-items:flex-end;justify-content:center;
-  backdrop-filter:blur(6px);
-}
+.wallet-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
 .wallet-modal-overlay.show{display:flex;animation:fadeIn .2s ease both}
-.wallet-modal{
-  background:var(--s1);border:1px solid var(--border);
-  border-radius:24px 24px 0 0;padding:28px 20px 40px;
-  width:100%;max-width:440px;
-  animation:slideUp .3s cubic-bezier(.22,1,.36,1) both;
-}
+.wallet-modal{background:var(--s1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:28px 20px 40px;width:100%;max-width:440px;animation:slideUp .3s cubic-bezier(.22,1,.36,1) both}
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.wallet-modal-title{
-  font-family:'Bebas Neue',sans-serif;font-size:28px;
-  color:var(--gold);letter-spacing:1px;margin-bottom:4px;text-align:center;
-}
-.wallet-modal-sub{
-  font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px;line-height:1.5;
-}
-.wallet-option{
-  display:flex;align-items:center;gap:14px;
-  background:var(--s2);border:1.5px solid var(--border);
-  border-radius:14px;padding:16px;margin-bottom:10px;
-  cursor:pointer;transition:all .18s;
-}
+.wallet-modal-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:1px;margin-bottom:4px;text-align:center}
+.wallet-modal-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px;line-height:1.5}
+.wallet-option{display:flex;align-items:center;gap:14px;background:var(--s2);border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .18s}
 .wallet-option:hover{border-color:var(--gold);background:var(--gold3)}
 .wallet-option:active{transform:scale(.98)}
-.wallet-option.disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
 .wallet-option-icon{font-size:32px;flex-shrink:0;width:40px;text-align:center}
 .wallet-option-info{flex:1}
 .wallet-option-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px}
 .wallet-option-desc{font-size:11px;color:var(--muted);line-height:1.4}
-.wallet-option-badge{
-  font-size:9px;letter-spacing:1px;
-  background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.25);
-  color:var(--gold);border-radius:6px;padding:2px 6px;white-space:nowrap;
-}
-.wallet-option-badge.soon{background:rgba(90,85,69,.15);border-color:var(--border);color:var(--muted)}
-.wallet-modal-close{
-  width:100%;background:transparent;border:1.5px solid var(--border);
-  border-radius:10px;padding:12px;margin-top:8px;
-  color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;
-  cursor:pointer;transition:all .18s;
-}
+.wallet-option-badge{font-size:9px;letter-spacing:1px;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.25);color:var(--gold);border-radius:6px;padding:2px 6px;white-space:nowrap}
+.wallet-modal-close{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:12px;margin-top:8px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .18s}
 .wallet-modal-close:hover{border-color:var(--gold);color:var(--gold)}
-
-/* ═══════════════════════════════
-   COUPONS
-═══════════════════════════════ */
 .coupons-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .coupons-count{font-size:11px;color:var(--muted);letter-spacing:1px}
 .coupons-empty{text-align:center;padding:48px 20px;color:var(--muted)}
@@ -260,7 +210,6 @@ input::placeholder{color:var(--muted2)}
     <div class="step-item"><div class="step-circle" id="sc3">✦</div><div class="step-label">Ma carte</div></div>
   </div>
 
-  <!-- ÉCRAN 1 : INSCRIPTION -->
   <div class="screen active" id="s1">
     <div class="panel">
       <div class="panel-title">Créer ma carte</div>
@@ -283,7 +232,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN OTP INSCRIPTION -->
   <div class="screen" id="s_otp">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -304,7 +252,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN LOOKUP -->
   <div class="screen" id="s_lookup">
     <div class="panel">
       <div class="panel-title">Retrouver ma carte</div>
@@ -326,7 +273,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN OTP LOOKUP -->
   <div class="screen" id="s_otp_lk">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -345,9 +291,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN CARTE -->
   <div class="screen" id="s2">
-    <!-- TAB CARTE -->
     <div class="tab active" id="tab_carte">
       <div class="lcard-wrap">
         <div class="lcard">
@@ -387,7 +331,6 @@ input::placeholder{color:var(--muted2)}
       </div>
     </div>
 
-    <!-- TAB COUPONS -->
     <div class="tab" id="tab_coupons">
       <div class="panel" style="margin-bottom:16px">
         <div class="coupons-header">
@@ -396,10 +339,10 @@ input::placeholder{color:var(--muted2)}
         </div>
         <div class="panel-sub" style="margin-bottom:12px">Donnez le code au commerçant lors de votre prochain achat.</div>
         <div class="coupon-filters">
-          <button class="cf-btn active" id="cf_all"     onclick="filterCoupons('all',this)">Tous</button>
-          <button class="cf-btn"        id="cf_active"  onclick="filterCoupons('active',this)">🟢 Actifs</button>
-          <button class="cf-btn"        id="cf_used"    onclick="filterCoupons('used',this)">✓ Utilisés</button>
-          <button class="cf-btn"        id="cf_expired" onclick="filterCoupons('expired',this)">⏳ Expirés</button>
+          <button class="cf-btn active" id="cf_all" onclick="filterCoupons('all',this)">Tous</button>
+          <button class="cf-btn" id="cf_active" onclick="filterCoupons('active',this)">🟢 Actifs</button>
+          <button class="cf-btn" id="cf_used" onclick="filterCoupons('used',this)">✓ Utilisés</button>
+          <button class="cf-btn" id="cf_expired" onclick="filterCoupons('expired',this)">⏳ Expirés</button>
         </div>
       </div>
       <div id="coupons_list"></div>
@@ -407,7 +350,6 @@ input::placeholder{color:var(--muted2)}
   </div>
 </div>
 
-<!-- NAV -->
 <nav class="bottom-nav" id="bottom_nav">
   <button class="nav-item active" id="nav_carte" onclick="switchTab('carte')">
     <span class="nav-icon">🃏</span><span class="nav-label">Ma Carte</span>
@@ -421,7 +363,6 @@ input::placeholder{color:var(--muted2)}
   </button>
 </nav>
 
-<!-- BARCODE FULLSCREEN -->
 <div class="bc-fullscreen" id="bc_fullscreen">
   <div class="bc-fs-logo">VVV<em>777</em></div>
   <div class="bc-fs-sub">Carte de fidélité</div>
@@ -433,7 +374,6 @@ input::placeholder{color:var(--muted2)}
   <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
 </div>
 
-<!-- WALLET MODAL -->
 <div class="wallet-modal-overlay" id="wallet_modal_overlay" onclick="closeWalletModal(event)">
   <div class="wallet-modal">
     <div class="wallet-modal-title">Ajouter au Wallet</div>
@@ -458,7 +398,6 @@ input::placeholder{color:var(--muted2)}
   </div>
 </div>
 
-<!-- TOASTS -->
 <div class="reward-toast" id="reward_toast">
   <div class="rt-icon">🎁</div>
   <div class="rt-text"><strong>Récompense débloquée !</strong><span>Consultez vos coupons</span></div>
@@ -472,7 +411,6 @@ let currentClient = null, pendingPhone = null, pendingName = null;
 let allCoupons = [], currentCouponFilter = 'all';
 let realtimeChannels = [];
 
-// ── BARCODE ──
 const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
 const C128C=' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
 function encodeC128(t){let v=[104],c=104;for(let i=0;i<t.length;i++){const x=C128C.indexOf(t[i]);if(x<0)continue;v.push(x);c+=(i+1)*x;}v.push(c%103);v.push(106);return v.map(x=>C128P[x]).join('')+'11';}
@@ -481,7 +419,6 @@ function getBCT(c){return(c.card_number||'000000000000').replace(/\s/g,'');}
 function renderBC(c){drawBC('barcode_svg',getBCT(c),1.6,42,'rgba(240,201,106,0.9)');}
 function renderBCBig(c){drawBC('barcode_svg_big',getBCT(c),2.8,80,'#111');}
 
-// ── NAV ──
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
 function setStep(n){[1,2,3].forEach(i=>{const c=document.getElementById('sc'+i);c.className='step-circle';if(i<n){c.classList.add('done');c.textContent='✓';}else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}else c.textContent=i===3?'✦':i;if(i<3)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');});}
 function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
@@ -492,7 +429,6 @@ function showLookup(){hideErr('err_lk');document.getElementById('i_lookup').valu
 function genCard(){return Array.from({length:3},()=>Math.floor(1000+Math.random()*9000)).join(' ');}
 function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith('0'))n=n.substring(1);if(n.startsWith('+'))return n;return prefix+n;}
 
-// ── OTP ──
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
   if(el.value&&idx<5){document.getElementById(prefix+(idx+1)).focus();}
@@ -504,7 +440,6 @@ function otpNext(el,idx,prefix){
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
 function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
 
-// ── VERIFY API ──
 async function sendVerify(phone){
   const res=await fetch(VERIFY_SEND_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone})});
   const data=await res.json();if(!res.ok)throw new Error(data.error||'Erreur envoi SMS');return data;
@@ -515,7 +450,6 @@ async function checkVerify(phone,code){
   if(data.status!=='approved')throw new Error('Code incorrect ou expiré');return data;
 }
 
-// ── AUTH ──
 async function handleCreate(){
   hideErr('err1');
   const nom=document.getElementById('i_name').value.trim();
@@ -576,7 +510,6 @@ async function verifyOTPLookup(){
   setBtn('btn_verify_lk','ACCÉDER À MA CARTE →',false);
 }
 
-// ── CARTE ──
 function renderStamps(count,isNew=false){
   const grid=document.getElementById('card_stamps');grid.innerHTML='';
   for(let i=0;i<10;i++){
@@ -587,7 +520,7 @@ function renderStamps(count,isNew=false){
   }
   document.getElementById('card_prog').style.width=Math.round(count/10*100)+'%';
   document.getElementById('c_scount').textContent=count+'/10';
-  const rem=10-count, banner=document.getElementById('reward_banner');
+  const rem=10-count,banner=document.getElementById('reward_banner');
   if(count>=10){
     banner.classList.add('unlocked');
     document.getElementById('rw_title').innerHTML='🎉 Récompense débloquée !';
@@ -625,7 +558,6 @@ function logout(){
   showScreen('s1');setStep(1);
 }
 
-// ── BARCODE FULLSCREEN ──
 function openFullscreenBC(){
   if(!currentClient)return;
   document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
@@ -638,16 +570,14 @@ function openFullscreenBC(){
 }
 function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
 
-// ── WALLET MODAL ──
 function openWalletModal(){
   document.getElementById('wallet_modal_overlay').classList.add('show');
 }
 function closeWalletModal(e){
-  if(e && e.target!==document.getElementById('wallet_modal_overlay'))return;
+  if(e&&e.target!==document.getElementById('wallet_modal_overlay'))return;
   document.getElementById('wallet_modal_overlay').classList.remove('show');
 }
 
-// ── GOOGLE WALLET ──
 async function addToGoogleWallet(){
   if(!currentClient)return;
   const btn=document.getElementById('wallet_google_btn');
@@ -655,11 +585,7 @@ async function addToGoogleWallet(){
   btn.style.pointerEvents='none';
   badge.textContent='Chargement…';
   try{
-    const res=await fetch(WALLET_GOOGLE_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
-      body:JSON.stringify({client_id:currentClient.id})
-    });
+    const res=await fetch(WALLET_GOOGLE_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({client_id:currentClient.id})});
     const data=await res.json();
     if(!res.ok)throw new Error(data.error||'Erreur');
     document.getElementById('wallet_modal_overlay').classList.remove('show');
@@ -674,34 +600,33 @@ async function addToGoogleWallet(){
   badge.textContent='Disponible';
 }
 
-// ── APPLE WALLET ──
-async function checkPassDownload(){
-  const params = new URLSearchParams(window.location.search);
-  const clientId = params.get('download_pass');
-  if(!clientId) return;
-  window.history.replaceState({},'','/');
-  try {
-    const response = await fetch(WALLET_APPLE_URL, {
-      method: 'POST',
-      headers: {'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
-      body: JSON.stringify({clientId: clientId})
-    });
-    if(!response.ok) throw new Error('Erreur ' + response.status);
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    window.location.href = url;
-  } catch(err) {
-    console.error('Apple Wallet error:', err);
-  }
-}
-
 async function addToAppleWallet(){
-  if(!currentClient) return;
+  if(!currentClient)return;
   document.getElementById('wallet_modal_overlay').classList.remove('show');
-  window.location.href = '/?download_pass=' + currentClient.id;
+  const badge=document.getElementById('apple_badge');
+  badge.textContent='Chargement…';
+  try{
+    const res=await fetch(WALLET_APPLE_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body:JSON.stringify({clientId:currentClient.id})
+    });
+    if(!res.ok)throw new Error('Erreur '+res.status);
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='vvv777.pkpass';
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},2000);
+  }catch(err){
+    alert('Erreur Apple Wallet: '+err.message);
+  }
+  badge.textContent='Disponible';
 }
 
-// ── COUPONS ──
 async function loadCoupons(){
   if(!currentClient)return;
   const list=document.getElementById('coupons_list');
@@ -749,7 +674,6 @@ async function loadCouponsBadgeFromDB(){
   allCoupons=data||[];loadCouponsBadge();
 }
 
-// ── BUILDER COUPON ──
 function buildCouponCard(c){
   const now=new Date(),exp=new Date(c.expires_at);
   const days=Math.ceil((exp-now)/86400000);
@@ -760,7 +684,6 @@ function buildCouponCard(c){
   if(c.used_at)validity=`Utilisé le ${new Date(c.used_at).toLocaleDateString('fr-FR')}`;
   else if(now>exp)validity=`Expiré le ${exp.toLocaleDateString('fr-FR')}`;
   else validity=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=7?' · ⚠ '+days+' j restants':''}`;
-
   const seed=c.code.charCodeAt(4)||42;
   const fruitsHTML=FRUITS.map((f,i)=>{
     const left=((seed*(i+1)*37)%85)+5;
@@ -769,7 +692,6 @@ function buildCouponCard(c){
     const size=14+(i%4)*4;
     return `<span class="cf-fruit" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">${f}</span>`;
   }).join('');
-
   const div=document.createElement('div');
   div.className=`coupon-card ${status}`;
   div.innerHTML=`
@@ -798,7 +720,6 @@ function buildCouponCard(c){
   return div;
 }
 
-// ── COPIER ──
 let copyToastTimer;
 function copyCouponCode(evt,code){
   const btn=evt.currentTarget;
@@ -815,11 +736,9 @@ function copyCouponCode(evt,code){
   });
 }
 
-// ── REALTIME ──
 function subscribeRealtime(id){
   realtimeChannels.forEach(ch=>{try{sb.removeChannel(ch);}catch(e){}});
   realtimeChannels=[];
-
   const chClients=sb.channel('stamps-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
       const u=p.new,prevTampons=currentClient.tampons||0;
@@ -828,11 +747,7 @@ function subscribeRealtime(id){
       const dots=document.getElementById('bc_fs_dots');
       if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
       if(u.tampons!==prevTampons){
-        fetch(SUPABASE_URL+'/functions/v1/wallet-update-google',{
-          method:'POST',
-          headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
-          body:JSON.stringify({client_id:id})
-        }).catch(()=>{});
+        fetch(SUPABASE_URL+'/functions/v1/wallet-update-google',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({client_id:id})}).catch(()=>{});
       }
       if(prevTampons>=9&&u.tampons===0){
         showRewardToast();
@@ -841,7 +756,6 @@ function subscribeRealtime(id){
         if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       }
     }).subscribe();
-
   const chCoupons=sb.channel('coupons-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:`client_id=eq.${id}`},p=>{
       const updated=p.new;
@@ -851,7 +765,6 @@ function subscribeRealtime(id){
       if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       loadCouponsBadge();
     }).subscribe();
-
   realtimeChannels=[chClients,chCoupons];
 }
 
@@ -861,12 +774,9 @@ function showRewardToast(){
   clearTimeout(rewardToastTimer);rewardToastTimer=setTimeout(()=>t.classList.remove('show'),5000);
 }
 
-// ── AUTO-LOGIN ──
 (async()=>{
   const p=new URLSearchParams(window.location.search);
   const urlId=p.get('carte');
-  await checkPassDownload();
-  if(window.location.search.includes('download_pass')) return;
   const savedId=localStorage.getItem('vvv777_client_id');
   if(savedId){
     const{data}=await sb.from('clients').select('*').eq('id',savedId).single();
