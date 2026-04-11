@@ -15,15 +15,18 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
   const VERIFY_SEND_URL  = SUPABASE_URL + '/functions/v1/verify-send';
   const VERIFY_CHECK_URL = SUPABASE_URL + '/functions/v1/verify-check';
-  const WALLET_GOOGLE_URL = SUPABASE_URL + '/functions/v1/wallet-create-google';
-  const WALLET_APPLE_URL  = SUPABASE_URL + '/functions/v1/wallet-create-apple';
 </script>
 <style>
 :root{--gold:#D4A843;--gold2:#F0C96A;--gold3:rgba(212,168,67,.12);--bg:#080807;--s1:#0F0F0E;--s2:#161510;--border:#1E1D18;--text:#F2EFE8;--muted:#5A5545;--muted2:#2A2820;--r:20px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:28px 16px 100px;overflow-x:hidden}
-body::before{content:'';position:fixed;top:-100px;left:50%;transform:translateX(-50%);width:500px;height:280px;background:radial-gradient(ellipse,rgba(212,168,67,.07) 0%,transparent 70%);pointer-events:none;z-index:0}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:28px 16px 100px;overflow-x:hidden;position:relative}
+
+/* ── FRUITS QUI TOMBENT EN FOND ── */
+.fruits-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.fb{position:absolute;top:-60px;font-size:22px;opacity:0;animation:fbfall linear infinite}
+@keyframes fbfall{0%{transform:translateY(0) rotate(0deg);opacity:0}10%{opacity:.13}90%{opacity:.09}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}
+
 .wrap{position:relative;z-index:1;width:100%;max-width:400px}
 .hdr{text-align:center;margin-bottom:6px;animation:fd .5s ease both}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(54px,16vw,72px);letter-spacing:-1px;line-height:1}
@@ -72,6 +75,8 @@ input::placeholder{color:var(--muted2)}
 .nav-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .nav-badge{position:absolute;top:2px;right:8px;background:var(--gold);color:#080807;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center;display:none}
 .nav-badge.show{display:block}
+
+/* ── CARTE ── */
 .lcard-wrap{margin:0 auto 20px}
 .lcard{width:100%;border-radius:20px;background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);border:1px solid rgba(212,168,67,.2);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;position:relative}
 @keyframes cardIn{from{transform:rotateY(-20deg) translateY(16px) scale(.96);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
@@ -97,16 +102,18 @@ input::placeholder{color:var(--muted2)}
 .lcard-count{text-align:right}
 .lcard-count-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:rgba(212,168,67,.5);line-height:1}
 .lcard-count-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.25)}
-.lcard-barcode-wrap{margin:0;padding:10px 14px 8px;display:flex;flex-direction:column;align-items:center;gap:5px;border-top:1px solid rgba(212,168,67,.15);cursor:pointer;transition:opacity .15s;position:relative;z-index:1;background:rgba(0,0,0,.2);border-radius:0 0 20px 20px}
-.lcard-barcode-wrap:active{opacity:.7}
-.barcode-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
-#barcode_svg{display:block;border-radius:6px}
+.lcard-qr-wrap{margin:0;padding:12px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;border-top:1px solid rgba(212,168,67,.15);cursor:pointer;transition:opacity .15s;position:relative;z-index:1;background:rgba(0,0,0,.2);border-radius:0 0 20px 20px}
+.lcard-qr-wrap:active{opacity:.7}
+.qr-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
+#qr_canvas{border-radius:8px;background:#fff;padding:6px}
+
+/* ── FULLSCREEN QR ── */
 .bc-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px}
 .bc-fullscreen.show{display:flex;animation:fadeIn .25s ease both}
 .bc-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#1A1200;letter-spacing:-1px;margin-bottom:2px}
 .bc-fs-logo em{color:#B8860B;font-style:normal}
 .bc-fs-sub{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#888;margin-bottom:20px}
-#barcode_svg_big{display:block;margin:0 auto}
+#qr_canvas_big{border-radius:10px;background:#fff;padding:10px}
 .bc-fs-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#2A1C00;letter-spacing:1px;margin-top:14px;margin-bottom:4px}
 .bc-fs-num{font-size:10px;color:#888;letter-spacing:3px;font-family:monospace;margin-bottom:8px}
 .bc-fs-stamps{display:flex;gap:5px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
@@ -114,6 +121,27 @@ input::placeholder{color:var(--muted2)}
 .bc-dot.on{background:transparent}
 .bc-fs-hint{font-size:11px;color:#888;text-align:center;margin-bottom:20px}
 .bc-fs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+
+/* ── BOUTON INSTALLER ── */
+.btn-install{width:100%;background:linear-gradient(135deg,#1A1200,#2A1C00);color:var(--gold);border:1.5px solid rgba(212,168,67,.3);border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-install:active{transform:scale(.98)}
+
+/* ── MODAL INSTALLER ── */
+.install-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
+.install-overlay.show{display:flex;animation:fadeIn .2s ease both}
+.install-modal{background:var(--s1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:28px 20px 40px;width:100%;max-width:440px;animation:slideUp .3s cubic-bezier(.22,1,.36,1) both}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.install-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:1px;margin-bottom:6px;text-align:center}
+.install-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5}
+.install-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:24px}
+.install-step{display:flex;align-items:flex-start;gap:12px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:13px}
+.install-step-num{width:26px;height:26px;border-radius:50%;background:var(--gold3);border:1px solid rgba(212,168,67,.3);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.install-step-text{font-size:13px;color:var(--text);line-height:1.5}
+.install-step-text strong{color:var(--gold);display:block;margin-bottom:2px}
+.install-step-icon{font-size:18px;margin-right:4px}
+.install-close{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .18s}
+.install-close:hover{border-color:var(--gold);color:var(--gold)}
+
 .welcome-banner{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.08));border:1.5px solid rgba(212,168,67,.4);border-radius:14px;padding:14px 16px;display:none;align-items:center;gap:12px;margin-bottom:14px}
 .wb-icon{font-size:28px;flex-shrink:0}
 .wb-text strong{display:block;color:var(--gold);font-size:14px;font-weight:600;margin-bottom:2px}
@@ -124,24 +152,8 @@ input::placeholder{color:var(--muted2)}
 .rw-icon{font-size:24px;flex-shrink:0}
 .rw-text strong{display:block;color:var(--gold);font-size:13px;font-weight:600;margin-bottom:2px}
 .rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
-.btn-wallet{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25);display:flex;align-items:center;justify-content:center;gap:8px}
-.btn-wallet:active{transform:scale(.98)}
-.wallet-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
-.wallet-modal-overlay.show{display:flex;animation:fadeIn .2s ease both}
-.wallet-modal{background:var(--s1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:28px 20px 40px;width:100%;max-width:440px;animation:slideUp .3s cubic-bezier(.22,1,.36,1) both}
-@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-.wallet-modal-title{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--gold);letter-spacing:1px;margin-bottom:4px;text-align:center}
-.wallet-modal-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px;line-height:1.5}
-.wallet-option{display:flex;align-items:center;gap:14px;background:var(--s2);border:1.5px solid var(--border);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .18s}
-.wallet-option:hover{border-color:var(--gold);background:var(--gold3)}
-.wallet-option:active{transform:scale(.98)}
-.wallet-option-icon{font-size:32px;flex-shrink:0;width:40px;text-align:center}
-.wallet-option-info{flex:1}
-.wallet-option-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px}
-.wallet-option-desc{font-size:11px;color:var(--muted);line-height:1.4}
-.wallet-option-badge{font-size:9px;letter-spacing:1px;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.25);color:var(--gold);border-radius:6px;padding:2px 6px;white-space:nowrap}
-.wallet-modal-close{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:12px;margin-top:8px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .18s}
-.wallet-modal-close:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── COUPONS ── */
 .coupons-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .coupons-count{font-size:11px;color:var(--muted);letter-spacing:1px}
 .coupons-empty{text-align:center;padding:48px 20px;color:var(--muted)}
@@ -199,6 +211,10 @@ input::placeholder{color:var(--muted2)}
 </style>
 </head>
 <body>
+
+<!-- FRUITS EN FOND -->
+<div class="fruits-bg" id="fruits_bg"></div>
+
 <div class="wrap">
   <div class="hdr"><div class="logo">VVV<em>777</em></div><div class="tagline">Système de fidélité</div></div>
   <div class="fruits-anim"><span>🍊</span><span>🍇</span><span>🍋</span><span>🍒</span><span>🥭</span></div>
@@ -210,6 +226,7 @@ input::placeholder{color:var(--muted2)}
     <div class="step-item"><div class="step-circle" id="sc3">✦</div><div class="step-label">Ma carte</div></div>
   </div>
 
+  <!-- ÉCRAN 1 : INSCRIPTION -->
   <div class="screen active" id="s1">
     <div class="panel">
       <div class="panel-title">Créer ma carte</div>
@@ -232,6 +249,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN OTP INSCRIPTION -->
   <div class="screen" id="s_otp">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -252,6 +270,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN LOOKUP -->
   <div class="screen" id="s_lookup">
     <div class="panel">
       <div class="panel-title">Retrouver ma carte</div>
@@ -273,6 +292,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN OTP LOOKUP -->
   <div class="screen" id="s_otp_lk">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -291,6 +311,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN CARTE -->
   <div class="screen" id="s2">
     <div class="tab active" id="tab_carte">
       <div class="lcard-wrap">
@@ -307,16 +328,16 @@ input::placeholder{color:var(--muted2)}
               <div class="lcard-count"><div class="lcard-count-val" id="c_scount">0/10</div><div class="lcard-count-lbl">tampons</div></div>
             </div>
           </div>
-          <div class="lcard-barcode-wrap" onclick="openFullscreenBC()">
-            <svg id="barcode_svg"></svg>
-            <div class="barcode-hint">Appuyez pour agrandir · Scan commerçant</div>
+          <div class="lcard-qr-wrap" onclick="openFullscreenQR()">
+            <canvas id="qr_canvas" width="120" height="120"></canvas>
+            <div class="qr-hint">Appuyez pour agrandir · Scan commerçant</div>
           </div>
         </div>
       </div>
       <div class="panel">
         <div class="welcome-banner" id="welcome_banner">
           <div class="wb-icon">🎉</div>
-          <div class="wb-text"><strong>Bienvenue chez VVV777 !</strong><span>Votre carte est activée. Présentez votre code-barres à chaque visite.</span></div>
+          <div class="wb-text"><strong>Bienvenue chez VVV777 !</strong><span>Votre carte est activée. Présentez votre QR code à chaque visite.</span></div>
         </div>
         <div class="reward-banner" id="reward_banner">
           <div class="rw-icon">🎁</div>
@@ -325,8 +346,8 @@ input::placeholder{color:var(--muted2)}
             <span id="rw_sub">pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
           </div>
         </div>
-        <button class="btn-wallet" id="btn_wallet" onclick="openWalletModal()">
-          <span>👛</span> AJOUTER AU WALLET
+        <button class="btn-install" onclick="openInstallModal()">
+          <span>📲</span> AJOUTER À L'ÉCRAN D'ACCUEIL
         </button>
       </div>
     </div>
@@ -350,6 +371,7 @@ input::placeholder{color:var(--muted2)}
   </div>
 </div>
 
+<!-- NAV -->
 <nav class="bottom-nav" id="bottom_nav">
   <button class="nav-item active" id="nav_carte" onclick="switchTab('carte')">
     <span class="nav-icon">🃏</span><span class="nav-label">Ma Carte</span>
@@ -363,46 +385,37 @@ input::placeholder{color:var(--muted2)}
   </button>
 </nav>
 
+<!-- QR FULLSCREEN -->
 <div class="bc-fullscreen" id="bc_fullscreen">
   <div class="bc-fs-logo">VVV<em>777</em></div>
   <div class="bc-fs-sub">Carte de fidélité</div>
-  <svg id="barcode_svg_big"></svg>
+  <canvas id="qr_canvas_big" width="260" height="260"></canvas>
   <div class="bc-fs-name" id="bc_fs_name">—</div>
   <div class="bc-fs-num" id="bc_fs_num">—</div>
   <div class="bc-fs-stamps" id="bc_fs_dots"></div>
-  <div class="bc-fs-hint">Présentez ce code-barres au commerçant</div>
-  <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
+  <div class="bc-fs-hint">Présentez ce QR code au commerçant</div>
+  <button class="bc-fs-close" onclick="closeFullscreenQR()">✕ Fermer</button>
 </div>
 
-<div class="wallet-modal-overlay" id="wallet_modal_overlay" onclick="closeWalletModal(event)">
-  <div class="wallet-modal">
-    <div class="wallet-modal-title">Ajouter au Wallet</div>
-    <div class="wallet-modal-sub">Gardez votre carte de fidélité toujours à portée de main</div>
-    <div class="wallet-option" id="wallet_google_btn" onclick="addToGoogleWallet()">
-      <div class="wallet-option-icon">🟢</div>
-      <div class="wallet-option-info">
-        <div class="wallet-option-name">Google Wallet</div>
-        <div class="wallet-option-desc">Pour Android — mis à jour automatiquement</div>
-      </div>
-      <div class="wallet-option-badge" id="google_badge">Disponible</div>
-    </div>
-    <div class="wallet-option" id="wallet_apple_btn" onclick="addToAppleWallet()">
-      <div class="wallet-option-icon">🍎</div>
-      <div class="wallet-option-info">
-        <div class="wallet-option-name">Apple Wallet</div>
-        <div class="wallet-option-desc">Pour iPhone — mis à jour automatiquement</div>
-      </div>
-      <div class="wallet-option-badge" id="apple_badge">Disponible</div>
-    </div>
-    <button class="wallet-modal-close" onclick="closeWalletModal()">Annuler</button>
+<!-- MODAL INSTALLER -->
+<div class="install-overlay" id="install_overlay" onclick="closeInstallModal(event)">
+  <div class="install-modal">
+    <div class="install-title">📲 Ajouter à l'écran d'accueil</div>
+    <div class="install-sub">Accédez à votre carte VVV777 en un tap, comme une vraie app !</div>
+    <div class="install-steps" id="install_steps"></div>
+    <button class="install-close" onclick="closeInstallModal()">Fermer</button>
   </div>
 </div>
 
+<!-- TOASTS -->
 <div class="reward-toast" id="reward_toast">
   <div class="rt-icon">🎁</div>
   <div class="rt-text"><strong>Récompense débloquée !</strong><span>Consultez vos coupons</span></div>
 </div>
 <div class="copy-toast" id="copy_toast">✅ Code copié !</div>
+
+<!-- QR CODE LIB -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -411,27 +424,76 @@ let currentClient = null, pendingPhone = null, pendingName = null;
 let allCoupons = [], currentCouponFilter = 'all';
 let realtimeChannels = [];
 
-const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
-const C128C=' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
-function encodeC128(t){let v=[104],c=104;for(let i=0;i<t.length;i++){const x=C128C.indexOf(t[i]);if(x<0)continue;v.push(x);c+=(i+1)*x;}v.push(c%103);v.push(106);return v.map(x=>C128P[x]).join('')+'11';}
-function drawBC(id,t,w,h,col){const s=document.getElementById(id);if(!s)return;const p=encodeC128(t),W=p.length*w;s.setAttribute('width',W);s.setAttribute('height',h);s.setAttribute('viewBox',`0 0 ${W} ${h}`);let html=`<rect width="${W}" height="${h}" fill="${col==='#111'?'#fff':'transparent'}"/>`;for(let i=0;i<p.length;i++)if(p[i]==='1')html+=`<rect x="${i*w}" y="0" width="${w}" height="${h}" fill="${col}"/>`;s.innerHTML=html;}
-function getBCT(c){return(c.card_number||'000000000000').replace(/\s/g,'');}
-function renderBC(c){drawBC('barcode_svg',getBCT(c),1.6,42,'rgba(240,201,106,0.9)');}
-function renderBCBig(c){drawBC('barcode_svg_big',getBCT(c),2.8,80,'#111');}
+// ── FRUITS EN FOND ──
+(function initFruitsBg(){
+  const bg = document.getElementById('fruits_bg');
+  const items = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈','🍎','🍌'];
+  for(let i=0;i<18;i++){
+    const s = document.createElement('span');
+    s.className = 'fb';
+    s.textContent = items[Math.floor(Math.random()*items.length)];
+    s.style.left = (Math.random()*100)+'%';
+    s.style.fontSize = (16+Math.random()*16)+'px';
+    const dur = 8+Math.random()*12;
+    const delay = -Math.random()*dur;
+    s.style.animationDuration = dur+'s';
+    s.style.animationDelay = delay+'s';
+    bg.appendChild(s);
+  }
+})();
 
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo({top:0,behavior:'smooth'});}
-function setStep(n){[1,2,3].forEach(i=>{const c=document.getElementById('sc'+i);c.className='step-circle';if(i<n){c.classList.add('done');c.textContent='✓';}else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}else c.textContent=i===3?'✦':i;if(i<3)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');});}
+// ── QR CODE ──
+function drawQR(canvasId, text, size){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas || !text) return;
+  QRCode.toCanvas(canvas, text, {
+    width: size,
+    margin: 1,
+    color: { dark: '#1A1200', light: '#FFFFFF' }
+  }, function(err){ if(err) console.error(err); });
+}
+function renderQR(client){
+  const val = (client.card_number||client.id).replace(/\s/g,'');
+  drawQR('qr_canvas', val, 120);
+}
+function renderQRBig(client){
+  const val = (client.card_number||client.id).replace(/\s/g,'');
+  drawQR('qr_canvas_big', val, 260);
+}
+
+// ── NAV ──
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function setStep(n){
+  [1,2,3].forEach(i=>{
+    const c=document.getElementById('sc'+i);
+    c.className='step-circle';
+    if(i<n){c.classList.add('done');c.textContent='✓';}
+    else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}
+    else c.textContent=i===3?'✦':i;
+    if(i<3)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');
+  });
+}
 function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
 function hideErr(id){const e=document.getElementById(id);if(e)e.style.display='none';}
 function showOk(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
 function setBtn(id,html,off){const b=document.getElementById(id);b.innerHTML=html;b.disabled=!!off;}
 function showLookup(){hideErr('err_lk');document.getElementById('i_lookup').value='';showScreen('s_lookup');}
 function genCard(){return Array.from({length:3},()=>Math.floor(1000+Math.random()*9000)).join(' ');}
-function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith('0'))n=n.substring(1);if(n.startsWith('+'))return n;return prefix+n;}
+function fmtPhone(prefix,raw){
+  let n=raw.replace(/[\s\-\.]/g,'');
+  if(n.startsWith('0'))n=n.substring(1);
+  if(n.startsWith('+'))return n;
+  return prefix+n;
+}
 
+// ── OTP ──
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
-  if(el.value&&idx<5){document.getElementById(prefix+(idx+1)).focus();}
+  if(el.value&&idx<5)document.getElementById(prefix+(idx+1)).focus();
   if(idx===5&&el.value){
     const code=[0,1,2,3,4,5].map(i=>document.getElementById(prefix+i).value).join('');
     if(code.length===6)setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},300);
@@ -440,6 +502,7 @@ function otpNext(el,idx,prefix){
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
 function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
 
+// ── VERIFY API ──
 async function sendVerify(phone){
   const res=await fetch(VERIFY_SEND_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone})});
   const data=await res.json();if(!res.ok)throw new Error(data.error||'Erreur envoi SMS');return data;
@@ -450,6 +513,7 @@ async function checkVerify(phone,code){
   if(data.status!=='approved')throw new Error('Code incorrect ou expiré');return data;
 }
 
+// ── AUTH ──
 async function handleCreate(){
   hideErr('err1');
   const nom=document.getElementById('i_name').value.trim();
@@ -458,8 +522,12 @@ async function handleCreate(){
   const phone=fmtPhone(document.getElementById('country_create').value,raw);
   pendingName=nom;pendingPhone=phone;
   setBtn('btn_create','<span class="spin"></span>ENVOI DU CODE…',true);
-  try{await sendVerify(phone);document.getElementById('otp_phone').textContent=phone;showScreen('s_otp');setStep(2);document.getElementById('otp0').focus();}
-  catch(e){showErr('err1','⚠ '+e.message);}
+  try{
+    await sendVerify(phone);
+    document.getElementById('otp_phone').textContent=phone;
+    showScreen('s_otp');setStep(2);
+    document.getElementById('otp0').focus();
+  }catch(e){showErr('err1','⚠ '+e.message);}
   setBtn('btn_create','RECEVOIR MON CODE SMS →',false);
 }
 async function verifyOTP(){
@@ -472,7 +540,10 @@ async function verifyOTP(){
     const{data:ex}=await sb.from('clients').select('*').eq('telephone',pendingPhone).limit(1);
     let client;
     if(ex?.length){client=ex[0];}
-    else{const{data,error}=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();if(error)throw error;client=data;}
+    else{
+      const{data,error}=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
+      if(error)throw error;client=data;
+    }
     localStorage.setItem('vvv777_client_id',client.id);
     showCard(client,false,!ex?.length);
   }catch(e){showErr('err_otp','⚠ Erreur: '+e.message);}
@@ -510,6 +581,7 @@ async function verifyOTPLookup(){
   setBtn('btn_verify_lk','ACCÉDER À MA CARTE →',false);
 }
 
+// ── CARTE ──
 function renderStamps(count,isNew=false){
   const grid=document.getElementById('card_stamps');grid.innerHTML='';
   for(let i=0;i<10;i++){
@@ -536,7 +608,7 @@ function showCard(client,isNew=false,showWelcome=false){
   document.getElementById('c_name').textContent=client.nom.toUpperCase();
   document.getElementById('c_num').textContent=client.card_number||'—';
   renderStamps(client.tampons||0,isNew);
-  setTimeout(()=>renderBC(client),200);
+  setTimeout(()=>renderQR(client),200);
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
@@ -558,64 +630,64 @@ function logout(){
   showScreen('s1');setStep(1);
 }
 
-function openFullscreenBC(){
+// ── QR FULLSCREEN ──
+function openFullscreenQR(){
   if(!currentClient)return;
   document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
   document.getElementById('bc_fs_num').textContent=currentClient.card_number||'';
-  renderBCBig(currentClient);
+  renderQRBig(currentClient);
   const t=currentClient.tampons||0;
-  document.getElementById('bc_fs_dots').innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<t?' on':''}">${i<t?FRUITS[i]:''}</div>`).join('');
+  document.getElementById('bc_fs_dots').innerHTML=Array.from({length:10},(_,i)=>
+    `<div class="bc-dot${i<t?' on':''}">${i<t?FRUITS[i]:''}</div>`
+  ).join('');
   document.getElementById('bc_fullscreen').classList.add('show');
   if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
 }
-function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
+function closeFullscreenQR(){document.getElementById('bc_fullscreen').classList.remove('show');}
 
-function openWalletModal(){
-  document.getElementById('wallet_modal_overlay').classList.add('show');
-}
-function closeWalletModal(e){
-  if(e&&e.target!==document.getElementById('wallet_modal_overlay'))return;
-  document.getElementById('wallet_modal_overlay').classList.remove('show');
-}
+// ── MODAL INSTALLER ──
+function openInstallModal(){
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  const isAndroid = /android/i.test(navigator.userAgent);
+  const isSafari = /safari/i.test(navigator.userAgent) && !/chrome/i.test(navigator.userAgent);
+  const isChrome = /chrome/i.test(navigator.userAgent);
 
-async function addToGoogleWallet(){
-  if(!currentClient)return;
-  const btn=document.getElementById('wallet_google_btn');
-  const badge=document.getElementById('google_badge');
-  btn.style.pointerEvents='none';
-  badge.textContent='Chargement…';
-  try{
-    const res=await fetch(WALLET_GOOGLE_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({client_id:currentClient.id})});
-    const data=await res.json();
-    if(!res.ok)throw new Error(data.error||'Erreur');
-    document.getElementById('wallet_modal_overlay').classList.remove('show');
-    window.open(data.url,'_blank');
-  }catch(e){
-    badge.textContent='Erreur — réessayez';
-    badge.style.color='#E88';
-    setTimeout(()=>{badge.textContent='Disponible';badge.style.color='';btn.style.pointerEvents='';},3000);
-    return;
+  let steps = [];
+  if(isIOS && isSafari){
+    steps = [
+      {icon:'1', title:'Appuyez sur Partager', desc:'Tapez l\'icône <strong>📤</strong> en bas de Safari'},
+      {icon:'2', title:'Sur l\'écran suivant', desc:'Faites défiler et appuyez sur <strong>« Sur l\'écran d\'accueil »</strong>'},
+      {icon:'3', title:'Confirmez', desc:'Appuyez sur <strong>« Ajouter »</strong> en haut à droite'},
+    ];
+  } else if(isAndroid && isChrome){
+    steps = [
+      {icon:'1', title:'Menu Chrome', desc:'Appuyez sur les <strong>3 points ⋮</strong> en haut à droite'},
+      {icon:'2', title:'Installer l\'app', desc:'Appuyez sur <strong>« Ajouter à l\'écran d\'accueil »</strong>'},
+      {icon:'3', title:'Confirmez', desc:'Appuyez sur <strong>« Ajouter »</strong> dans la popup'},
+    ];
+  } else {
+    steps = [
+      {icon:'1', title:'Ouvrez le menu', desc:'Cherchez l\'option <strong>« Ajouter à l\'écran d\'accueil »</strong> dans le menu de votre navigateur'},
+      {icon:'2', title:'Confirmez', desc:'Appuyez sur <strong>« Ajouter »</strong> pour confirmer'},
+      {icon:'3', title:'C\'est fait !', desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil'},
+    ];
   }
-  btn.style.pointerEvents='';
-  badge.textContent='Disponible';
+
+  const stepsHtml = steps.map(s=>`
+    <div class="install-step">
+      <div class="install-step-num">${s.icon}</div>
+      <div class="install-step-text"><strong>${s.title}</strong>${s.desc}</div>
+    </div>
+  `).join('');
+  document.getElementById('install_steps').innerHTML = stepsHtml;
+  document.getElementById('install_overlay').classList.add('show');
+}
+function closeInstallModal(e){
+  if(e&&e.target!==document.getElementById('install_overlay'))return;
+  document.getElementById('install_overlay').classList.remove('show');
 }
 
-async function addToAppleWallet(){
-  if(!currentClient)return;
-  document.getElementById('wallet_modal_overlay').classList.remove('show');
-  const badge=document.getElementById('apple_badge');
-  badge.textContent='Chargement…';
-  const url = WALLET_APPLE_URL + '?client_id=' + encodeURIComponent(currentClient.id);
-  const a = document.createElement('a');
-  a.href = url;
-  a.target = '_blank';
-  a.rel = 'noopener';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  badge.textContent='Disponible';
-}
-
+// ── COUPONS ──
 async function loadCoupons(){
   if(!currentClient)return;
   const list=document.getElementById('coupons_list');
@@ -640,7 +712,7 @@ function renderCouponsList(){
   if(!filtered.length){
     const msgs={
       all:'<div class="ce-icon">🎟️</div><p>Pas encore de coupon.<br>Collectez <strong>10 tampons</strong><br>pour débloquer votre premier<br><strong>1 acheté = 1 offert</strong> !</p>',
-      active:'<div class="ce-icon">🎟️</div><p>Aucun coupon actif.<br>Collectez 10 tampons pour en obtenir un !</p>',
+      active:'<div class="ce-icon">🎟️</div><p>Aucun coupon actif.</p>',
       used:'<div class="ce-icon">✅</div><p>Aucun coupon utilisé pour l\'instant.</p>',
       expired:'<div class="ce-icon">⏳</div><p>Aucun coupon expiré.</p>',
     };
@@ -663,6 +735,7 @@ async function loadCouponsBadgeFromDB(){
   allCoupons=data||[];loadCouponsBadge();
 }
 
+// ── BUILDER COUPON ──
 function buildCouponCard(c){
   const now=new Date(),exp=new Date(c.expires_at);
   const days=Math.ceil((exp-now)/86400000);
@@ -693,7 +766,7 @@ function buildCouponCard(c){
       <span class="coupon-reward-icon">🍊</span>
       <div class="coupon-title">1 ACHETÉ<br>= 1 OFFERT</div>
       <div class="coupon-subtitle">Sur votre prochain achat chez VVV777</div>
-      <div class="coupon-desc">Présentez ce code au commerçant lors de votre achat.&nbsp;Usage unique.</div>
+      <div class="coupon-desc">Présentez ce code au commerçant lors de votre achat. Usage unique.</div>
       <div class="coupon-validity ${urgentClass}">📅 ${validity}</div>
     </div>
     <hr class="coupon-sep">
@@ -709,6 +782,7 @@ function buildCouponCard(c){
   return div;
 }
 
+// ── COPIER ──
 let copyToastTimer;
 function copyCouponCode(evt,code){
   const btn=evt.currentTarget;
@@ -725,6 +799,7 @@ function copyCouponCode(evt,code){
   });
 }
 
+// ── REALTIME ──
 function subscribeRealtime(id){
   realtimeChannels.forEach(ch=>{try{sb.removeChannel(ch);}catch(e){}});
   realtimeChannels=[];
@@ -734,10 +809,9 @@ function subscribeRealtime(id){
       currentClient={...currentClient,...u};
       renderStamps(u.tampons,u.tampons>prevTampons);
       const dots=document.getElementById('bc_fs_dots');
-      if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
-      if(u.tampons!==prevTampons){
-        fetch(SUPABASE_URL+'/functions/v1/wallet-update-google',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({client_id:id})}).catch(()=>{});
-      }
+      if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>
+        `<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`
+      ).join('');
       if(prevTampons>=9&&u.tampons===0){
         showRewardToast();
         const{data}=await sb.from('coupons').select('*').eq('client_id',id).order('created_at',{ascending:false});
@@ -763,6 +837,7 @@ function showRewardToast(){
   clearTimeout(rewardToastTimer);rewardToastTimer=setTimeout(()=>t.classList.remove('show'),5000);
 }
 
+// ── AUTO-LOGIN ──
 (async()=>{
   const p=new URLSearchParams(window.location.search);
   const urlId=p.get('carte');
