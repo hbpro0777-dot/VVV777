@@ -690,17 +690,19 @@ async function addToAppleWallet(){
   btn.style.pointerEvents='none';
   badge.textContent='Chargement…';
   try{
-    const res=await fetch(WALLET_APPLE_URL,{
-      ...
-    });
-    ...
+    // Safari iOS ne supporte pas les blob URLs pour .pkpass
+    // On redirige directement vers l'Edge Function avec GET
+    document.getElementById('wallet_modal_overlay').classList.remove('show');
+    window.location.href=WALLET_APPLE_URL+'?client_id='+encodeURIComponent(currentClient.id)+'&auth='+encodeURIComponent(SUPABASE_ANON_KEY);
   }catch(e){
-    ...
+    badge.textContent='Erreur — réessayez';
+    badge.style.color='#E88';
+    setTimeout(()=>{badge.textContent='Disponible';badge.style.color='';btn.style.pointerEvents='';},3000);
+    return;
   }
   btn.style.pointerEvents='';
   badge.textContent='Disponible';
 }
-
 
 // ── COUPONS ──
 async function loadCoupons(){
