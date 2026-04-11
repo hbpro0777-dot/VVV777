@@ -605,25 +605,14 @@ async function addToAppleWallet(){
   document.getElementById('wallet_modal_overlay').classList.remove('show');
   const badge=document.getElementById('apple_badge');
   badge.textContent='Chargement…';
-  try{
-    const res=await fetch(WALLET_APPLE_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
-      body:JSON.stringify({clientId:currentClient.id})
-    });
-    if(!res.ok)throw new Error('Erreur '+res.status);
-    const blob=await res.blob();
-    const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');
-    a.href=url;
-    a.download='vvv777.pkpass';
-    a.style.display='none';
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(url);},2000);
-  }catch(err){
-    alert('Erreur Apple Wallet: '+err.message);
-  }
+  const url = WALLET_APPLE_URL + '?client_id=' + encodeURIComponent(currentClient.id);
+  const a = document.createElement('a');
+  a.href = url;
+  a.target = '_blank';
+  a.rel = 'noopener';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
   badge.textContent='Disponible';
 }
 
