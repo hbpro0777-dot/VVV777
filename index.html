@@ -685,30 +685,11 @@ async function addToGoogleWallet(){
 // ── APPLE WALLET ──
 async function addToAppleWallet(){
   if(!currentClient)return;
-  const btn=document.getElementById('wallet_apple_btn');
-  const badge=document.getElementById('apple_badge');
-  btn.style.pointerEvents='none';
-  badge.textContent='Chargement…';
-  try{
-    const res=await fetch(WALLET_APPLE_URL+'?client_id='+encodeURIComponent(currentClient.id),{
-      method:'GET'
-    });
-    if(!res.ok)throw new Error('Erreur serveur');
-    const buf=await res.arrayBuffer();
-    const blob=new Blob([new Uint8Array(buf)],{type:'application/vnd.apple.pkpass'});
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(blob);
-    a.download='vvv777.pkpass';
-    a.click();
-    document.getElementById('wallet_modal_overlay').classList.remove('show');
-  }catch(e){
-    badge.textContent='Erreur';
-    badge.style.color='#E88';
-    setTimeout(()=>{badge.textContent='Disponible';badge.style.color='';btn.style.pointerEvents='';},3000);
-    return;
-  }
-  btn.style.pointerEvents='';
-  badge.textContent='Disponible';
+  document.getElementById('wallet_modal_overlay').classList.remove('show');
+  window.open(
+    WALLET_APPLE_URL+'?client_id='+encodeURIComponent(currentClient.id),
+    '_blank'
+  );
 }
   
 // ── COUPONS ──
