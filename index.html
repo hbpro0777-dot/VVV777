@@ -13,8 +13,10 @@
 <script>
   const SUPABASE_URL = 'https://bmnjamkhjjthctdawxtu.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
-  const VERIFY_SEND_URL = SUPABASE_URL + '/functions/v1/verify-send';
+  const VERIFY_SEND_URL  = SUPABASE_URL + '/functions/v1/verify-send';
   const VERIFY_CHECK_URL = SUPABASE_URL + '/functions/v1/verify-check';
+  const WALLET_GOOGLE_URL = SUPABASE_URL + '/functions/v1/wallet-create-google';
+  const WALLET_APPLE_URL  = SUPABASE_URL + '/functions/v1/wallet-create-apple';
 </script>
 <style>
 :root{--gold:#D4A843;--gold2:#F0C96A;--gold3:rgba(212,168,67,.12);--bg:#080807;--s1:#0F0F0E;--s2:#161510;--border:#1E1D18;--text:#F2EFE8;--muted:#5A5545;--muted2:#2A2820;--r:20px}
@@ -124,9 +126,68 @@ input::placeholder{color:var(--muted2)}
 .rw-icon{font-size:24px;flex-shrink:0}
 .rw-text strong{display:block;color:var(--gold);font-size:13px;font-weight:600;margin-bottom:2px}
 .rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
-.btn-install{width:100%;background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));color:#080807;border:none;border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;box-shadow:0 4px 20px rgba(212,168,67,.25)}
-.btn-install:active{transform:scale(.98)}
-.install-steps{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:16px;margin-top:10px;display:none;font-size:13px;color:var(--muted);line-height:1.7}
+
+/* ── WALLET BUTTON ── */
+.btn-wallet{
+  width:100%;
+  background:linear-gradient(135deg,#C49030,var(--gold),var(--gold2));
+  color:#080807;border:none;border-radius:12px;
+  padding:15px;margin-top:4px;
+  font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;
+  cursor:pointer;transition:all .2s;
+  box-shadow:0 4px 20px rgba(212,168,67,.25);
+  display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.btn-wallet:active{transform:scale(.98)}
+.btn-wallet:disabled{background:#1E1D18;color:var(--muted);cursor:not-allowed;box-shadow:none}
+
+/* ── WALLET MODAL ── */
+.wallet-modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);
+  z-index:200;display:none;align-items:flex-end;justify-content:center;
+  backdrop-filter:blur(6px);
+}
+.wallet-modal-overlay.show{display:flex;animation:fadeIn .2s ease both}
+.wallet-modal{
+  background:var(--s1);border:1px solid var(--border);
+  border-radius:24px 24px 0 0;padding:28px 20px 40px;
+  width:100%;max-width:440px;
+  animation:slideUp .3s cubic-bezier(.22,1,.36,1) both;
+}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.wallet-modal-title{
+  font-family:'Bebas Neue',sans-serif;font-size:28px;
+  color:var(--gold);letter-spacing:1px;margin-bottom:4px;text-align:center;
+}
+.wallet-modal-sub{
+  font-size:12px;color:var(--muted);text-align:center;margin-bottom:24px;line-height:1.5;
+}
+.wallet-option{
+  display:flex;align-items:center;gap:14px;
+  background:var(--s2);border:1.5px solid var(--border);
+  border-radius:14px;padding:16px;margin-bottom:10px;
+  cursor:pointer;transition:all .18s;
+}
+.wallet-option:hover{border-color:var(--gold);background:var(--gold3)}
+.wallet-option:active{transform:scale(.98)}
+.wallet-option.disabled{opacity:.4;cursor:not-allowed;pointer-events:none}
+.wallet-option-icon{font-size:32px;flex-shrink:0;width:40px;text-align:center}
+.wallet-option-info{flex:1}
+.wallet-option-name{font-size:15px;font-weight:600;color:var(--text);margin-bottom:2px}
+.wallet-option-desc{font-size:11px;color:var(--muted);line-height:1.4}
+.wallet-option-badge{
+  font-size:9px;letter-spacing:1px;
+  background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.25);
+  color:var(--gold);border-radius:6px;padding:2px 6px;white-space:nowrap;
+}
+.wallet-option-badge.soon{background:rgba(90,85,69,.15);border-color:var(--border);color:var(--muted)}
+.wallet-modal-close{
+  width:100%;background:transparent;border:1.5px solid var(--border);
+  border-radius:10px;padding:12px;margin-top:8px;
+  color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;
+  cursor:pointer;transition:all .18s;
+}
+.wallet-modal-close:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ═══════════════════════════════
    COUPONS — sans QR, avec fruits
@@ -140,138 +201,44 @@ input::placeholder{color:var(--muted2)}
 .coupon-filters{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto;padding-bottom:2px}
 .cf-btn{padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:11px;font-family:'DM Sans',sans-serif;cursor:pointer;white-space:nowrap;transition:all .18s;flex-shrink:0}
 .cf-btn.active{background:var(--gold3);border-color:rgba(212,168,67,.3);color:var(--gold)}
-
-/* Carte coupon */
-.coupon-card{
-  position:relative;overflow:hidden;
-  background:linear-gradient(145deg,#1A1200,#231700);
-  border:1px solid rgba(212,168,67,.22);
-  border-radius:20px;margin-bottom:16px;
-  box-shadow:0 8px 32px rgba(0,0,0,.55);
-  transition:transform .18s;
-  animation:fu .4s ease both;
-}
+.coupon-card{position:relative;overflow:hidden;background:linear-gradient(145deg,#1A1200,#231700);border:1px solid rgba(212,168,67,.22);border-radius:20px;margin-bottom:16px;box-shadow:0 8px 32px rgba(0,0,0,.55);transition:transform .18s;animation:fu .4s ease both}
 .coupon-card:active{transform:scale(.985)}
 .coupon-card.used{opacity:.35;filter:grayscale(.8)}
 .coupon-card.expired{opacity:.25;filter:grayscale(1)}
-
-/* Fruits tombants en fond */
-.coupon-fruits-bg{
-  position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;
-}
-.cf-fruit{
-  position:absolute;top:-50px;
-  opacity:.07;
-  animation:fruitFall linear infinite;
-  user-select:none;
-}
-@keyframes fruitFall{
-  0%  {transform:translateY(0) rotate(0deg);  opacity:.08}
-  100%{transform:translateY(340px) rotate(360deg);opacity:.03}
-}
-
-/* Séparateur tirets */
-.coupon-sep{
-  position:relative;height:1px;
-  background:none;
-  border:none;
-  border-top:1.5px dashed rgba(212,168,67,.13);
-  margin:0 18px;z-index:1;
-}
-.coupon-sep::before,.coupon-sep::after{
-  content:'';position:absolute;top:50%;transform:translateY(-50%);
-  width:20px;height:20px;border-radius:50%;background:var(--bg);
-  border:1px solid rgba(212,168,67,.1);
-}
-.coupon-sep::before{left:-28px}
-.coupon-sep::after{right:-28px}
-
-/* Haut du coupon */
+.coupon-fruits-bg{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.cf-fruit{position:absolute;top:-50px;opacity:.07;animation:fruitFall linear infinite;user-select:none}
+@keyframes fruitFall{0%{transform:translateY(0) rotate(0deg);opacity:.08}100%{transform:translateY(340px) rotate(360deg);opacity:.03}}
+.coupon-sep{position:relative;height:1px;background:none;border:none;border-top:1.5px dashed rgba(212,168,67,.13);margin:0 18px;z-index:1}
+.coupon-sep::before,.coupon-sep::after{content:'';position:absolute;top:50%;transform:translateY(-50%);width:20px;height:20px;border-radius:50%;background:var(--bg);border:1px solid rgba(212,168,67,.1)}
+.coupon-sep::before{left:-28px}.coupon-sep::after{right:-28px}
 .coupon-top{padding:20px 20px 16px;position:relative;z-index:1}
-
 .coupon-badge-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-.coupon-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);
-  border-radius:20px;padding:4px 10px;
-  font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);
-}
-.coupon-status{
-  display:inline-block;padding:4px 10px;border-radius:20px;
-  font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600;
-}
-.coupon-status.active {background:rgba(67,212,100,.1);color:#6EE89A;border:1px solid rgba(67,212,100,.2)}
-.coupon-status.used   {background:rgba(90,85,69,.15);color:var(--muted);border:1px solid var(--border)}
+.coupon-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);border-radius:20px;padding:4px 10px;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+.coupon-status{display:inline-block;padding:4px 10px;border-radius:20px;font-size:9px;letter-spacing:2px;text-transform:uppercase;font-weight:600}
+.coupon-status.active{background:rgba(67,212,100,.1);color:#6EE89A;border:1px solid rgba(67,212,100,.2)}
+.coupon-status.used{background:rgba(90,85,69,.15);color:var(--muted);border:1px solid var(--border)}
 .coupon-status.expired{background:rgba(192,64,64,.1);color:#E88;border:1px solid rgba(192,64,64,.2)}
-
 .coupon-reward-icon{font-size:38px;display:block;margin-bottom:6px;line-height:1}
-.coupon-title{
-  font-family:'Bebas Neue',sans-serif;font-size:40px;
-  color:var(--gold2);letter-spacing:2px;line-height:1;margin-bottom:5px;
-}
+.coupon-title{font-family:'Bebas Neue',sans-serif;font-size:40px;color:var(--gold2);letter-spacing:2px;line-height:1;margin-bottom:5px}
 .coupon-subtitle{font-size:13px;color:rgba(212,168,67,.55);letter-spacing:.5px;margin-bottom:8px}
 .coupon-desc{font-size:12px;color:var(--muted);line-height:1.55}
-.coupon-validity{
-  display:flex;align-items:center;gap:5px;
-  font-size:10.5px;color:rgba(212,168,67,.35);margin-top:10px;
-}
+.coupon-validity{display:flex;align-items:center;gap:5px;font-size:10.5px;color:rgba(212,168,67,.35);margin-top:10px}
 .coupon-validity.urgent{color:#E99}
-
-/* Bas du coupon — code */
 .coupon-bottom{padding:16px 20px 20px;position:relative;z-index:1}
-.coupon-code-label{
-  font-size:8px;letter-spacing:3px;text-transform:uppercase;
-  color:var(--muted);margin-bottom:8px;
-}
-.coupon-code-row{
-  display:flex;align-items:center;gap:10px;
-  background:rgba(0,0,0,.4);
-  border:1px solid rgba(212,168,67,.18);
-  border-radius:12px;padding:13px 16px;
-}
-.coupon-code-val{
-  flex:1;font-family:monospace;
-  font-size:17px;font-weight:700;
-  color:var(--gold);letter-spacing:3px;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.btn-copy{
-  flex-shrink:0;
-  background:rgba(212,168,67,.15);
-  border:1px solid rgba(212,168,67,.28);
-  border-radius:8px;padding:8px 13px;
-  color:var(--gold);font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;
-  cursor:pointer;transition:all .18s;white-space:nowrap;
-}
+.coupon-code-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
+.coupon-code-row{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.4);border:1px solid rgba(212,168,67,.18);border-radius:12px;padding:13px 16px}
+.coupon-code-val{flex:1;font-family:monospace;font-size:17px;font-weight:700;color:var(--gold);letter-spacing:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-copy{flex-shrink:0;background:rgba(212,168,67,.15);border:1px solid rgba(212,168,67,.28);border-radius:8px;padding:8px 13px;color:var(--gold);font-size:13px;font-family:'DM Sans',sans-serif;font-weight:500;cursor:pointer;transition:all .18s;white-space:nowrap}
 .btn-copy:hover{background:rgba(212,168,67,.28)}
 .btn-copy.copied{background:rgba(67,212,100,.15);border-color:rgba(67,212,100,.3);color:#6EE89A}
-.coupon-hint{
-  font-size:11px;color:var(--muted);margin-top:10px;
-  line-height:1.5;text-align:center;
-}
-
-/* Toasts */
-.reward-toast{
-  position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);
-  background:linear-gradient(135deg,#2A1C00,#1A1200);
-  border:1.5px solid rgba(212,168,67,.5);border-radius:16px;
-  padding:14px 20px;display:flex;align-items:center;gap:12px;
-  box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 30px rgba(212,168,67,.2);
-  z-index:500;transition:transform .5s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
-}
+.coupon-hint{font-size:11px;color:var(--muted);margin-top:10px;line-height:1.5;text-align:center}
+.reward-toast{position:fixed;top:20px;left:50%;transform:translateX(-50%) translateY(-80px);background:linear-gradient(135deg,#2A1C00,#1A1200);border:1.5px solid rgba(212,168,67,.5);border-radius:16px;padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 8px 40px rgba(0,0,0,.7),0 0 30px rgba(212,168,67,.2);z-index:500;transition:transform .5s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
 .reward-toast.show{transform:translateX(-50%) translateY(0)}
 .rt-icon{font-size:26px}
 .rt-text strong{display:block;color:var(--gold);font-size:14px}
 .rt-text span{font-size:12px;color:var(--muted)}
-.copy-toast{
-  position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(10px);
-  background:var(--s1);border:1px solid rgba(67,212,100,.3);
-  border-radius:10px;padding:10px 18px;font-size:13px;color:#6EE89A;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
-  opacity:0;transition:all .3s;pointer-events:none;z-index:400;white-space:nowrap;
-}
+.copy-toast{position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--s1);border:1px solid rgba(67,212,100,.3);border-radius:10px;padding:10px 18px;font-size:13px;color:#6EE89A;box-shadow:0 4px 20px rgba(0,0,0,.4);opacity:0;transition:all .3s;pointer-events:none;z-index:400;white-space:nowrap}
 .copy-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fd{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
@@ -293,6 +260,7 @@ input::placeholder{color:var(--muted2)}
     <div class="step-item"><div class="step-circle" id="sc3">✦</div><div class="step-label">Ma carte</div></div>
   </div>
 
+  <!-- ÉCRAN 1 : INSCRIPTION -->
   <div class="screen active" id="s1">
     <div class="panel">
       <div class="panel-title">Créer ma carte</div>
@@ -315,6 +283,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN OTP INSCRIPTION -->
   <div class="screen" id="s_otp">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -335,6 +304,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN LOOKUP -->
   <div class="screen" id="s_lookup">
     <div class="panel">
       <div class="panel-title">Retrouver ma carte</div>
@@ -356,6 +326,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN OTP LOOKUP -->
   <div class="screen" id="s_otp_lk">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -374,6 +345,7 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
+  <!-- ÉCRAN CARTE -->
   <div class="screen" id="s2">
     <!-- TAB CARTE -->
     <div class="tab active" id="tab_carte">
@@ -409,8 +381,10 @@ input::placeholder{color:var(--muted2)}
             <span id="rw_sub">pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
           </div>
         </div>
-        <button class="btn-install" onclick="installApp()">🍊 AJOUTER À MON ÉCRAN D'ACCUEIL</button>
-        <div class="install-steps" id="install_steps_card"></div>
+        <!-- BOUTON WALLET — remplace btn-install -->
+        <button class="btn-wallet" id="btn_wallet" onclick="openWalletModal()">
+          <span>👛</span> AJOUTER AU WALLET
+        </button>
       </div>
     </div>
 
@@ -434,6 +408,7 @@ input::placeholder{color:var(--muted2)}
   </div>
 </div>
 
+<!-- NAV -->
 <nav class="bottom-nav" id="bottom_nav">
   <button class="nav-item active" id="nav_carte" onclick="switchTab('carte')">
     <span class="nav-icon">🃏</span><span class="nav-label">Ma Carte</span>
@@ -447,6 +422,7 @@ input::placeholder{color:var(--muted2)}
   </button>
 </nav>
 
+<!-- BARCODE FULLSCREEN -->
 <div class="bc-fullscreen" id="bc_fullscreen">
   <div class="bc-fs-logo">VVV<em>777</em></div>
   <div class="bc-fs-sub">Carte de fidélité</div>
@@ -458,6 +434,37 @@ input::placeholder{color:var(--muted2)}
   <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
 </div>
 
+<!-- WALLET MODAL -->
+<div class="wallet-modal-overlay" id="wallet_modal_overlay" onclick="closeWalletModal(event)">
+  <div class="wallet-modal">
+    <div class="wallet-modal-title">Ajouter au Wallet</div>
+    <div class="wallet-modal-sub">Gardez votre carte de fidélité toujours à portée de main</div>
+
+    <!-- Google Wallet -->
+    <div class="wallet-option" id="wallet_google_btn" onclick="addToGoogleWallet()">
+      <div class="wallet-option-icon">🟢</div>
+      <div class="wallet-option-info">
+        <div class="wallet-option-name">Google Wallet</div>
+        <div class="wallet-option-desc">Pour Android — mis à jour automatiquement</div>
+      </div>
+      <div class="wallet-option-badge" id="google_badge">Disponible</div>
+    </div>
+
+    <!-- Apple Wallet -->
+    <div class="wallet-option" id="wallet_apple_btn" onclick="addToAppleWallet()">
+      <div class="wallet-option-icon">🍎</div>
+      <div class="wallet-option-info">
+        <div class="wallet-option-name">Apple Wallet</div>
+        <div class="wallet-option-desc">Pour iPhone — mis à jour automatiquement</div>
+      </div>
+      <div class="wallet-option-badge" id="apple_badge">Disponible</div>
+    </div>
+
+    <button class="wallet-modal-close" onclick="closeWalletModal()">Annuler</button>
+  </div>
+</div>
+
+<!-- TOASTS -->
 <div class="reward-toast" id="reward_toast">
   <div class="rt-icon">🎁</div>
   <div class="rt-text"><strong>Récompense débloquée !</strong><span>Consultez vos coupons</span></div>
@@ -467,12 +474,10 @@ input::placeholder{color:var(--muted2)}
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
-let currentClient=null, pendingPhone=null, pendingName=null;
-let deferredPrompt=null, allCoupons=[], currentCouponFilter='all';
-let realtimeChannels = []; // stocke les channels actifs pour cleanup
+let currentClient = null, pendingPhone = null, pendingName = null;
+let allCoupons = [], currentCouponFilter = 'all';
+let realtimeChannels = [];
 const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
-const isStandalone = window.matchMedia('(display-mode:standalone)').matches || navigator.standalone;
-window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredPrompt=e;});
 
 // ── BARCODE ──
 const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
@@ -498,10 +503,9 @@ function fmtPhone(prefix,raw){let n=raw.replace(/[\s\-\.]/g,'');if(n.startsWith(
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
   if(el.value&&idx<5){document.getElementById(prefix+(idx+1)).focus();}
-  // Soumission auto uniquement si les 6 cases sont remplies
   if(idx===5&&el.value){
     const code=[0,1,2,3,4,5].map(i=>document.getElementById(prefix+i).value).join('');
-    if(code.length===6) setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},300);
+    if(code.length===6)setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},300);
   }
 }
 function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
@@ -610,7 +614,8 @@ function showCard(client,isNew=false,showWelcome=false){
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
-  loadCouponsBadgeFromDB();subscribeRealtime(client.id);
+  loadCouponsBadgeFromDB();
+  subscribeRealtime(client.id);
 }
 function switchTab(name){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -621,10 +626,8 @@ function switchTab(name){
 }
 function logout(){
   localStorage.removeItem('vvv777_client_id');currentClient=null;
-  // Détruire tous les channels Realtime actifs
-  realtimeChannels.forEach(ch=>{ try{ sb.removeChannel(ch); }catch(e){} });
-  realtimeChannels=[];
-  allCoupons=[];
+  realtimeChannels.forEach(ch=>{try{sb.removeChannel(ch);}catch(e){}});
+  realtimeChannels=[];allCoupons=[];
   document.getElementById('bottom_nav').classList.remove('show');
   showScreen('s1');setStep(1);
 }
@@ -641,6 +644,79 @@ function openFullscreenBC(){
   if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
 }
 function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
+
+// ── WALLET MODAL ──
+function openWalletModal(){
+  document.getElementById('wallet_modal_overlay').classList.add('show');
+}
+function closeWalletModal(e){
+  // Ferme si clic sur l'overlay (pas sur le modal lui-même)
+  if(e && e.target!==document.getElementById('wallet_modal_overlay'))return;
+  document.getElementById('wallet_modal_overlay').classList.remove('show');
+}
+
+// ── GOOGLE WALLET ──
+async function addToGoogleWallet(){
+  if(!currentClient)return;
+  const btn=document.getElementById('wallet_google_btn');
+  const badge=document.getElementById('google_badge');
+  btn.style.pointerEvents='none';
+  badge.textContent='Chargement…';
+  try{
+    const res=await fetch(WALLET_GOOGLE_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body:JSON.stringify({client_id:currentClient.id})
+    });
+    const data=await res.json();
+    if(!res.ok)throw new Error(data.error||'Erreur');
+    document.getElementById('wallet_modal_overlay').classList.remove('show');
+    window.open(data.url,'_blank');
+  }catch(e){
+    badge.textContent='Erreur — réessayez';
+    badge.style.color='#E88';
+    setTimeout(()=>{badge.textContent='Disponible';badge.style.color='';btn.style.pointerEvents='';},3000);
+    return;
+  }
+  btn.style.pointerEvents='';
+  badge.textContent='Disponible';
+}
+
+// ── APPLE WALLET ──
+async function addToAppleWallet(){
+  if(!currentClient)return;
+  const btn=document.getElementById('wallet_apple_btn');
+  const badge=document.getElementById('apple_badge');
+  btn.style.pointerEvents='none';
+  badge.textContent='Chargement…';
+  try{
+    const res=await fetch(WALLET_APPLE_URL,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body:JSON.stringify({client_id:currentClient.id})
+    });
+    if(!res.ok){
+      const err=await res.json();
+      throw new Error(err.error||'Erreur');
+    }
+    // Télécharge le .pkpass
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;a.download='vvv777.pkpass';
+    document.body.appendChild(a);a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    document.getElementById('wallet_modal_overlay').classList.remove('show');
+  }catch(e){
+    badge.textContent='Erreur — réessayez';
+    badge.style.color='#E88';
+    setTimeout(()=>{badge.textContent='Disponible';badge.style.color='';btn.style.pointerEvents='';},3000);
+    return;
+  }
+  btn.style.pointerEvents='';
+  badge.textContent='Disponible';
+}
 
 // ── COUPONS ──
 async function loadCoupons(){
@@ -678,40 +754,36 @@ function renderCouponsList(){
   filtered.forEach(c=>list.appendChild(buildCouponCard(c)));
 }
 function loadCouponsBadge(){
-  // Utilise allCoupons déjà en mémoire — pas de requête réseau inutile
-  const now = new Date();
-  const count = allCoupons.filter(c=>!c.used_at && now<=new Date(c.expires_at)).length;
+  const now=new Date();
+  const count=allCoupons.filter(c=>!c.used_at&&now<=new Date(c.expires_at)).length;
   const badge=document.getElementById('nav_badge_coupons');
   if(count>0){badge.textContent=count;badge.classList.add('show');}
   else badge.classList.remove('show');
 }
-// Version async pour le premier chargement (avant que allCoupons soit rempli)
 async function loadCouponsBadgeFromDB(){
   if(!currentClient)return;
   const{data}=await sb.from('coupons').select('id,used_at,expires_at').eq('client_id',currentClient.id);
-  allCoupons = data || [];
-  loadCouponsBadge();
+  allCoupons=data||[];loadCouponsBadge();
 }
 
 // ── BUILDER COUPON ──
 function buildCouponCard(c){
-  const now=new Date(), exp=new Date(c.expires_at);
+  const now=new Date(),exp=new Date(c.expires_at);
   const days=Math.ceil((exp-now)/86400000);
   const status=getCouponStatus(c);
   const labels={active:'🟢 Actif',used:'✓ Utilisé',expired:'⏳ Expiré'};
   const urgentClass=(status==='active'&&days<=7&&days>0)?'urgent':'';
   let validity;
-  if(c.used_at)     validity=`Utilisé le ${new Date(c.used_at).toLocaleDateString('fr-FR')}`;
-  else if(now>exp)  validity=`Expiré le ${exp.toLocaleDateString('fr-FR')}`;
-  else              validity=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=7?' · ⚠ '+days+' j restants':''}`;
+  if(c.used_at)validity=`Utilisé le ${new Date(c.used_at).toLocaleDateString('fr-FR')}`;
+  else if(now>exp)validity=`Expiré le ${exp.toLocaleDateString('fr-FR')}`;
+  else validity=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=7?' · ⚠ '+days+' j restants':''}`;
 
-  // Fruits tombants — positions et vitesses pseudo-aléatoires basées sur le code
-  const seed = c.code.charCodeAt(4)||42;
-  const fruitsHTML = FRUITS.map((f,i)=>{
-    const left  = ((seed * (i+1) * 37) % 85) + 5;   // 5%–90%
-    const dur   = 7 + ((seed + i*13) % 7);            // 7–14s
-    const delay = -((seed + i*17) % 10);              // décalage négatif = déjà en cours
-    const size  = 14 + (i % 4) * 4;                   // 14–26px
+  const seed=c.code.charCodeAt(4)||42;
+  const fruitsHTML=FRUITS.map((f,i)=>{
+    const left=((seed*(i+1)*37)%85)+5;
+    const dur=7+((seed+i*13)%7);
+    const delay=-((seed+i*17)%10);
+    const size=14+(i%4)*4;
     return `<span class="cf-fruit" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">${f}</span>`;
   }).join('');
 
@@ -719,7 +791,6 @@ function buildCouponCard(c){
   div.className=`coupon-card ${status}`;
   div.innerHTML=`
     <div class="coupon-fruits-bg">${fruitsHTML}</div>
-
     <div class="coupon-top">
       <div class="coupon-badge-row">
         <div class="coupon-badge">🎁 VVV777</div>
@@ -731,18 +802,14 @@ function buildCouponCard(c){
       <div class="coupon-desc">Présentez ce code au commerçant lors de votre achat.&nbsp;Usage unique.</div>
       <div class="coupon-validity ${urgentClass}">📅 ${validity}</div>
     </div>
-
     <hr class="coupon-sep">
-
     <div class="coupon-bottom">
       <div class="coupon-code-label">Votre code récompense</div>
       <div class="coupon-code-row">
         <div class="coupon-code-val">${c.code}</div>
-        ${status==='active'
-          ? `<button class="btn-copy" onclick="copyCouponCode(event,'${c.code}')">📋 Copier</button>`
-          : ''}
+        ${status==='active'?`<button class="btn-copy" onclick="copyCouponCode(event,'${c.code}')">📋 Copier</button>`:''}
       </div>
-      ${status==='active' ? '<div class="coupon-hint">Dictez ou montrez ce code au commerçant</div>' : ''}
+      ${status==='active'?'<div class="coupon-hint">Dictez ou montrez ce code au commerçant</div>':''}
     </div>
   `;
   return div;
@@ -750,8 +817,8 @@ function buildCouponCard(c){
 
 // ── COPIER ──
 let copyToastTimer;
-function copyCouponCode(evt, code){
-  const btn = evt.currentTarget;
+function copyCouponCode(evt,code){
+  const btn=evt.currentTarget;
   navigator.clipboard.writeText(code).then(()=>{
     btn.textContent='✅ Copié !';btn.classList.add('copied');
     setTimeout(()=>{btn.textContent='📋 Copier';btn.classList.remove('copied');},2500);
@@ -759,7 +826,6 @@ function copyCouponCode(evt, code){
     t.classList.add('show');clearTimeout(copyToastTimer);
     copyToastTimer=setTimeout(()=>t.classList.remove('show'),2000);
   }).catch(()=>{
-    // Fallback sélection texte
     const val=btn.closest('.coupon-code-row').querySelector('.coupon-code-val');
     const r=document.createRange();r.selectNode(val);
     window.getSelection().removeAllRanges();window.getSelection().addRange(r);
@@ -768,54 +834,49 @@ function copyCouponCode(evt, code){
 
 // ── REALTIME ──
 function subscribeRealtime(id){
-  // Détruire les anciens channels avant de s'abonner à nouveau
-  realtimeChannels.forEach(ch=>{ try{ sb.removeChannel(ch); }catch(e){} });
+  realtimeChannels.forEach(ch=>{try{sb.removeChannel(ch);}catch(e){}});
   realtimeChannels=[];
 
-  // Écoute les changements de tampons
-  const chClients = sb.channel('stamps-'+id)
+  const chClients=sb.channel('stamps-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
-      const u=p.new, prevTampons=currentClient.tampons||0;
+      const u=p.new,prevTampons=currentClient.tampons||0;
       currentClient={...currentClient,...u};
       renderStamps(u.tampons,u.tampons>prevTampons);
       const dots=document.getElementById('bc_fs_dots');
       if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
+      // Mise à jour Google Wallet en arrière-plan (silencieuse)
+      if(u.tampons!==prevTampons){
+        fetch(SUPABASE_URL+'/functions/v1/wallet-update-google',{
+          method:'POST',
+          headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+          body:JSON.stringify({client_id:id})
+        }).catch(()=>{});
+      }
       if(prevTampons>=9&&u.tampons===0){
         showRewardToast();
-        // Recharger les coupons depuis DB car un nouveau vient d'être créé
         const{data}=await sb.from('coupons').select('*').eq('client_id',id).order('created_at',{ascending:false});
-        allCoupons=data||[];
-        loadCouponsBadge();
+        allCoupons=data||[];loadCouponsBadge();
         if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       }
     }).subscribe();
 
-  // Écoute les mises à jour de coupons en temps réel
-  const chCoupons = sb.channel('coupons-'+id)
+  const chCoupons=sb.channel('coupons-'+id)
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:`client_id=eq.${id}`},p=>{
       const updated=p.new;
       const idx=allCoupons.findIndex(c=>c.id===updated.id);
-      if(idx>=0) allCoupons[idx]={...allCoupons[idx],...updated};
+      if(idx>=0)allCoupons[idx]={...allCoupons[idx],...updated};
       else allCoupons.unshift(updated);
-      if(document.getElementById('tab_coupons').classList.contains('active')) renderCouponsList();
+      if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       loadCouponsBadge();
     }).subscribe();
 
-  realtimeChannels=[chClients, chCoupons];
+  realtimeChannels=[chClients,chCoupons];
 }
+
 let rewardToastTimer;
 function showRewardToast(){
   const t=document.getElementById('reward_toast');t.classList.add('show');
   clearTimeout(rewardToastTimer);rewardToastTimer=setTimeout(()=>t.classList.remove('show'),5000);
-}
-
-// ── INSTALL ──
-function installApp(){
-  function show(id,html){const el=document.getElementById(id);if(!el)return;el.innerHTML=html;el.style.display='block';el.scrollIntoView({behavior:'smooth',block:'nearest'});}
-  if(isStandalone)show('install_steps_card','✅ Déjà installé !');
-  else if(deferredPrompt){deferredPrompt.prompt();deferredPrompt.userChoice.then(r=>{if(r.outcome==='accepted')show('install_steps_card','🎉 Installé !');deferredPrompt=null;});}
-  else if(isIOS)show('install_steps_card','<strong style="color:#D4A843;">📱 Sur iPhone :</strong><br>1. Appuyez sur <strong>Partager ↑</strong><br>2. <strong>"Sur l\'écran d\'accueil"</strong><br>3. <strong>"Ajouter"</strong> 🎉');
-  else show('install_steps_card','<strong style="color:#D4A843;">📱 Sur Android :</strong><br>1. Les <strong>3 points ⋮</strong> de Chrome<br>2. <strong>"Ajouter à l\'écran d\'accueil"</strong> 🎉');
 }
 
 // ── AUTO-LOGIN ──
