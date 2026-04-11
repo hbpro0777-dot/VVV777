@@ -190,7 +190,7 @@ input::placeholder{color:var(--muted2)}
 .wallet-modal-close:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ═══════════════════════════════
-   COUPONS — sans QR, avec fruits
+   COUPONS
 ═══════════════════════════════ */
 .coupons-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .coupons-count{font-size:11px;color:var(--muted);letter-spacing:1px}
@@ -381,7 +381,6 @@ input::placeholder{color:var(--muted2)}
             <span id="rw_sub">pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.</span>
           </div>
         </div>
-        <!-- BOUTON WALLET — remplace btn-install -->
         <button class="btn-wallet" id="btn_wallet" onclick="openWalletModal()">
           <span>👛</span> AJOUTER AU WALLET
         </button>
@@ -439,8 +438,6 @@ input::placeholder{color:var(--muted2)}
   <div class="wallet-modal">
     <div class="wallet-modal-title">Ajouter au Wallet</div>
     <div class="wallet-modal-sub">Gardez votre carte de fidélité toujours à portée de main</div>
-
-    <!-- Google Wallet -->
     <div class="wallet-option" id="wallet_google_btn" onclick="addToGoogleWallet()">
       <div class="wallet-option-icon">🟢</div>
       <div class="wallet-option-info">
@@ -449,8 +446,6 @@ input::placeholder{color:var(--muted2)}
       </div>
       <div class="wallet-option-badge" id="google_badge">Disponible</div>
     </div>
-
-    <!-- Apple Wallet -->
     <div class="wallet-option" id="wallet_apple_btn" onclick="addToAppleWallet()">
       <div class="wallet-option-icon">🍎</div>
       <div class="wallet-option-info">
@@ -459,7 +454,6 @@ input::placeholder{color:var(--muted2)}
       </div>
       <div class="wallet-option-badge" id="apple_badge">Disponible</div>
     </div>
-
     <button class="wallet-modal-close" onclick="closeWalletModal()">Annuler</button>
   </div>
 </div>
@@ -477,7 +471,6 @@ const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','
 let currentClient = null, pendingPhone = null, pendingName = null;
 let allCoupons = [], currentCouponFilter = 'all';
 let realtimeChannels = [];
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
 
 // ── BARCODE ──
 const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
@@ -650,7 +643,6 @@ function openWalletModal(){
   document.getElementById('wallet_modal_overlay').classList.add('show');
 }
 function closeWalletModal(e){
-  // Ferme si clic sur l'overlay (pas sur le modal lui-même)
   if(e && e.target!==document.getElementById('wallet_modal_overlay'))return;
   document.getElementById('wallet_modal_overlay').classList.remove('show');
 }
@@ -681,26 +673,34 @@ async function addToGoogleWallet(){
   btn.style.pointerEvents='';
   badge.textContent='Disponible';
 }
+
+// ── APPLE WALLET ──
 async function checkPassDownload(){
   const params = new URLSearchParams(window.location.search);
   const clientId = params.get('download_pass');
-  if(!clientId)return;
+  if(!clientId) return;
   window.history.replaceState({},'','/');
-  const response = await fetch(WALLET_APPLE_URL,{
-    method:'POST',
-    headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
-    body:JSON.stringify({clientId:clientId})
-  });
-  const blob = await response.blob();
-  window.location.href = URL.createObjectURL(blob);
+  try {
+    const response = await fetch(WALLET_APPLE_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+      body: JSON.stringify({clientId: clientId})
+    });
+    if(!response.ok) throw new Error('Erreur ' + response.status);
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    window.location.href = url;
+  } catch(err) {
+    console.error('Apple Wallet error:', err);
+  }
 }
 
-// ── APPLE WALLET ──async function addToAppleWallet(){
-  if(!currentClient)return;
+async function addToAppleWallet(){
+  if(!currentClient) return;
   document.getElementById('wallet_modal_overlay').classList.remove('show');
   window.location.href = '/?download_pass=' + currentClient.id;
 }
-  
+
 // ── COUPONS ──
 async function loadCoupons(){
   if(!currentClient)return;
@@ -827,7 +827,6 @@ function subscribeRealtime(id){
       renderStamps(u.tampons,u.tampons>prevTampons);
       const dots=document.getElementById('bc_fs_dots');
       if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>`<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`).join('');
-      // Mise à jour Google Wallet en arrière-plan (silencieuse)
       if(u.tampons!==prevTampons){
         fetch(SUPABASE_URL+'/functions/v1/wallet-update-google',{
           method:'POST',
@@ -863,10 +862,21 @@ function showRewardToast(){
 }
 
 // ── AUTO-LOGIN ──
-(async()=>{const p=new URLSearchParams(window.location.search),urlId=p.get('carte');
-checkPassDownload();
+(async()=>{
+  const p=new URLSearchParams(window.location.search);
+  const urlId=p.get('carte');
+  await checkPassDownload();
+  if(window.location.search.includes('download_pass')) return;
   const savedId=localStorage.getItem('vvv777_client_id');
-  if(savedId){const{data}=await sb.from('clients').select('*').eq('id',savedId).single();if(data){showCard(data);return;}else localStorage.removeItem('vvv777_client_id');}
+  if(savedId){
+    const{data}=await sb.from('clients').select('*').eq('id',savedId).single();
+    if(data){showCard(data);return;}
+    else localStorage.removeItem('vvv777_client_id');
+  }
+  if(urlId){
+    const{data}=await sb.from('clients').select('*').eq('id',urlId).single();
+    if(data){localStorage.setItem('vvv777_client_id',data.id);showCard(data);}
+  }
 })();
 </script>
 </body>
