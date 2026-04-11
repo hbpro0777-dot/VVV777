@@ -681,6 +681,19 @@ async function addToGoogleWallet(){
   btn.style.pointerEvents='';
   badge.textContent='Disponible';
 }
+async function checkPassDownload(){
+  const params = new URLSearchParams(window.location.search);
+  const clientId = params.get('download_pass');
+  if(!clientId)return;
+  window.history.replaceState({},'','/');
+  const response = await fetch(WALLET_APPLE_URL,{
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},
+    body:JSON.stringify({clientId:clientId})
+  });
+  const blob = await response.blob();
+  window.location.href = URL.createObjectURL(blob);
+}
 
 // ── APPLE WALLET ──async function addToAppleWallet(){
   if(!currentClient)return;
@@ -850,9 +863,8 @@ function showRewardToast(){
 }
 
 // ── AUTO-LOGIN ──
-(async()=>{
-  const p=new URLSearchParams(window.location.search),urlId=p.get('carte');
-  if(urlId){const{data}=await sb.from('clients').select('*').eq('id',urlId).single();if(data){localStorage.setItem('vvv777_client_id',data.id);showCard(data);return;}}
+(async()=>{const p=new URLSearchParams(window.location.search),urlId=p.get('carte');
+checkPassDownload();
   const savedId=localStorage.getItem('vvv777_client_id');
   if(savedId){const{data}=await sb.from('clients').select('*').eq('id',savedId).single();if(data){showCard(data);return;}else localStorage.removeItem('vvv777_client_id');}
 })();
