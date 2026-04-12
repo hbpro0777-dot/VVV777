@@ -647,9 +647,7 @@ function cancelScan(){
 
 // ── ZXING (QR + Barcode) ──
 function setScanStatus(msg,type){
-  const el=document.getElementById('scanStatus');
-  el.textContent=msg;
-  el.className='scan-status'+(type?' '+type:'');
+  // Element supprimé - fonction gardée pour compatibilité
 }
 
 // ── CLIENTS ──
