@@ -415,8 +415,6 @@ input::placeholder{color:var(--muted2)}
 <div class="copy-toast" id="copy_toast">✅ Code copié !</div>
 
 <!-- QR CODE LIB -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
@@ -442,29 +440,33 @@ let realtimeChannels = [];
   }
 })();
 
-// ── QR CODE ──
-function drawQR(canvasId, text, size){
-  const canvas = document.getElementById(canvasId);
-  if(!canvas || !text) return;
-  QRCode.toCanvas(canvas, text, {
-    width: size,
-    margin: 1,
-    color: { dark: '#1A1200', light: '#FFFFFF' }
-  }, function(err){ if(err) console.error(err); });
-}
+// ── QR CODE via Google Charts (fiable, pas de lib) ──
 function renderQR(client){
   const val = (client.card_number||client.id).replace(/\s/g,'');
-  if(typeof QRCode === 'undefined'){ setTimeout(()=>renderQR(client),200); return; }
-  QRCode.toCanvas(document.getElementById('qr_canvas'), val, {
-    width:120, margin:1, color:{dark:'#1A1200',light:'#FFFFFF'}
-  }, err=>{ if(err) console.error(err); });
+  _drawQR('qr_canvas', val, 120);
 }
 function renderQRBig(client){
   const val = (client.card_number||client.id).replace(/\s/g,'');
-  if(typeof QRCode === 'undefined'){ setTimeout(()=>renderQRBig(client),200); return; }
-  QRCode.toCanvas(document.getElementById('qr_canvas_big'), val, {
-    width:260, margin:1, color:{dark:'#1A1200',light:'#FFFFFF'}
-  }, err=>{ if(err) console.error(err); });
+  _drawQR('qr_canvas_big', val, 260);
+}
+function _drawQR(canvasId, text, size){
+  const canvas = document.getElementById(canvasId);
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  canvas.width = size; canvas.height = size;
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0,0,size,size);
+  const url = 'https://chart.googleapis.com/chart?cht=qr&chs='+size+'x'+size+'&chl='+encodeURIComponent(text)+'&chld=M|1';
+  const img = new Image();
+  img.onload = function(){ ctx.drawImage(img,0,0,size,size); };
+  img.onerror = function(){
+    ctx.fillStyle = '#1A1200';
+    ctx.font = 'bold '+(size/12)+'px monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, size/2, size/2);
+  };
+  img.src = url;
 }
 
 // ── NAV ──
@@ -660,22 +662,21 @@ function openInstallModal(){
   let steps = [];
   if(isIOS){
     steps = [
-      {num:'1', title:'Ouvrez dans Safari', desc:'Cette page doit être ouverte dans <strong>Safari</strong> (pas Chrome)'},
-      {num:'2', title:'Appuyez sur Partager 📤', desc:'Le bouton se trouve <strong>en bas au centre</strong> de Safari'},
-      {num:'3', title:'Faites défiler vers le bas', desc:'Cherchez <strong>« Sur l\'écran d\'accueil »</strong> avec une icône +'},
-      {num:'4', title:'Appuyez sur Ajouter', desc:'Confirmez en haut à droite — <strong>c\'est fait ! 🎉</strong>'},
+      {num:'📤', title:'Appuyez sur le bouton Partager', desc:'Icône en bas au centre de Safari — elle ressemble à un carré avec une flèche vers le haut'},
+      {num:'📋', title:'Sélectionnez « Sur l\'écran d\'accueil »', desc:'Faites défiler la liste vers le bas jusqu\'à voir cette option avec un icône +'},
+      {num:'✅', title:'Appuyez sur « Ajouter »', desc:'En haut à droite de l\'écran — votre carte VVV777 apparaît sur votre écran d\'accueil !'},
     ];
-  } else if(isAndroid && isChrome){
+  } else if(isAndroid){
     steps = [
-      {num:'1', title:'Menu Chrome ⋮', desc:'Appuyez sur les <strong>3 points</strong> en haut à droite de Chrome'},
-      {num:'2', title:'Ajouter à l\'écran d\'accueil', desc:'Cherchez l\'option <strong>« Ajouter à l\'écran d\'accueil »</strong>'},
-      {num:'3', title:'Installez', desc:'Appuyez sur <strong>« Installer »</strong> ou <strong>« Ajouter »</strong> — <strong>c\'est fait ! 🎉</strong>'},
+      {num:'⋮', title:'Appuyez sur les 3 points', desc:'En haut à droite de Chrome ou de votre navigateur'},
+      {num:'📲', title:'Appuyez sur « Ajouter à l\'écran d\'accueil »', desc:'Ou « Installer l\'application » selon votre navigateur'},
+      {num:'✅', title:'Confirmez en appuyant sur « Ajouter »', desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil !'},
     ];
   } else {
     steps = [
-      {num:'1', title:'Menu de votre navigateur', desc:'Appuyez sur le <strong>menu ⋮</strong> ou <strong>⋯</strong> de votre navigateur'},
-      {num:'2', title:'Cherchez l\'option', desc:'<strong>« Ajouter à l\'écran d\'accueil »</strong> ou <strong>« Installer »</strong>'},
-      {num:'3', title:'Confirmez', desc:'Appuyez sur <strong>Ajouter</strong> — <strong>c\'est fait ! 🎉</strong>'},
+      {num:'📤', title:'iPhone/iPad — Safari', desc:'Bouton Partager → « Sur l\'écran d\'accueil » → Ajouter'},
+      {num:'⋮', title:'Android — Chrome', desc:'3 points → « Ajouter à l\'écran d\'accueil » → Confirmer'},
+      {num:'✅', title:'C\'est fait !', desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil comme une vraie app'},
     ];
   }
 
