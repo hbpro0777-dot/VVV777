@@ -288,7 +288,7 @@ textarea:focus{border-color:var(--gold)}
     <div class="page scan-page" id="page_scan">
       <div class="scan-wrap">
         <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:4px;">SCANNER</div>
-        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">QR Code carte · Coupon</div>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">Tapez le numéro de carte du client · ou un code coupon</div>
         <div class="scan-mode-toggle">
           <button class="smt-btn active" id="modeCamera" onclick="setMode('camera')">📷 Caméra</button>
           <button class="smt-btn" id="modeManual" onclick="setMode('manual')">⌨️ Manuel</button>
@@ -317,10 +317,10 @@ textarea:focus{border-color:var(--gold)}
         <div class="manual-panel" id="manualPanel">
           <div class="manual-title">Code carte ou coupon</div>
           <div class="manual-input-row">
-            <input class="manual-inp" type="text" id="manualCodeInput" placeholder="3520 8944 7628 ou VVV-XXXX" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')searchManual()">
+            <input class="manual-inp" type="text" id="manualCodeInput" placeholder="3520 8944 7628" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')searchManual()">
             <button class="btn-manual-search" onclick="searchManual()">🔍</button>
           </div>
-          <div class="manual-hint">Numéro de carte <strong style="color:var(--gold)">ou</strong> code coupon</div>
+          <div class="manual-hint">Tapez le <strong style="color:var(--gold)">numéro de carte</strong> du client (ex: 3520 8944 7628) ou un <strong style="color:var(--gold)">code coupon</strong></div>
         </div>
         <div class="scan-result" id="scanResult">
           <div class="coupon-alert" id="couponAlert" style="display:none">🎟️ Ce client a un coupon actif — scannez le coupon pour le valider.</div>
