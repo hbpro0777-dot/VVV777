@@ -8,7 +8,6 @@
 <meta name="theme-color" content="#080807">
 <title>VVV777 — Admin</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@zxing/library@0.20.0/umd/index.min.js"></script>
 <script>
   const SUPABASE_URL = 'https://bmnjamkhjjthctdawxtu.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJtbmphbWtoamp0aGN0ZGF3eHR1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ5NDMxMjQsImV4cCI6MjA5MDUxOTEyNH0.kUhbAiXEzMP8hp7YvUDdOQrirN1Lw8qz1mUYj_JkDm0';
@@ -89,23 +88,23 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .empty-icon{font-size:36px;margin-bottom:12px}
 .scan-page{padding:0 !important}
 .scan-wrap{display:flex;flex-direction:column;align-items:center;min-height:calc(100dvh - 56px - 76px);padding:20px 18px}
-.scan-mode-toggle{display:flex;gap:0;margin-bottom:20px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:4px;width:100%;max-width:320px}
-.smt-btn{flex:1;padding:10px 8px;border:none;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;color:var(--muted);background:transparent}
-.smt-btn.active{background:var(--gold);color:#080807;font-weight:600}
-.viewfinder-wrap{position:relative;width:100%;max-width:320px;margin:0 auto 20px}
-.viewfinder-frame{position:relative;width:100%;aspect-ratio:1;border-radius:20px;overflow:hidden;background:#000;box-shadow:0 0 0 1px var(--border),0 20px 60px rgba(0,0,0,.8)}
-#scanVideo{width:100%;height:100%;object-fit:cover;display:block}
-.vf-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none}
-.vf-corner{position:absolute;width:48px;height:48px;border-color:var(--gold);border-style:solid;opacity:.8}
-.vf-corner.tl{top:14px;left:14px;border-width:3px 0 0 3px;border-radius:8px 0 0 0}
-.vf-corner.tr{top:14px;right:14px;border-width:3px 3px 0 0;border-radius:0 8px 0 0}
-.vf-corner.bl{bottom:14px;left:14px;border-width:0 0 3px 3px;border-radius:0 0 0 8px}
-.vf-corner.br{bottom:14px;right:14px;border-width:0 3px 3px 0;border-radius:0 0 8px 0}
-.scan-line{position:absolute;left:14px;right:14px;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);animation:scanMove 2s ease-in-out infinite;opacity:.7}
-@keyframes scanMove{0%{top:14px}100%{top:calc(100% - 16px)}}
-.vf-idle{position:absolute;inset:0;background:rgba(8,8,7,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border-radius:20px}
-.vf-idle-icon{font-size:48px;opacity:.5}
-.vf-idle-text{font-size:13px;color:var(--muted);text-align:center;line-height:1.5}
+
+
+
+
+
+
+
+
+
+
+
+
+
+100%{top:calc(100% - 16px)}}
+
+
+
 .manual-panel{width:100%;max-width:320px;background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:20px;display:none;animation:fu .3s ease both}
 .manual-panel.show{display:block}
 .manual-title{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
@@ -116,11 +115,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .btn-manual-search{background:var(--gold);color:#080807;border:none;border-radius:10px;padding:13px 16px;font-size:20px;cursor:pointer;transition:all .2s;flex-shrink:0}
 .btn-manual-search:hover{background:var(--gold2)}
 .manual-hint{font-size:11px;color:var(--muted);margin-top:8px;line-height:1.5}
-.scan-status{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--muted);text-align:center;margin-bottom:16px;min-height:26px}
-.scan-status.scanning{color:var(--gold);animation:pulse .8s ease-in-out infinite}
-.scan-status.success{color:var(--green)}
-.scan-status.error{color:var(--red)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+
+
+
+
+50%{opacity:.5}}
 .scan-result{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:20px;width:100%;max-width:320px;display:none;animation:fu .35s ease both}
 .scan-result.show{display:block}
 .sr-header{display:flex;align-items:center;gap:14px;margin-bottom:16px}
@@ -153,19 +152,19 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .btn-validate{width:100%;background:linear-gradient(135deg,#1A3A1A,#2A4A2A);color:#6EDD72;border:1px solid rgba(76,175,80,.3);border-radius:10px;padding:14px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-bottom:8px}
 .btn-validate:hover{background:linear-gradient(135deg,#2A4A2A,#3A5A3A)}
 .btn-validate:disabled{background:var(--muted2);color:var(--muted);cursor:not-allowed;border-color:var(--border)}
-.btn-start-scan{background:var(--gold);color:#080807;border:none;border-radius:14px;padding:16px 32px;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px}
+
 .btn-start-scan:hover{background:var(--gold2)}
-.btn-stop-scan{background:transparent;border:1px solid var(--border);border-radius:10px;padding:12px 24px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .2s;margin-top:10px}
+
 .btn-stop-scan:hover{border-color:var(--red);color:var(--red)}
 .section-box{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:20px;margin-bottom:14px}
 .section-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--text);margin-bottom:12px}
 .section-desc{font-size:12.5px;color:var(--muted);line-height:1.6;margin-bottom:16px}
 textarea{width:100%;background:var(--s2);border:1.5px solid var(--border);border-radius:10px;padding:12px 14px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13.5px;outline:none;resize:vertical;min-height:90px;transition:border-color .2s}
 textarea:focus{border-color:var(--gold)}
-.notif-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.ntab{padding:8px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s}
-.ntab.active{background:var(--gold3);border-color:var(--border2);color:var(--gold)}
-.recipients-list{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:10px;font-size:12.5px;color:var(--muted);max-height:100px;overflow-y:auto;line-height:1.8}
+
+
+
+
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:100;display:none;align-items:flex-end;justify-content:center;padding:0}
 .overlay.show{display:flex}
 .modal{background:var(--s1);border:1px solid var(--border);border-radius:20px 20px 0 0;padding:24px 20px 32px;width:100%;max-width:480px;animation:slideUp .35s ease both;max-height:85dvh;overflow-y:auto}
@@ -287,34 +286,11 @@ textarea:focus{border-color:var(--gold)}
     <!-- SCAN -->
     <div class="page scan-page" id="page_scan">
       <div class="scan-wrap">
-        <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:4px;">SCANNER</div>
-        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">Tapez le numéro de carte du client · ou un code coupon</div>
-        <div class="scan-mode-toggle">
-          <button class="smt-btn active" id="modeCamera" onclick="setMode('camera')">📷 Caméra</button>
-          <button class="smt-btn" id="modeManual" onclick="setMode('manual')">⌨️ Manuel</button>
-        </div>
-        <div id="cameraPanel" style="display:flex;flex-direction:column;align-items:center;width:100%">
-          <div class="viewfinder-wrap">
-            <div class="viewfinder-frame">
-              <video id="scanVideo" playsinline muted autoplay></video>
-              <div class="vf-overlay">
-                <div class="vf-corner tl"></div><div class="vf-corner tr"></div>
-                <div class="vf-corner bl"></div><div class="vf-corner br"></div>
-                <div class="scan-line" id="scanLine" style="display:none"></div>
-              </div>
-              <div class="vf-idle" id="vfIdle">
-                <div class="vf-idle-icon">📷</div>
-                <div class="vf-idle-text">Appuyez sur "Démarrer"<br>pour activer la caméra</div>
-              </div>
-            </div>
-          </div>
-          <div class="scan-status" id="scanStatus">PRÊT À SCANNER</div>
-          <div id="scanControls">
-            <button class="btn-start-scan" id="btnStartScan" onclick="startScan()"><span style="font-size:24px;">📷</span> DÉMARRER</button>
-            <button class="btn-stop-scan" id="btnStopScan" style="display:none;" onclick="stopScan()">✕ Arrêter la caméra</button>
-          </div>
-        </div>
-        <div class="manual-panel" id="manualPanel">
+        <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:4px;">⌨️ SAISIE MANUELLE</div>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.5;">Tapez le numéro de carte du client ou un code coupon</div>
+
+
+        <div class="manual-panel show" id="manualPanel">
           <div class="manual-title">Code carte ou coupon</div>
           <div class="manual-input-row">
             <input class="manual-inp" type="text" id="manualCodeInput" placeholder="3520 8944 7628" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')searchManual()">
@@ -347,39 +323,14 @@ textarea:focus{border-color:var(--gold)}
       </div>
     </div>
 
-    <!-- NOTIFS -->
-    <div class="page" id="page_notif">
-      <div class="section-box">
-        <div class="section-title">Envoyer un message</div>
-        <div class="notif-tabs">
-          <button class="ntab active" onclick="setNotifTarget('all',this)">Tous</button>
-          <button class="ntab" onclick="setNotifTarget('reward',this)">Coupons actifs 🎁</button>
-          <button class="ntab" onclick="setNotifTarget('inactive',this)">Inactifs</button>
-        </div>
-        <div class="recipients-list" id="recipList">—</div>
-        <div style="font-size:11px;color:var(--muted);margin-bottom:12px" id="recipCount">—</div>
-        <textarea id="notifMsg">🍊 VVV777 — Merci pour votre fidélité ! Venez nous rendre visite pour cumuler vos tampons. 10 tampons = 1 acheté 1 offert 🎁</textarea>
-        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
-          <button class="btn-sm btn-gold" onclick="copyNumbers()">📋 Copier les numéros</button>
-          <button class="btn-sm btn-ghost" onclick="openWhatsApp()">💬 WhatsApp</button>
-        </div>
-      </div>
-      <div class="section-box">
-        <div class="section-title">Export données</div>
-        <div class="section-desc">Téléchargez la liste complète en CSV.</div>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <button class="btn-sm btn-gold" onclick="exportCSV()">📥 Exporter tous les clients</button>
-          <button class="btn-sm btn-ghost" onclick="exportRewards()">🎟️ Exporter coupons actifs</button>
-        </div>
-      </div>
     </div>
   </div>
 
   <div class="tabbar">
     <button class="tab-btn active" id="tab_home" onclick="navTo('home',this)"><span class="t-icon">🏠</span><span class="t-label">Accueil</span></button>
     <button class="tab-btn" id="tab_clients" onclick="navTo('clients',this)"><span class="t-icon">👥</span><span class="t-label">Clients</span></button>
-    <button class="tab-btn scan-btn" id="tab_scan" onclick="navTo('scan',this)"><span class="t-icon">📷</span><span class="t-label">Scanner</span></button>
-    <button class="tab-btn" id="tab_notif" onclick="navTo('notif',this)"><span class="t-icon">📲</span><span class="t-label">Notifs</span></button>
+    <button class="tab-btn scan-btn" id="tab_scan" onclick="navTo('scan',this)"><span class="t-icon">⌨️</span><span class="t-label">Scanner</span></button>
+
   </div>
 </div>
 
@@ -450,8 +401,7 @@ const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','
 let allClients = [];
 let editingClient = null, editingStamps = 0;
 let scannedClient = null, scannedCoupon = null;
-let scanStream = null, zxingReader = null, isProcessing = false;
-let notifTarget = 'all', currentMode = 'camera';
+
 let profileClient = null;
 
 // ── FRUITS EN FOND ──
@@ -484,7 +434,6 @@ function doLogin(){
   }
 }
 function doLogout(){
-  stopScan();
   document.getElementById('app').classList.remove('show');
   document.getElementById('loginWrap').style.display='flex';
   document.getElementById('pwdInput').value='';
@@ -496,20 +445,10 @@ function navTo(page,el){
   el.classList.add('active');
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page_'+page).classList.add('active');
-  if(page!=='scan') stopScan();
-  if(page==='notif') loadNotifRecipients();
+
 }
 
 // ── MODE SCAN ──
-function setMode(mode){
-  currentMode=mode;
-  document.getElementById('modeCamera').classList.toggle('active',mode==='camera');
-  document.getElementById('modeManual').classList.toggle('active',mode==='manual');
-  document.getElementById('cameraPanel').style.display=mode==='camera'?'flex':'none';
-  const mp=document.getElementById('manualPanel');
-  if(mode==='manual'){mp.classList.add('show');stopScan();resetResults();setTimeout(()=>document.getElementById('manualCodeInput').focus(),150);}
-  else{mp.classList.remove('show');}
-}
 function resetResults(){
   document.getElementById('scanResult').classList.remove('show');
   document.getElementById('couponResult').classList.remove('show');
@@ -539,7 +478,7 @@ async function handleCardCode(raw){
   if(!client){
     setScanStatus('CLIENT INTROUVABLE','error');
     toast('Code non reconnu','error');
-    setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);
+    setTimeout(()=>{setScanStatus('','');},2500);
     return;
   }
   setScanStatus('CLIENT TROUVÉ !','success');
@@ -550,7 +489,7 @@ async function handleCouponCode(code){
   if(!data||!data.length){
     setScanStatus('COUPON INTROUVABLE','error');
     toast('Code coupon non reconnu','error');
-    setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);
+    setTimeout(()=>{setScanStatus('','');},2500);
     return;
   }
   setScanStatus('COUPON TROUVÉ !','success');
@@ -709,62 +648,10 @@ async function addStampToScanned(){
 }
 function cancelScan(){
   resetResults();
-  if(currentMode==='camera'&&scanStream){isProcessing=false;restartZxing();setScanStatus('EN ATTENTE DU CODE…','scanning');}
-  if(currentMode==='manual')setTimeout(()=>document.getElementById('manualCodeInput').focus(),100);
+  setTimeout(()=>document.getElementById('manualCodeInput').focus(),100);
 }
 
 // ── ZXING (QR + Barcode) ──
-async function startScan(){
-  document.getElementById('btnStartScan').style.display='none';
-  document.getElementById('btnStopScan').style.display='block';
-  document.getElementById('vfIdle').style.display='none';
-  document.getElementById('scanLine').style.display='block';
-  setScanStatus('EN ATTENTE DU CODE…','scanning');
-  resetResults();isProcessing=false;
-  try{
-    scanStream=await navigator.mediaDevices.getUserMedia({
-      video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}
-    });
-    const video=document.getElementById('scanVideo');
-    video.srcObject=scanStream;
-    await video.play();
-    restartZxing();
-  }catch(e){
-    setScanStatus('CAMÉRA NON ACCESSIBLE','error');
-    toast('Autorisez l\'accès à la caméra','error');
-    resetScanUI();
-  }
-}
-function restartZxing(){
-  try{if(zxingReader){zxingReader.reset();zxingReader=null;}}catch(e){}
-  if(!scanStream)return;
-  // BrowserMultiFormatReader lit QR codes ET codes-barres
-  zxingReader=new ZXing.BrowserMultiFormatReader();
-  const video=document.getElementById('scanVideo');
-  zxingReader.decodeFromStream(scanStream,video,(result,err)=>{
-    if(result&&!isProcessing){
-      isProcessing=true;
-      try{zxingReader.reset();zxingReader=null;}catch(e){}
-      setScanStatus('CODE DÉTECTÉ…','success');
-      processCode(result.getText()).then(()=>{isProcessing=false;});
-    }
-  });
-}
-function stopScan(){
-  try{if(zxingReader){zxingReader.reset();zxingReader=null;}}catch(e){}
-  if(scanStream&&scanStream.getTracks)scanStream.getTracks().forEach(t=>t.stop());
-  const video=document.getElementById('scanVideo');
-  if(video)video.srcObject=null;
-  scanStream=null;isProcessing=false;
-  resetScanUI();resetResults();
-}
-function resetScanUI(){
-  document.getElementById('btnStartScan').style.display='flex';
-  document.getElementById('btnStopScan').style.display='none';
-  document.getElementById('vfIdle').style.display='flex';
-  document.getElementById('scanLine').style.display='none';
-  setScanStatus('PRÊT À SCANNER','');
-}
 function setScanStatus(msg,type){
   const el=document.getElementById('scanStatus');
   el.textContent=msg;
@@ -935,60 +822,11 @@ async function saveStamps(){
 }
 
 // ── NOTIFS ──
-function setNotifTarget(t,el){
-  notifTarget=t;
-  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
-  el.classList.add('active');
-  loadNotifRecipients();
-}
-function getRecipients(){
-  if(notifTarget==='reward')return allClients.filter(c=>c.tampons>=10);
-  if(notifTarget==='inactive'){
-    const cut=new Date(Date.now()-180*24*60*60*1000);
-    return allClients.filter(c=>!c.last_stamp||new Date(c.last_stamp)<cut);
-  }
-  return allClients;
-}
-function loadNotifRecipients(){
-  const r=getRecipients();
-  document.getElementById('recipCount').textContent=`${r.length} destinataire${r.length>1?'s':''}`;
-  document.getElementById('recipList').innerHTML=r.length
-    ?r.map(c=>`<strong>${esc(c.nom)}</strong> — ${esc(c.telephone)}`).join('<br>')
-    :'<em>Aucun</em>';
-}
-function copyNumbers(){
-  navigator.clipboard.writeText(getRecipients().map(c=>c.telephone).join(', ')).then(()=>toast('Numéros copiés ✓'));
-}
-function openWhatsApp(){
-  window.open(`https://wa.me/?text=${encodeURIComponent(document.getElementById('notifMsg').value)}`);
-}
+
 
 // ── EXPORT ──
-function exportCSV(){
-  dlCSV(
-    [['Nom','Téléphone','Tampons','Carte N°','Inscrit le'],
-     ...allClients.map(c=>[c.nom,c.telephone,c.tampons,c.card_number||'',new Date(c.created_at).toLocaleDateString('fr-FR')])],
-    `vvv777-clients-${new Date().toISOString().slice(0,10)}.csv`
-  );
-  toast('Export téléchargé ✓');
-}
-async function exportRewards(){
-  const{data}=await sb.from('coupons').select('*,clients(nom,telephone)').is('used_at',null).gt('expires_at',new Date().toISOString());
-  if(!data?.length){toast('Aucun coupon actif','error');return;}
-  dlCSV(
-    [['Client','Téléphone','Code','Expire le'],
-     ...data.map(c=>[c.clients?.nom||'',c.clients?.telephone||'',c.code,new Date(c.expires_at).toLocaleDateString('fr-FR')])],
-    `vvv777-coupons-actifs.csv`
-  );
-  toast('Export coupons ✓');
-}
-function dlCSV(rows,filename){
-  const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
-  const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=filename;a.click();
-  URL.revokeObjectURL(url);
-}
+
+
 
 // ── MODAL ──
 function openModal(id){document.getElementById(id).classList.add('show');}
