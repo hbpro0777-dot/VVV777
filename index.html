@@ -97,23 +97,10 @@ input::placeholder{color:var(--muted2)}
 .lcard-count{text-align:right}
 .lcard-count-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:rgba(212,168,67,.5);line-height:1}
 .lcard-count-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.25)}
-.lcard-barcode-wrap{margin:0;padding:12px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;border-top:1px solid rgba(212,168,67,.15);cursor:pointer;transition:opacity .15s;position:relative;z-index:1;background:rgba(0,0,0,.2);border-radius:0 0 20px 20px}
-.lcard-barcode-wrap:active{opacity:.7}
+.lcard-num-wrap{margin:0;padding:14px 14px 12px;display:flex;flex-direction:column;align-items:center;gap:6px;border-top:1px solid rgba(212,168,67,.15);position:relative;z-index:1;background:rgba(0,0,0,.2);border-radius:0 0 20px 20px}
+.lcard-big-num{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:6px;color:var(--gold);font-variant-numeric:tabular-nums}
 .barcode-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
-#barcode_svg{display:block;border-radius:6px}
-.bc-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px}
-.bc-fullscreen.show{display:flex;animation:fadeIn .25s ease both}
-.bc-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#1A1200;letter-spacing:-1px;margin-bottom:2px}
-.bc-fs-logo em{color:#B8860B;font-style:normal}
-.bc-fs-sub{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#888;margin-bottom:20px}
-#barcode_svg_big{display:block;margin:0 auto}
-.bc-fs-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#2A1C00;letter-spacing:1px;margin-top:14px;margin-bottom:4px}
-.bc-fs-num{font-size:10px;color:#888;letter-spacing:3px;font-family:monospace;margin-bottom:8px}
-.bc-fs-stamps{display:flex;gap:5px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
-.bc-dot{width:18px;height:18px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:10px}
-.bc-dot.on{background:transparent}
-.bc-fs-hint{font-size:11px;color:#888;text-align:center;margin-bottom:20px}
-.bc-fs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+
 .btn-install{width:100%;background:linear-gradient(135deg,#1A1200,#2A1C00);color:var(--gold);border:1.5px solid rgba(212,168,67,.3);border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-install:active{transform:scale(.98)}
 .install-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
@@ -307,9 +294,9 @@ input::placeholder{color:var(--muted2)}
               <div class="lcard-count"><div class="lcard-count-val" id="c_scount">0/10</div><div class="lcard-count-lbl">tampons</div></div>
             </div>
           </div>
-          <div class="lcard-barcode-wrap" onclick="openFullscreenBC()">
-            <svg id="barcode_svg"></svg>
-            <div class="barcode-hint">Appuyez pour agrandir · Scan commerçant</div>
+          <div class="lcard-num-wrap">
+            <div class="lcard-big-num" id="c_big_num">— — —</div>
+            <div class="barcode-hint">Numéro de carte · Scan commerçant</div>
           </div>
         </div>
       </div>
@@ -363,16 +350,7 @@ input::placeholder{color:var(--muted2)}
   </button>
 </nav>
 
-<div class="bc-fullscreen" id="bc_fullscreen">
-  <div class="bc-fs-logo">VVV<em>777</em></div>
-  <div class="bc-fs-sub">Carte de fidélité</div>
-  <svg id="barcode_svg_big"></svg>
-  <div class="bc-fs-name" id="bc_fs_name">—</div>
-  <div class="bc-fs-num" id="bc_fs_num">—</div>
-  <div class="bc-fs-stamps" id="bc_fs_dots"></div>
-  <div class="bc-fs-hint">Présentez ce code-barres au commerçant</div>
-  <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
-</div>
+
 
 <div class="install-overlay" id="install_overlay" onclick="closeInstallModal(event)">
   <div class="install-modal">
@@ -412,47 +390,6 @@ let realtimeChannels = [];
     bg.appendChild(s);
   }
 })();
-
-// Code-barres Code 128
-var C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
-var C128C = Array.from({length:95},function(_,i){return String.fromCharCode(i+32);}).join('');
-
-function encodeC128(t){
-  var v=[104],c=104;
-  for(var i=0;i<t.length;i++){
-    var x=C128C.indexOf(t[i]);
-    if(x<0)continue;
-    v.push(x);c+=(i+1)*x;
-  }
-  v.push(c%103);v.push(106);
-  return v.map(function(x){return C128P[x];}).join('')+'11';
-}
-
-function drawBarcode(svgId,text,barW,h,dark){
-  var s=document.getElementById(svgId);
-  if(!s)return;
-  var t=text.replace(/\s/g,'');
-  var p=encodeC128(t),W=p.length*barW;
-  s.setAttribute('width',W);
-  s.setAttribute('height',h);
-  s.setAttribute('viewBox','0 0 '+W+' '+h);
-  var fill=dark?'#111':'rgba(240,201,106,0.9)';
-  var bg=dark?'#fff':'transparent';
-  var html='<rect width="'+W+'" height="'+h+'" fill="'+bg+'"/>';
-  for(var i=0;i<p.length;i++){
-    if(p[i]==='1')html+='<rect x="'+(i*barW)+'" y="0" width="'+barW+'" height="'+h+'" fill="'+fill+'"/>';
-  }
-  s.innerHTML=html;
-}
-
-function renderBarcode(client){
-  var val=(client.card_number||client.id).replace(/\s/g,'');
-  drawBarcode('barcode_svg',val,1.6,42,false);
-}
-function renderBarcodeBig(client){
-  var val=(client.card_number||client.id).replace(/\s/g,'');
-  drawBarcode('barcode_svg_big',val,2.8,80,true);
-}
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
@@ -599,8 +536,10 @@ function showCard(client,isNew,showWelcome){
   currentClient=client;
   document.getElementById('c_name').textContent=client.nom.toUpperCase();
   document.getElementById('c_num').textContent=client.card_number||'—';
+  var bigNum=document.getElementById('c_big_num');
+  if(bigNum)bigNum.textContent=client.card_number||'—';
   renderStamps(client.tampons||0,isNew);
-  setTimeout(function(){renderBarcode(client);},50);
+
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
@@ -622,21 +561,7 @@ function logout(){
   showScreen('s1');setStep(1);
 }
 
-function openFullscreenBC(){
-  if(!currentClient)return;
-  document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
-  document.getElementById('bc_fs_num').textContent=currentClient.card_number||'';
-  renderBarcodeBig(currentClient);
-  var t=currentClient.tampons||0;
-  var dots='';
-  for(var i=0;i<10;i++){
-    dots+='<div class="bc-dot'+(i<t?' on':'')+'">'+( i<t?FRUITS[i]:'' )+'</div>';
-  }
-  document.getElementById('bc_fs_dots').innerHTML=dots;
-  document.getElementById('bc_fullscreen').classList.add('show');
-  if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(function(){});
-}
-function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
+
 
 function openInstallModal(){
   var ua=navigator.userAgent.toLowerCase();
@@ -767,12 +692,7 @@ function subscribeRealtime(id){
       var u=p.new,prevTampons=currentClient.tampons||0;
       currentClient=Object.assign({},currentClient,u);
       renderStamps(u.tampons,u.tampons>prevTampons);
-      var dots=document.getElementById('bc_fs_dots');
-      if(dots){
-        var html='';
-        for(var i=0;i<10;i++)html+='<div class="bc-dot'+(i<u.tampons?' on':'')+'">'+( i<u.tampons?FRUITS[i]:'' )+'</div>';
-        dots.innerHTML=html;
-      }
+
       if(prevTampons>=9&&u.tampons===0){
         showRewardToast();
         var res=await sb.from('coupons').select('*').eq('client_id',id).order('created_at',{ascending:false});
