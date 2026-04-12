@@ -557,26 +557,42 @@ async function handleCouponCode(code){
   showCouponResult(data[0]);
 }
 async function findClientByCode(raw){
-  const num=raw.replace(/\s/g,'').trim();
-  // Cherche par card_number dans le cache local
-  let c=allClients.find(x=>(x.card_number||'').replace(/\s/g,'')===num);
+  // Le code-barres contient le card_number sans espaces (ex: "352089447628")
+  const num = raw.replace(/[\s\-]/g, '').trim();
+
+  // 1. Cache local — card_number sans espaces
+  let c = allClients.find(x => (x.card_number||'').replace(/\s/g,'') === num);
   if(c) return c;
-  // Cherche par id (QR code peut contenir l'id directement)
-  if(num.match(/^[a-f0-9-]{36}$/i)){
-    c=allClients.find(x=>x.id===num);
-    if(!c){const{data}=await sb.from('clients').select('*').eq('id',num).single();c=data||null;}
-    if(c&&!allClients.find(x=>x.id===c.id))allClients.push(c);
+
+  // 2. Cache local — card_number avec espaces reformatés (4-4-4)
+  const formatted = num.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+  c = allClients.find(x => (x.card_number||'').trim() === formatted);
+  if(c) return c;
+
+  // 3. Base de données — card_number exact sans espaces
+  const{data: exact} = await sb.from('clients').select('*')
+    .eq('card_number', formatted)
+    .limit(1);
+  if(exact && exact.length){
+    c = exact[0];
+    if(!allClients.find(x=>x.id===c.id)) allClients.push(c);
     return c;
   }
-  // Cherche en base par card_number
-  if(num.length>=4){
-    const{data}=await sb.from('clients').select('*').ilike('card_number','%'+num.slice(0,4)+'%').limit(20);
-    if(data&&data.length){
-      c=data.find(x=>(x.card_number||'').replace(/\s/g,'')===num)||null;
-      if(c&&!allClients.find(x=>x.id===c.id))allClients.push(c);
-      return c;
+
+  // 4. Base de données — recherche partielle sur les 4 premiers chiffres
+  if(num.length >= 4){
+    const{data: partial} = await sb.from('clients').select('*')
+      .ilike('card_number', '%' + num.slice(0,4) + '%')
+      .limit(50);
+    if(partial && partial.length){
+      c = partial.find(x => (x.card_number||'').replace(/\s/g,'') === num) || null;
+      if(c){
+        if(!allClients.find(x=>x.id===c.id)) allClients.push(c);
+        return c;
+      }
     }
   }
+
   return null;
 }
 
