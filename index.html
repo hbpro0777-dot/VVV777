@@ -454,11 +454,17 @@ function drawQR(canvasId, text, size){
 }
 function renderQR(client){
   const val = (client.card_number||client.id).replace(/\s/g,'');
-  drawQR('qr_canvas', val, 120);
+  if(typeof QRCode === 'undefined'){ setTimeout(()=>renderQR(client),200); return; }
+  QRCode.toCanvas(document.getElementById('qr_canvas'), val, {
+    width:120, margin:1, color:{dark:'#1A1200',light:'#FFFFFF'}
+  }, err=>{ if(err) console.error(err); });
 }
 function renderQRBig(client){
   const val = (client.card_number||client.id).replace(/\s/g,'');
-  drawQR('qr_canvas_big', val, 260);
+  if(typeof QRCode === 'undefined'){ setTimeout(()=>renderQRBig(client),200); return; }
+  QRCode.toCanvas(document.getElementById('qr_canvas_big'), val, {
+    width:260, margin:1, color:{dark:'#1A1200',light:'#FFFFFF'}
+  }, err=>{ if(err) console.error(err); });
 }
 
 // ── NAV ──
@@ -647,35 +653,35 @@ function closeFullscreenQR(){document.getElementById('bc_fullscreen').classList.
 
 // ── MODAL INSTALLER ──
 function openInstallModal(){
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  const isAndroid = /android/i.test(navigator.userAgent);
-  const isSafari = /safari/i.test(navigator.userAgent) && !/chrome/i.test(navigator.userAgent);
-  const isChrome = /chrome/i.test(navigator.userAgent);
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
+  const isAndroid = /android/i.test(navigator.userAgent.toLowerCase());
+  const isChrome = /chrome/i.test(navigator.userAgent) && !/edg/i.test(navigator.userAgent);
 
   let steps = [];
-  if(isIOS && isSafari){
+  if(isIOS){
     steps = [
-      {icon:'1', title:'Appuyez sur Partager', desc:'Tapez l\'icône <strong>📤</strong> en bas de Safari'},
-      {icon:'2', title:'Sur l\'écran suivant', desc:'Faites défiler et appuyez sur <strong>« Sur l\'écran d\'accueil »</strong>'},
-      {icon:'3', title:'Confirmez', desc:'Appuyez sur <strong>« Ajouter »</strong> en haut à droite'},
+      {num:'1', title:'Ouvrez dans Safari', desc:'Cette page doit être ouverte dans <strong>Safari</strong> (pas Chrome)'},
+      {num:'2', title:'Appuyez sur Partager 📤', desc:'Le bouton se trouve <strong>en bas au centre</strong> de Safari'},
+      {num:'3', title:'Faites défiler vers le bas', desc:'Cherchez <strong>« Sur l\'écran d\'accueil »</strong> avec une icône +'},
+      {num:'4', title:'Appuyez sur Ajouter', desc:'Confirmez en haut à droite — <strong>c\'est fait ! 🎉</strong>'},
     ];
   } else if(isAndroid && isChrome){
     steps = [
-      {icon:'1', title:'Menu Chrome', desc:'Appuyez sur les <strong>3 points ⋮</strong> en haut à droite'},
-      {icon:'2', title:'Installer l\'app', desc:'Appuyez sur <strong>« Ajouter à l\'écran d\'accueil »</strong>'},
-      {icon:'3', title:'Confirmez', desc:'Appuyez sur <strong>« Ajouter »</strong> dans la popup'},
+      {num:'1', title:'Menu Chrome ⋮', desc:'Appuyez sur les <strong>3 points</strong> en haut à droite de Chrome'},
+      {num:'2', title:'Ajouter à l\'écran d\'accueil', desc:'Cherchez l\'option <strong>« Ajouter à l\'écran d\'accueil »</strong>'},
+      {num:'3', title:'Installez', desc:'Appuyez sur <strong>« Installer »</strong> ou <strong>« Ajouter »</strong> — <strong>c\'est fait ! 🎉</strong>'},
     ];
   } else {
     steps = [
-      {icon:'1', title:'Ouvrez le menu', desc:'Cherchez l\'option <strong>« Ajouter à l\'écran d\'accueil »</strong> dans le menu de votre navigateur'},
-      {icon:'2', title:'Confirmez', desc:'Appuyez sur <strong>« Ajouter »</strong> pour confirmer'},
-      {icon:'3', title:'C\'est fait !', desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil'},
+      {num:'1', title:'Menu de votre navigateur', desc:'Appuyez sur le <strong>menu ⋮</strong> ou <strong>⋯</strong> de votre navigateur'},
+      {num:'2', title:'Cherchez l\'option', desc:'<strong>« Ajouter à l\'écran d\'accueil »</strong> ou <strong>« Installer »</strong>'},
+      {num:'3', title:'Confirmez', desc:'Appuyez sur <strong>Ajouter</strong> — <strong>c\'est fait ! 🎉</strong>'},
     ];
   }
 
   const stepsHtml = steps.map(s=>`
     <div class="install-step">
-      <div class="install-step-num">${s.icon}</div>
+      <div class="install-step-num">${s.num}</div>
       <div class="install-step-text"><strong>${s.title}</strong>${s.desc}</div>
     </div>
   `).join('');
