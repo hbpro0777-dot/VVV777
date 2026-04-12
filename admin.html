@@ -19,8 +19,14 @@
 :root{--gold:#D4A843;--gold2:#F0C96A;--gold3:rgba(212,168,67,.12);--bg:#080807;--s1:#0F0F0E;--s2:#141410;--border:#1E1D18;--border2:rgba(212,168,67,.18);--text:#F2EFE8;--muted:#5A5545;--muted2:#2A2820;--green:#4CAF50;--red:#E05555;--r:14px}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html,body{height:100%}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden}
-.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:20px}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;overflow-x:hidden;position:relative}
+
+/* FRUITS EN FOND */
+.fruits-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.fb{position:absolute;top:-60px;font-size:20px;opacity:0;animation:fbfall linear infinite}
+@keyframes fbfall{0%{transform:translateY(0) rotate(0deg);opacity:0}10%{opacity:.08}90%{opacity:.05}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}
+
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100dvh;padding:20px;position:relative;z-index:1}
 .login-box{background:var(--s1);border:1px solid var(--border);border-radius:20px;padding:40px 32px;width:100%;max-width:360px;animation:fu .5s ease both}
 .login-logo{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--text);letter-spacing:-1px;text-align:center;margin-bottom:4px}
 .login-logo em{color:var(--gold);font-style:normal}
@@ -31,7 +37,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .field-inp:focus{border-color:var(--gold)}
 .field-inp::placeholder{color:var(--muted2)}
 .field-mb{margin-bottom:14px}
-.app{display:none;height:100dvh;flex-direction:column}
+.app{display:none;height:100dvh;flex-direction:column;position:relative;z-index:1}
 .app.show{display:flex}
 .topnav{background:var(--s1);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 18px;height:56px;flex-shrink:0}
 .tn-logo{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--text);letter-spacing:-0.5px}
@@ -81,8 +87,6 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;ove
 .badge.active{background:rgba(76,175,80,.1);color:#6EDD72}
 .empty-state{text-align:center;padding:48px 20px;color:var(--muted)}
 .empty-icon{font-size:36px;margin-bottom:12px}
-
-/* SCAN PAGE */
 .scan-page{padding:0 !important}
 .scan-wrap{display:flex;flex-direction:column;align-items:center;min-height:calc(100dvh - 56px - 76px);padding:20px 18px}
 .scan-mode-toggle{display:flex;gap:0;margin-bottom:20px;background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:4px;width:100%;max-width:320px}
@@ -181,34 +185,22 @@ textarea:focus{border-color:var(--gold)}
 .spin{display:inline-block;width:14px;height:14px;border:2px solid transparent;border-top-color:currentColor;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:5px}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fu{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
-
-/* ═══════════════════════════════
-   MODAL CLIENT — PROFIL COMPLET
-═══════════════════════════════ */
 .client-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);z-index:100;display:none;align-items:flex-end;justify-content:center}
 .client-modal-overlay.show{display:flex}
 .client-modal{background:var(--s1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:0;width:100%;max-width:520px;animation:slideUp .35s ease both;max-height:92dvh;overflow-y:auto;display:flex;flex-direction:column}
-
-/* Header modal */
-.cm-header{padding:20px 20px 0;display:flex;align-items:center;gap:14px;margin-bottom:16px;position:sticky;top:0;background:var(--s1);z-index:2;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.cm-header{padding:20px 20px 16px;display:flex;align-items:center;gap:14px;margin-bottom:0;position:sticky;top:0;background:var(--s1);z-index:2;border-bottom:1px solid var(--border)}
 .cm-avatar{width:52px;height:52px;border-radius:50%;background:var(--gold3);border:2px solid rgba(212,168,67,.3);display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:20px;color:var(--gold);flex-shrink:0}
 .cm-title-block{flex:1;min-width:0}
 .cm-name{font-size:18px;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cm-phone{font-size:13px;color:var(--muted);margin-top:2px}
 .cm-close{background:var(--muted2);border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:16px;cursor:pointer;flex-shrink:0;transition:all .18s}
 .cm-close:hover{background:var(--border);color:var(--text)}
-
-/* Body */
-.cm-body{padding:0 20px 20px;display:flex;flex-direction:column;gap:14px}
-
-/* Info row */
+.cm-body{padding:16px 20px 20px;display:flex;flex-direction:column;gap:14px}
 .cm-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .cm-info-card{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:12px 14px}
 .cm-info-lbl{font-size:8px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
 .cm-info-val{font-size:13px;font-weight:600;color:var(--text);line-height:1.3}
 .cm-info-val.gold{color:var(--gold)}
-
-/* Carte mini */
 .cm-card-mini{background:linear-gradient(145deg,#1A1200,#2A1C00);border:1px solid rgba(212,168,67,.2);border-radius:14px;padding:16px;position:relative;overflow:hidden}
 .cm-card-mini::before{content:'';position:absolute;top:-30px;right:-30px;width:100px;height:100px;border-radius:50%;background:radial-gradient(circle,rgba(212,168,67,.1) 0%,transparent 65%);pointer-events:none}
 .cm-card-label{font-size:8px;letter-spacing:3px;text-transform:uppercase;color:rgba(212,168,67,.4);margin-bottom:10px}
@@ -220,23 +212,17 @@ textarea:focus{border-color:var(--gold)}
 .cm-stamp-count{font-family:'Bebas Neue',sans-serif;font-size:20px;color:rgba(212,168,67,.5)}
 .cm-edit-btn{background:rgba(212,168,67,.1);border:1px solid rgba(212,168,67,.2);border-radius:8px;padding:7px 12px;color:var(--gold);font-size:12px;font-family:'DM Sans',sans-serif;cursor:pointer;transition:all .18s;margin-top:10px;width:100%}
 .cm-edit-btn:hover{background:rgba(212,168,67,.2)}
-
-/* Section coupons */
 .cm-section-title{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--muted);margin-bottom:8px}
 .cm-coupon-row{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:11px 13px;margin-bottom:6px;display:flex;align-items:center;justify-content:space-between;gap:10px}
 .cm-coupon-code{font-family:monospace;font-size:12px;color:var(--gold);letter-spacing:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1}
 .cm-coupon-status{font-size:10px;letter-spacing:1px;text-transform:uppercase;font-weight:600;flex-shrink:0}
-.cm-coupon-status.active {color:#6EDD72}
-.cm-coupon-status.used   {color:var(--muted)}
+.cm-coupon-status.active{color:#6EDD72}
+.cm-coupon-status.used{color:var(--muted)}
 .cm-coupon-status.expired{color:#E88}
 .cm-coupon-date{font-size:10px;color:var(--muted);margin-top:3px}
 .cm-no-coupons{font-size:12.5px;color:var(--muted);text-align:center;padding:14px;background:var(--s2);border-radius:10px}
-
-/* Bouton supprimer */
 .cm-delete-btn{width:100%;background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.25);border-radius:12px;padding:14px;color:#E88;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;margin-top:4px}
 .cm-delete-btn:hover{background:rgba(224,85,85,.18);border-color:#E05555}
-
-/* Confirm suppression */
 .cm-confirm-delete{background:rgba(224,85,85,.1);border:1.5px solid rgba(224,85,85,.35);border-radius:14px;padding:18px;display:none;flex-direction:column;gap:12px;animation:fu .25s ease both}
 .cm-confirm-delete.show{display:flex}
 .cm-confirm-text{font-size:14px;color:#E88;font-weight:600;text-align:center}
@@ -250,6 +236,9 @@ textarea:focus{border-color:var(--gold)}
 </style>
 </head>
 <body>
+
+<!-- FRUITS EN FOND -->
+<div class="fruits-bg" id="fruits_bg"></div>
 
 <div class="login-wrap" id="loginWrap">
   <div class="login-box">
@@ -274,7 +263,6 @@ textarea:focus{border-color:var(--gold)}
   </div>
 
   <div class="pages">
-
     <!-- HOME -->
     <div class="page active" id="page_home">
       <div class="stats-row">
@@ -300,7 +288,7 @@ textarea:focus{border-color:var(--gold)}
     <div class="page scan-page" id="page_scan">
       <div class="scan-wrap">
         <div style="font-family:'Bebas Neue';font-size:26px;letter-spacing:1px;color:var(--text);text-align:center;margin-bottom:4px;">SCANNER</div>
-        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">Carte de fidélité <span style="color:var(--border2)">·</span> Wallet <span style="color:var(--border2)">·</span> Coupon</div>
+        <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px;line-height:1.5;">QR Code carte · Coupon</div>
         <div class="scan-mode-toggle">
           <button class="smt-btn active" id="modeCamera" onclick="setMode('camera')">📷 Caméra</button>
           <button class="smt-btn" id="modeManual" onclick="setMode('manual')">⌨️ Manuel</button>
@@ -329,10 +317,10 @@ textarea:focus{border-color:var(--gold)}
         <div class="manual-panel" id="manualPanel">
           <div class="manual-title">Code carte ou coupon</div>
           <div class="manual-input-row">
-            <input class="manual-inp" type="text" id="manualCodeInput" placeholder="8701 1983 4056 ou VVV-XXXX-XXXX" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')searchManual()">
+            <input class="manual-inp" type="text" id="manualCodeInput" placeholder="3520 8944 7628 ou VVV-XXXX" inputmode="text" autocomplete="off" autocorrect="off" spellcheck="false" onkeydown="if(event.key==='Enter')searchManual()">
             <button class="btn-manual-search" onclick="searchManual()">🔍</button>
           </div>
-          <div class="manual-hint">Code de carte <strong style="color:var(--gold)">ou</strong> code coupon</div>
+          <div class="manual-hint">Numéro de carte <strong style="color:var(--gold)">ou</strong> code coupon</div>
         </div>
         <div class="scan-result" id="scanResult">
           <div class="coupon-alert" id="couponAlert" style="display:none">🎟️ Ce client a un coupon actif — scannez le coupon pour le valider.</div>
@@ -385,7 +373,6 @@ textarea:focus{border-color:var(--gold)}
         </div>
       </div>
     </div>
-
   </div>
 
   <div class="tabbar">
@@ -396,7 +383,7 @@ textarea:focus{border-color:var(--gold)}
   </div>
 </div>
 
-<!-- MODAL TAMPONS (existant) -->
+<!-- MODAL TAMPONS -->
 <div class="overlay" id="modalStamps">
   <div class="modal">
     <div class="modal-title">Modifier les tampons</div>
@@ -411,10 +398,9 @@ textarea:focus{border-color:var(--gold)}
   </div>
 </div>
 
-<!-- MODAL CLIENT PROFIL COMPLET -->
+<!-- MODAL CLIENT PROFIL -->
 <div class="client-modal-overlay" id="clientModal">
   <div class="client-modal">
-    <!-- Header -->
     <div class="cm-header">
       <div class="cm-avatar" id="cm_avatar">—</div>
       <div class="cm-title-block">
@@ -423,31 +409,13 @@ textarea:focus{border-color:var(--gold)}
       </div>
       <button class="cm-close" onclick="closeClientModal()">✕</button>
     </div>
-
-    <!-- Body -->
     <div class="cm-body">
-
-      <!-- Infos générales -->
       <div class="cm-info-grid">
-        <div class="cm-info-card">
-          <div class="cm-info-lbl">Inscrit le</div>
-          <div class="cm-info-val" id="cm_created">—</div>
-        </div>
-        <div class="cm-info-card">
-          <div class="cm-info-lbl">Dernier tampon</div>
-          <div class="cm-info-val" id="cm_last_stamp">—</div>
-        </div>
-        <div class="cm-info-card">
-          <div class="cm-info-lbl">Coupons actifs</div>
-          <div class="cm-info-val gold" id="cm_active_coupons">—</div>
-        </div>
-        <div class="cm-info-card">
-          <div class="cm-info-lbl">Coupons utilisés</div>
-          <div class="cm-info-val" id="cm_used_coupons">—</div>
-        </div>
+        <div class="cm-info-card"><div class="cm-info-lbl">Inscrit le</div><div class="cm-info-val" id="cm_created">—</div></div>
+        <div class="cm-info-card"><div class="cm-info-lbl">Dernier tampon</div><div class="cm-info-val" id="cm_last_stamp">—</div></div>
+        <div class="cm-info-card"><div class="cm-info-lbl">Coupons actifs</div><div class="cm-info-val gold" id="cm_active_coupons">—</div></div>
+        <div class="cm-info-card"><div class="cm-info-lbl">Coupons utilisés</div><div class="cm-info-val" id="cm_used_coupons">—</div></div>
       </div>
-
-      <!-- Carte fidélité mini -->
       <div class="cm-card-mini">
         <div class="cm-card-label">Carte de fidélité · <span id="cm_card_num" style="letter-spacing:2px;font-family:monospace">—</span></div>
         <div class="cm-stamps-grid" id="cm_stamps_grid"></div>
@@ -457,14 +425,10 @@ textarea:focus{border-color:var(--gold)}
         </div>
         <button class="cm-edit-btn" onclick="openStampsModalFromProfile()">✏️ Modifier les tampons</button>
       </div>
-
-      <!-- Coupons -->
       <div>
         <div class="cm-section-title">Historique des coupons</div>
         <div id="cm_coupons_list"></div>
       </div>
-
-      <!-- Suppression -->
       <div class="cm-confirm-delete" id="cm_confirm_delete">
         <div class="cm-confirm-text">⚠️ Supprimer ce compte ?</div>
         <div class="cm-confirm-sub">Cette action est irréversible.<br>Le client et tous ses coupons seront effacés.</div>
@@ -473,9 +437,7 @@ textarea:focus{border-color:var(--gold)}
           <button class="cm-btn-confirm-del" onclick="confirmDeleteClient()">SUPPRIMER</button>
         </div>
       </div>
-
       <button class="cm-delete-btn" id="cm_delete_btn" onclick="askDeleteClient()">🗑 SUPPRIMER CE COMPTE</button>
-
     </div>
   </div>
 </div>
@@ -490,7 +452,24 @@ let editingClient = null, editingStamps = 0;
 let scannedClient = null, scannedCoupon = null;
 let scanStream = null, zxingReader = null, isProcessing = false;
 let notifTarget = 'all', currentMode = 'camera';
-let profileClient = null; // client ouvert dans le modal profil
+let profileClient = null;
+
+// ── FRUITS EN FOND ──
+(function(){
+  const bg = document.getElementById('fruits_bg');
+  const items = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈','🍎','🍌'];
+  for(let i=0;i<14;i++){
+    const s = document.createElement('span');
+    s.className = 'fb';
+    s.textContent = items[Math.floor(Math.random()*items.length)];
+    s.style.left = (Math.random()*100)+'%';
+    s.style.fontSize = (14+Math.random()*14)+'px';
+    const dur = 10+Math.random()*14;
+    s.style.animationDuration = dur+'s';
+    s.style.animationDelay = (-Math.random()*dur)+'s';
+    bg.appendChild(s);
+  }
+})();
 
 // ── LOGIN ──
 function doLogin(){
@@ -498,16 +477,27 @@ function doLogin(){
     document.getElementById('loginWrap').style.display='none';
     document.getElementById('app').classList.add('show');
     loadClients();
-  }else{document.getElementById('loginErr').style.display='block';}
+  }else{
+    document.getElementById('loginErr').style.display='block';
+    document.getElementById('pwdInput').value='';
+    document.getElementById('pwdInput').focus();
+  }
 }
-function doLogout(){stopScan();document.getElementById('app').classList.remove('show');document.getElementById('loginWrap').style.display='flex';document.getElementById('pwdInput').value='';}
+function doLogout(){
+  stopScan();
+  document.getElementById('app').classList.remove('show');
+  document.getElementById('loginWrap').style.display='flex';
+  document.getElementById('pwdInput').value='';
+}
 
 // ── NAV ──
 function navTo(page,el){
-  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page_'+page).classList.add('active');
-  if(page!=='scan')stopScan();
-  if(page==='notif')loadNotifRecipients();
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page_'+page).classList.add('active');
+  if(page!=='scan') stopScan();
+  if(page==='notif') loadNotifRecipients();
 }
 
 // ── MODE SCAN ──
@@ -546,21 +536,47 @@ async function processCode(raw){
 }
 async function handleCardCode(raw){
   const client=await findClientByCode(raw);
-  if(!client){setScanStatus('CLIENT INTROUVABLE','error');toast('Code de carte non reconnu','error');setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);return;}
-  setScanStatus('CLIENT TROUVÉ !','success');showCardResult(client);
+  if(!client){
+    setScanStatus('CLIENT INTROUVABLE','error');
+    toast('Code non reconnu','error');
+    setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);
+    return;
+  }
+  setScanStatus('CLIENT TROUVÉ !','success');
+  showCardResult(client);
 }
 async function handleCouponCode(code){
   const{data}=await sb.from('coupons').select('*,clients(nom,telephone)').ilike('code',code.toUpperCase()).limit(1);
-  if(!data||!data.length){setScanStatus('COUPON INTROUVABLE','error');toast('Code coupon non reconnu','error');setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);return;}
-  setScanStatus('COUPON TROUVÉ !','success');showCouponResult(data[0]);
+  if(!data||!data.length){
+    setScanStatus('COUPON INTROUVABLE','error');
+    toast('Code coupon non reconnu','error');
+    setTimeout(()=>{if(currentMode==='camera'&&scanStream)restartZxing();else setScanStatus('','');},2500);
+    return;
+  }
+  setScanStatus('COUPON TROUVÉ !','success');
+  showCouponResult(data[0]);
 }
 async function findClientByCode(raw){
   const num=raw.replace(/\s/g,'').trim();
-  const urlMatch=raw.match(/[?&]carte=([a-f0-9-]{36})/i);
-  if(urlMatch){const id=urlMatch[1];let c=allClients.find(x=>x.id===id);if(!c){const{data}=await sb.from('clients').select('*').eq('id',id).single();c=data;}return c||null;}
-  let c=allClients.find(x=>(x.card_number||'').replace(/\s/g,'')===num);if(c)return c;
-  if(num.length>=4){const{data}=await sb.from('clients').select('*').filter('card_number','ilike','%'+num.slice(0,4)+'%').limit(20);
-    if(data&&data.length){c=data.find(x=>(x.card_number||'').replace(/\s/g,'')===num)||null;if(c&&!allClients.find(x=>x.id===c.id))allClients.push(c);return c;}}
+  // Cherche par card_number dans le cache local
+  let c=allClients.find(x=>(x.card_number||'').replace(/\s/g,'')===num);
+  if(c) return c;
+  // Cherche par id (QR code peut contenir l'id directement)
+  if(num.match(/^[a-f0-9-]{36}$/i)){
+    c=allClients.find(x=>x.id===num);
+    if(!c){const{data}=await sb.from('clients').select('*').eq('id',num).single();c=data||null;}
+    if(c&&!allClients.find(x=>x.id===c.id))allClients.push(c);
+    return c;
+  }
+  // Cherche en base par card_number
+  if(num.length>=4){
+    const{data}=await sb.from('clients').select('*').ilike('card_number','%'+num.slice(0,4)+'%').limit(20);
+    if(data&&data.length){
+      c=data.find(x=>(x.card_number||'').replace(/\s/g,'')===num)||null;
+      if(c&&!allClients.find(x=>x.id===c.id))allClients.push(c);
+      return c;
+    }
+  }
   return null;
 }
 
@@ -593,9 +609,17 @@ function showCouponResult(coupon){
   document.getElementById('cr_validity').textContent=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}`;
   const statusEl=document.getElementById('cr_status_badge');
   const btn=document.getElementById('btn_validate_coupon');
-  if(coupon.used_at){statusEl.textContent='✓ Utilisé le '+new Date(coupon.used_at).toLocaleDateString('fr-FR');statusEl.className='cr-status used';btn.disabled=true;btn.textContent='DÉJÀ UTILISÉ';}
-  else if(now>exp){statusEl.textContent='⏳ Expiré';statusEl.className='cr-status expired';btn.disabled=true;btn.textContent='COUPON EXPIRÉ';}
-  else{statusEl.textContent='🟢 Actif — usage unique';statusEl.className='cr-status active';btn.disabled=false;btn.textContent='✅ VALIDER L\'UTILISATION';btn.style.background='';btn.style.color='';btn.style.borderColor='';}
+  if(coupon.used_at){
+    statusEl.textContent='✓ Utilisé le '+new Date(coupon.used_at).toLocaleDateString('fr-FR');
+    statusEl.className='cr-status used';btn.disabled=true;btn.textContent='DÉJÀ UTILISÉ';
+  }else if(now>exp){
+    statusEl.textContent='⏳ Expiré';statusEl.className='cr-status expired';
+    btn.disabled=true;btn.textContent='COUPON EXPIRÉ';
+  }else{
+    statusEl.textContent='🟢 Actif — usage unique';statusEl.className='cr-status active';
+    btn.disabled=false;btn.textContent="✅ VALIDER L'UTILISATION";
+    btn.style.background='';btn.style.color='';btn.style.borderColor='';
+  }
   document.getElementById('couponResult').classList.add('show');
   document.getElementById('scanResult').classList.remove('show');
 }
@@ -611,12 +635,16 @@ async function validateCoupon(){
     const clientName=scannedCoupon.clients?scannedCoupon.clients.nom:'Client';
     document.getElementById('cr_status_badge').textContent='✓ Validé maintenant';
     document.getElementById('cr_status_badge').className='cr-status used';
-    btn.textContent='✓ COUPON VALIDÉ';btn.style.background='var(--muted2)';btn.style.color='var(--muted)';btn.style.borderColor='var(--border)';
+    btn.textContent='✓ COUPON VALIDÉ';
+    btn.style.background='var(--muted2)';btn.style.color='var(--muted)';btn.style.borderColor='var(--border)';
     setScanStatus('COUPON VALIDÉ ✓','success');
     toast(`✅ Coupon de ${clientName} validé !`);
     loadClients();
-    setTimeout(()=>cancelScan(), 2500);
-  }catch(e){btn.disabled=false;btn.textContent='✅ VALIDER L\'UTILISATION';toast('Erreur lors de la validation','error');}
+    setTimeout(()=>cancelScan(),2500);
+  }catch(e){
+    btn.disabled=false;btn.textContent="✅ VALIDER L'UTILISATION";
+    toast('Erreur lors de la validation','error');
+  }
 }
 
 // ── TAMPONS ──
@@ -631,10 +659,15 @@ async function addStampToScanned(){
   const newCount=Math.min((scannedClient.tampons||0)+1,10);
   const btn=document.getElementById('sr_btn_stamp');
   btn.disabled=true;btn.innerHTML='<span class="spin"></span>AJOUT…';
-  const{error}=await sb.from('clients').update({tampons:newCount,reward_pending:newCount>=10,last_stamp:new Date().toISOString()}).eq('id',scannedClient.id);
+  const{error}=await sb.from('clients').update({
+    tampons:newCount,
+    reward_pending:newCount>=10,
+    last_stamp:new Date().toISOString()
+  }).eq('id',scannedClient.id);
   if(error){toast('Erreur réseau','error');btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';return;}
   scannedClient.tampons=newCount;
-  const idx=allClients.findIndex(c=>c.id===scannedClient.id);if(idx>=0)allClients[idx].tampons=newCount;
+  const idx=allClients.findIndex(c=>c.id===scannedClient.id);
+  if(idx>=0)allClients[idx].tampons=newCount;
   renderSrStamps(newCount,true);
   setScanStatus(`TAMPON ${newCount}/10 AJOUTÉ !`,'success');
   toast(`🍊 Tampon ${newCount}/10 — ${scannedClient.nom}`);
@@ -642,9 +675,20 @@ async function addStampToScanned(){
     btn.textContent='⏳ Traitement…';
     setTimeout(async()=>{
       const{data}=await sb.from('clients').select('*').eq('id',scannedClient.id).single();
-      if(data){scannedClient=data;const i=allClients.findIndex(c=>c.id===data.id);if(i>=0)allClients[i]=data;renderSrStamps(data.tampons,false);btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';setScanStatus('CARTE REMISE À 0 · COUPON GÉNÉRÉ','success');toast(`🎁 Coupon généré pour ${data.nom} !`);checkActiveCoupon(data.id);}
+      if(data){
+        scannedClient=data;
+        const i=allClients.findIndex(c=>c.id===data.id);
+        if(i>=0)allClients[i]=data;
+        renderSrStamps(data.tampons,false);
+        btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';
+        setScanStatus('CARTE REMISE À 0 · COUPON GÉNÉRÉ','success');
+        toast(`🎁 Coupon généré pour ${data.nom} !`);
+        checkActiveCoupon(data.id);
+      }
     },1200);
-  }else{btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';}
+  }else{
+    btn.disabled=false;btn.textContent='+ AJOUTER 1 TAMPON';
+  }
   renderStats();renderRecent();
 }
 function cancelScan(){
@@ -653,43 +697,70 @@ function cancelScan(){
   if(currentMode==='manual')setTimeout(()=>document.getElementById('manualCodeInput').focus(),100);
 }
 
-// ── ZXING ──
+// ── ZXING (QR + Barcode) ──
 async function startScan(){
-  document.getElementById('btnStartScan').style.display='none';document.getElementById('btnStopScan').style.display='block';
-  document.getElementById('vfIdle').style.display='none';document.getElementById('scanLine').style.display='block';
-  setScanStatus('EN ATTENTE DU CODE…','scanning');resetResults();isProcessing=false;
+  document.getElementById('btnStartScan').style.display='none';
+  document.getElementById('btnStopScan').style.display='block';
+  document.getElementById('vfIdle').style.display='none';
+  document.getElementById('scanLine').style.display='block';
+  setScanStatus('EN ATTENTE DU CODE…','scanning');
+  resetResults();isProcessing=false;
   try{
-    scanStream=await navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}});
-    const video=document.getElementById('scanVideo');video.srcObject=scanStream;await video.play();restartZxing();
-  }catch(e){setScanStatus('CAMÉRA NON ACCESSIBLE','error');toast('Autorisez l\'accès à la caméra','error');resetScanUI();}
+    scanStream=await navigator.mediaDevices.getUserMedia({
+      video:{facingMode:{ideal:'environment'},width:{ideal:1280},height:{ideal:720}}
+    });
+    const video=document.getElementById('scanVideo');
+    video.srcObject=scanStream;
+    await video.play();
+    restartZxing();
+  }catch(e){
+    setScanStatus('CAMÉRA NON ACCESSIBLE','error');
+    toast('Autorisez l\'accès à la caméra','error');
+    resetScanUI();
+  }
 }
 function restartZxing(){
   try{if(zxingReader){zxingReader.reset();zxingReader=null;}}catch(e){}
   if(!scanStream)return;
+  // BrowserMultiFormatReader lit QR codes ET codes-barres
   zxingReader=new ZXing.BrowserMultiFormatReader();
   const video=document.getElementById('scanVideo');
   zxingReader.decodeFromStream(scanStream,video,(result,err)=>{
-    if(result&&!isProcessing){isProcessing=true;try{zxingReader.reset();zxingReader=null;}catch(e){}setScanStatus('CODE DÉTECTÉ…','success');processCode(result.getText()).then(()=>{isProcessing=false;});}
+    if(result&&!isProcessing){
+      isProcessing=true;
+      try{zxingReader.reset();zxingReader=null;}catch(e){}
+      setScanStatus('CODE DÉTECTÉ…','success');
+      processCode(result.getText()).then(()=>{isProcessing=false;});
+    }
   });
 }
 function stopScan(){
   try{if(zxingReader){zxingReader.reset();zxingReader=null;}}catch(e){}
   if(scanStream&&scanStream.getTracks)scanStream.getTracks().forEach(t=>t.stop());
-  const video=document.getElementById('scanVideo');if(video)video.srcObject=null;
-  scanStream=null;isProcessing=false;resetScanUI();resetResults();
+  const video=document.getElementById('scanVideo');
+  if(video)video.srcObject=null;
+  scanStream=null;isProcessing=false;
+  resetScanUI();resetResults();
 }
 function resetScanUI(){
-  document.getElementById('btnStartScan').style.display='flex';document.getElementById('btnStopScan').style.display='none';
-  document.getElementById('vfIdle').style.display='flex';document.getElementById('scanLine').style.display='none';
+  document.getElementById('btnStartScan').style.display='flex';
+  document.getElementById('btnStopScan').style.display='none';
+  document.getElementById('vfIdle').style.display='flex';
+  document.getElementById('scanLine').style.display='none';
   setScanStatus('PRÊT À SCANNER','');
 }
-function setScanStatus(msg,type){const el=document.getElementById('scanStatus');el.textContent=msg;el.className='scan-status'+(type?' '+type:'');}
+function setScanStatus(msg,type){
+  const el=document.getElementById('scanStatus');
+  el.textContent=msg;
+  el.className='scan-status'+(type?' '+type:'');
+}
 
 // ── CLIENTS ──
 async function loadClients(){
   const{data,error}=await sb.from('clients').select('*').order('created_at',{ascending:false});
   if(error){toast('Erreur de chargement','error');return;}
-  allClients=data||[];renderStats(true);renderRecent();renderClientsList(allClients);
+  allClients=data||[];
+  renderStats(true);renderRecent();renderClientsList(allClients);
   document.getElementById('tn_count').textContent=`${allClients.length} client${allClients.length>1?'s':''}`;
 }
 async function renderStats(forceRefreshCoupons=false){
@@ -700,17 +771,20 @@ async function renderStats(forceRefreshCoupons=false){
   document.getElementById('st_total').textContent=total;
   document.getElementById('st_stamps').textContent=stamps;
   document.getElementById('st_new').textContent=newC;
-  // Requête coupons uniquement si demandé (chargement initial ou validation coupon)
   if(forceRefreshCoupons){
     const{count}=await sb.from('coupons').select('id',{count:'exact',head:true}).is('used_at',null).gt('expires_at',new Date().toISOString());
     document.getElementById('st_rewards').textContent=count||0;
   }
 }
-function renderRecent(){document.getElementById('recent_clients').innerHTML=allClients.slice(0,5).map(c=>clientCardHTML(c)).join('');}
+function renderRecent(){
+  document.getElementById('recent_clients').innerHTML=allClients.slice(0,5).map(c=>clientCardHTML(c)).join('');
+}
 function clientCardHTML(c){
   const init=c.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
   const dots=Array.from({length:10},(_,i)=>`<div class="sm-dot ${i<c.tampons?'on':''}"></div>`).join('');
-  const badge=c.tampons>=10?`<span class="badge reward">🎁 Coupon</span>`:`<span class="badge active">${c.tampons}/10</span>`;
+  const badge=c.tampons>=10
+    ?`<span class="badge reward">🎁 Coupon</span>`
+    :`<span class="badge active">${c.tampons}/10</span>`;
   return `<div class="client-card" onclick="openClientModal('${c.id}')">
     <div class="cc-avatar">${init}</div>
     <div class="cc-info"><div class="cc-name">${esc(c.nom)}</div><div class="cc-detail">${esc(c.telephone)}</div></div>
@@ -719,74 +793,56 @@ function clientCardHTML(c){
 }
 function filterClients(){
   const q=document.getElementById('searchInput').value.toLowerCase();
-  renderClientsList(allClients.filter(c=>c.nom.toLowerCase().includes(q)||c.telephone.includes(q)||(c.email||'').toLowerCase().includes(q)));
+  renderClientsList(allClients.filter(c=>
+    c.nom.toLowerCase().includes(q)||
+    c.telephone.includes(q)||
+    (c.card_number||'').includes(q)
+  ));
 }
 function renderClientsList(clients){
   const el=document.getElementById('clients_list');
-  if(!clients.length){el.innerHTML=`<div class="empty-state"><div class="empty-icon">👤</div><p>Aucun client trouvé</p></div>`;return;}
+  if(!clients.length){
+    el.innerHTML=`<div class="empty-state"><div class="empty-icon">👤</div><p>Aucun client trouvé</p></div>`;
+    return;
+  }
   el.innerHTML=clients.map(c=>clientCardHTML(c)).join('');
 }
 
-// ═══════════════════════════════════════
-// MODAL CLIENT PROFIL COMPLET
-// ═══════════════════════════════════════
+// ── MODAL CLIENT PROFIL ──
 async function openClientModal(clientId){
-  const c = allClients.find(x=>x.id===clientId);
-  if(!c) return;
-  profileClient = c;
-
-  // Header
-  const init = c.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('cm_avatar').textContent = init;
-  document.getElementById('cm_name').textContent = c.nom;
-  document.getElementById('cm_phone').textContent = c.telephone;
-
-  // Infos générales
-  document.getElementById('cm_created').textContent = new Date(c.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
-  document.getElementById('cm_last_stamp').textContent = c.last_stamp
-    ? new Date(c.last_stamp).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'})
-    : 'Jamais';
-  document.getElementById('cm_card_num').textContent = c.card_number || '—';
-  document.getElementById('cm_stamp_count').textContent = (c.tampons||0)+'/10';
-
-  // Tampons mini carte
-  const grid = document.getElementById('cm_stamps_grid');
-  grid.innerHTML = Array.from({length:10},(_,i)=>
+  const c=allClients.find(x=>x.id===clientId);
+  if(!c)return;
+  profileClient=c;
+  const init=c.nom.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('cm_avatar').textContent=init;
+  document.getElementById('cm_name').textContent=c.nom;
+  document.getElementById('cm_phone').textContent=c.telephone;
+  document.getElementById('cm_created').textContent=new Date(c.created_at).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'});
+  document.getElementById('cm_last_stamp').textContent=c.last_stamp?new Date(c.last_stamp).toLocaleDateString('fr-FR',{day:'2-digit',month:'short',year:'numeric'}):'Jamais';
+  document.getElementById('cm_card_num').textContent=c.card_number||'—';
+  document.getElementById('cm_stamp_count').textContent=(c.tampons||0)+'/10';
+  const grid=document.getElementById('cm_stamps_grid');
+  grid.innerHTML=Array.from({length:10},(_,i)=>
     `<div class="cm-stamp ${i<c.tampons?'on':''}">${i<c.tampons?FRUITS[i]:''}</div>`
   ).join('');
-
-  // Masquer la confirmation de suppression + reset bouton
   document.getElementById('cm_confirm_delete').classList.remove('show');
-  document.getElementById('cm_delete_btn').style.display = 'block';
-  const confirmBtn = document.querySelector('.cm-btn-confirm-del');
-  confirmBtn.innerHTML = 'SUPPRIMER';
-  confirmBtn.disabled = false;
-
-  // Charger les coupons
-  document.getElementById('cm_coupons_list').innerHTML = '<div style="text-align:center;padding:12px;color:var(--muted)"><span class="spin"></span></div>';
-  document.getElementById('cm_active_coupons').textContent = '…';
-  document.getElementById('cm_used_coupons').textContent = '…';
-
-  // Ouvrir le modal
+  document.getElementById('cm_delete_btn').style.display='block';
+  const confirmBtn=document.querySelector('.cm-btn-confirm-del');
+  confirmBtn.innerHTML='SUPPRIMER';confirmBtn.disabled=false;
+  document.getElementById('cm_coupons_list').innerHTML='<div style="text-align:center;padding:12px;color:var(--muted)"><span class="spin"></span></div>';
+  document.getElementById('cm_active_coupons').textContent='…';
+  document.getElementById('cm_used_coupons').textContent='…';
   document.getElementById('clientModal').classList.add('show');
-
-  // Fetch coupons
-  const {data: coupons} = await sb.from('coupons').select('*').eq('client_id', c.id).order('created_at',{ascending:false});
-  const now = new Date();
-  const active  = (coupons||[]).filter(x=>!x.used_at && now<=new Date(x.expires_at));
-  const used    = (coupons||[]).filter(x=>!!x.used_at);
-  const expired = (coupons||[]).filter(x=>!x.used_at && now>new Date(x.expires_at));
-
-  document.getElementById('cm_active_coupons').textContent = active.length;
-  document.getElementById('cm_used_coupons').textContent   = used.length;
-
-  const list = document.getElementById('cm_coupons_list');
-  if(!coupons||!coupons.length){
-    list.innerHTML = '<div class="cm-no-coupons">Aucun coupon pour ce client</div>';
-    return;
-  }
-  list.innerHTML = coupons.map(cp=>{
-    let status, label, dateInfo;
+  const{data:coupons}=await sb.from('coupons').select('*').eq('client_id',c.id).order('created_at',{ascending:false});
+  const now=new Date();
+  const active=(coupons||[]).filter(x=>!x.used_at&&now<=new Date(x.expires_at));
+  const used=(coupons||[]).filter(x=>!!x.used_at);
+  document.getElementById('cm_active_coupons').textContent=active.length;
+  document.getElementById('cm_used_coupons').textContent=used.length;
+  const list=document.getElementById('cm_coupons_list');
+  if(!coupons||!coupons.length){list.innerHTML='<div class="cm-no-coupons">Aucun coupon pour ce client</div>';return;}
+  list.innerHTML=coupons.map(cp=>{
+    let status,label,dateInfo;
     if(cp.used_at){status='used';label='✓ Utilisé';dateInfo=`le ${new Date(cp.used_at).toLocaleDateString('fr-FR')}`;}
     else if(now>new Date(cp.expires_at)){status='expired';label='⏳ Expiré';dateInfo=`le ${new Date(cp.expires_at).toLocaleDateString('fr-FR')}`;}
     else{status='active';label='🟢 Actif';dateInfo=`jusqu'au ${new Date(cp.expires_at).toLocaleDateString('fr-FR')}`;}
@@ -799,51 +855,41 @@ async function openClientModal(clientId){
     </div>`;
   }).join('');
 }
-
 function closeClientModal(){
   document.getElementById('clientModal').classList.remove('show');
-  profileClient = null;
+  profileClient=null;
 }
-
-// Ouvrir le modal tampons depuis le profil
 function openStampsModalFromProfile(){
-  if(!profileClient) return;
-  const clientId = profileClient.id; // sauvegarder avant closeClientModal qui remet profileClient à null
+  if(!profileClient)return;
+  const clientId=profileClient.id;
   closeClientModal();
-  openStampsModal(clientId); // appel direct, pas de setTimeout fragile
+  openStampsModal(clientId);
 }
-
-// ── SUPPRESSION CLIENT ──
 function askDeleteClient(){
   document.getElementById('cm_confirm_delete').classList.add('show');
-  document.getElementById('cm_delete_btn').style.display = 'none';
+  document.getElementById('cm_delete_btn').style.display='none';
 }
 function cancelDelete(){
   document.getElementById('cm_confirm_delete').classList.remove('show');
-  document.getElementById('cm_delete_btn').style.display = 'block';
+  document.getElementById('cm_delete_btn').style.display='block';
 }
 async function confirmDeleteClient(){
-  if(!profileClient) return;
-  const btn = document.querySelector('.cm-btn-confirm-del');
-  btn.innerHTML = '<span class="spin"></span>SUPPRESSION…';
-  btn.disabled = true;
+  if(!profileClient)return;
+  const btn=document.querySelector('.cm-btn-confirm-del');
+  btn.innerHTML='<span class="spin"></span>SUPPRESSION…';btn.disabled=true;
   try{
-    // Supprimer les coupons d'abord
-    await sb.from('coupons').delete().eq('client_id', profileClient.id);
-    // Supprimer le client
-    const{error} = await sb.from('clients').delete().eq('id', profileClient.id);
-    if(error) throw error;
+    await sb.from('coupons').delete().eq('client_id',profileClient.id);
+    const{error}=await sb.from('clients').delete().eq('id',profileClient.id);
+    if(error)throw error;
     toast(`🗑 ${profileClient.nom} supprimé`);
-    closeClientModal();
-    loadClients();
+    closeClientModal();loadClients();
   }catch(e){
     toast('Erreur lors de la suppression','error');
-    btn.innerHTML = 'SUPPRIMER';
-    btn.disabled = false;
+    btn.innerHTML='SUPPRIMER';btn.disabled=false;
   }
 }
 
-// ── MODAL TAMPONS (existant) ──
+// ── MODAL TAMPONS ──
 function openStampsModal(clientId){
   const c=allClients.find(x=>x.id===clientId);if(!c)return;
   editingClient=c;editingStamps=c.tampons||0;
@@ -859,44 +905,73 @@ function renderSeGrid(){
 function toggleSE(i){editingStamps=i<editingStamps?i:i+1;renderSeGrid();}
 async function saveStamps(){
   if(!editingClient)return;
-  const{error}=await sb.from('clients').update({tampons:editingStamps,reward_pending:editingStamps>=10,last_stamp:new Date().toISOString()}).eq('id',editingClient.id);
+  const{error}=await sb.from('clients').update({
+    tampons:editingStamps,
+    reward_pending:editingStamps>=10,
+    last_stamp:new Date().toISOString()
+  }).eq('id',editingClient.id);
   if(error){toast('Erreur','error');return;}
   const idx=allClients.findIndex(c=>c.id===editingClient.id);
-  if(idx>=0){allClients[idx].tampons=editingStamps;}
+  if(idx>=0)allClients[idx].tampons=editingStamps;
   renderStats();renderRecent();renderClientsList(allClients);
-  closeModal('modalStamps');toast(`Tampons mis à jour : ${editingStamps}/10 ✓`);
+  closeModal('modalStamps');
+  toast(`Tampons mis à jour : ${editingStamps}/10 ✓`);
 }
 
 // ── NOTIFS ──
-function setNotifTarget(t,el){notifTarget=t;document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));el.classList.add('active');loadNotifRecipients();}
+function setNotifTarget(t,el){
+  notifTarget=t;
+  document.querySelectorAll('.ntab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  loadNotifRecipients();
+}
 function getRecipients(){
   if(notifTarget==='reward')return allClients.filter(c=>c.tampons>=10);
-  if(notifTarget==='inactive'){const cut=new Date(Date.now()-180*24*60*60*1000);return allClients.filter(c=>!c.last_stamp||new Date(c.last_stamp)<cut);}
+  if(notifTarget==='inactive'){
+    const cut=new Date(Date.now()-180*24*60*60*1000);
+    return allClients.filter(c=>!c.last_stamp||new Date(c.last_stamp)<cut);
+  }
   return allClients;
 }
 function loadNotifRecipients(){
   const r=getRecipients();
   document.getElementById('recipCount').textContent=`${r.length} destinataire${r.length>1?'s':''}`;
-  document.getElementById('recipList').innerHTML=r.length?r.map(c=>`<strong>${esc(c.nom)}</strong> — ${esc(c.telephone)}`).join('<br>'):'<em>Aucun</em>';
+  document.getElementById('recipList').innerHTML=r.length
+    ?r.map(c=>`<strong>${esc(c.nom)}</strong> — ${esc(c.telephone)}`).join('<br>')
+    :'<em>Aucun</em>';
 }
-function copyNumbers(){navigator.clipboard.writeText(getRecipients().map(c=>c.telephone).join(', ')).then(()=>toast('Numéros copiés ✓'));}
-function openWhatsApp(){window.open(`https://wa.me/?text=${encodeURIComponent(document.getElementById('notifMsg').value)}`);}
+function copyNumbers(){
+  navigator.clipboard.writeText(getRecipients().map(c=>c.telephone).join(', ')).then(()=>toast('Numéros copiés ✓'));
+}
+function openWhatsApp(){
+  window.open(`https://wa.me/?text=${encodeURIComponent(document.getElementById('notifMsg').value)}`);
+}
 
 // ── EXPORT ──
 function exportCSV(){
-  dlCSV([['Nom','Téléphone','Email','Tampons','Inscrit le'],...allClients.map(c=>[c.nom,c.telephone,c.email||'',c.tampons,new Date(c.created_at).toLocaleDateString('fr-FR')])],`vvv777-clients-${new Date().toISOString().slice(0,10)}.csv`);
+  dlCSV(
+    [['Nom','Téléphone','Tampons','Carte N°','Inscrit le'],
+     ...allClients.map(c=>[c.nom,c.telephone,c.tampons,c.card_number||'',new Date(c.created_at).toLocaleDateString('fr-FR')])],
+    `vvv777-clients-${new Date().toISOString().slice(0,10)}.csv`
+  );
   toast('Export téléchargé ✓');
 }
 async function exportRewards(){
   const{data}=await sb.from('coupons').select('*,clients(nom,telephone)').is('used_at',null).gt('expires_at',new Date().toISOString());
   if(!data?.length){toast('Aucun coupon actif','error');return;}
-  dlCSV([['Client','Téléphone','Code','Expire le'],...data.map(c=>[c.clients?.nom||'',c.clients?.telephone||'',c.code,new Date(c.expires_at).toLocaleDateString('fr-FR')])],`vvv777-coupons-actifs.csv`);
+  dlCSV(
+    [['Client','Téléphone','Code','Expire le'],
+     ...data.map(c=>[c.clients?.nom||'',c.clients?.telephone||'',c.code,new Date(c.expires_at).toLocaleDateString('fr-FR')])],
+    `vvv777-coupons-actifs.csv`
+  );
   toast('Export coupons ✓');
 }
 function dlCSV(rows,filename){
   const csv=rows.map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
   const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8;'});
-  const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');a.href=url;a.download=filename;a.click();
+  URL.revokeObjectURL(url);
 }
 
 // ── MODAL ──
@@ -908,14 +983,17 @@ document.getElementById('clientModal').addEventListener('click',e=>{if(e.target=
 // ── TOAST ──
 let toastTimer;
 function toast(msg,type='success'){
-  const el=document.getElementById('toast');el.className=`toast ${type}`;
+  const el=document.getElementById('toast');
+  el.className=`toast ${type}`;
   document.getElementById('toastIcon').textContent=type==='success'?'✓':'⚠';
   document.getElementById('toastMsg').textContent=msg;
-  el.classList.add('show');clearTimeout(toastTimer);
+  el.classList.add('show');
+  clearTimeout(toastTimer);
   toastTimer=setTimeout(()=>el.classList.remove('show'),3200);
 }
 function esc(s){return(s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
+// Realtime
 sb.channel('admin-rt').on('postgres_changes',{event:'*',schema:'public',table:'clients'},()=>loadClients()).subscribe();
 </script>
 </body>
