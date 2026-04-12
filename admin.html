@@ -452,7 +452,8 @@ function navTo(page,el){
 function resetResults(){
   document.getElementById('scanResult').classList.remove('show');
   document.getElementById('couponResult').classList.remove('show');
-  scannedClient=null;scannedCoupon=null;setScanStatus('','');
+  document.getElementById('couponAlert').style.display='none';
+  scannedClient=null;scannedCoupon=null;
 }
 
 // ── MANUEL ──
