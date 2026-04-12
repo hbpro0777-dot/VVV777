@@ -21,12 +21,9 @@
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;padding:28px 16px 100px;overflow-x:hidden;position:relative}
-
-/* ── FRUITS QUI TOMBENT EN FOND ── */
 .fruits-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
 .fb{position:absolute;top:-60px;font-size:22px;opacity:0;animation:fbfall linear infinite}
 @keyframes fbfall{0%{transform:translateY(0) rotate(0deg);opacity:0}10%{opacity:.13}90%{opacity:.09}100%{transform:translateY(110vh) rotate(360deg);opacity:0}}
-
 .wrap{position:relative;z-index:1;width:100%;max-width:400px}
 .hdr{text-align:center;margin-bottom:6px;animation:fd .5s ease both}
 .logo{font-family:'Bebas Neue',sans-serif;font-size:clamp(54px,16vw,72px);letter-spacing:-1px;line-height:1}
@@ -75,8 +72,6 @@ input::placeholder{color:var(--muted2)}
 .nav-label{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .nav-badge{position:absolute;top:2px;right:8px;background:var(--gold);color:#080807;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center;display:none}
 .nav-badge.show{display:block}
-
-/* ── CARTE ── */
 .lcard-wrap{margin:0 auto 20px}
 .lcard{width:100%;border-radius:20px;background:linear-gradient(145deg,#1A1200 0%,#2A1C00 35%,#1E1400 65%,#120C00 100%);border:1px solid rgba(212,168,67,.2);overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.85),0 0 0 1px rgba(212,168,67,.08),inset 0 1px 0 rgba(212,168,67,.08);animation:cardIn .7s cubic-bezier(.22,1,.36,1) both;position:relative}
 @keyframes cardIn{from{transform:rotateY(-20deg) translateY(16px) scale(.96);opacity:0}to{transform:rotateY(0) translateY(0) scale(1);opacity:1}}
@@ -106,8 +101,6 @@ input::placeholder{color:var(--muted2)}
 .lcard-barcode-wrap:active{opacity:.7}
 .barcode-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
 #barcode_svg{display:block;border-radius:6px}
-
-/* ── FULLSCREEN QR ── */
 .bc-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px}
 .bc-fullscreen.show{display:flex;animation:fadeIn .25s ease both}
 .bc-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#1A1200;letter-spacing:-1px;margin-bottom:2px}
@@ -121,12 +114,8 @@ input::placeholder{color:var(--muted2)}
 .bc-dot.on{background:transparent}
 .bc-fs-hint{font-size:11px;color:#888;text-align:center;margin-bottom:20px}
 .bc-fs-close{background:#1A1200;border:none;border-radius:12px;padding:13px 28px;color:#D4A843;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
-
-/* ── BOUTON INSTALLER ── */
 .btn-install{width:100%;background:linear-gradient(135deg,#1A1200,#2A1C00);color:var(--gold);border:1.5px solid rgba(212,168,67,.3);border-radius:12px;padding:15px;margin-top:4px;font-family:'Bebas Neue',sans-serif;font-size:17px;letter-spacing:2px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
 .btn-install:active{transform:scale(.98)}
-
-/* ── MODAL INSTALLER ── */
 .install-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(6px)}
 .install-overlay.show{display:flex;animation:fadeIn .2s ease both}
 .install-modal{background:var(--s1);border:1px solid var(--border);border-radius:24px 24px 0 0;padding:28px 20px 40px;width:100%;max-width:440px;animation:slideUp .3s cubic-bezier(.22,1,.36,1) both}
@@ -138,10 +127,8 @@ input::placeholder{color:var(--muted2)}
 .install-step-num{width:26px;height:26px;border-radius:50%;background:var(--gold3);border:1px solid rgba(212,168,67,.3);color:var(--gold);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
 .install-step-text{font-size:13px;color:var(--text);line-height:1.5}
 .install-step-text strong{color:var(--gold);display:block;margin-bottom:2px}
-.install-step-icon{font-size:18px;margin-right:4px}
 .install-close{width:100%;background:transparent;border:1.5px solid var(--border);border-radius:10px;padding:12px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;transition:all .18s}
 .install-close:hover{border-color:var(--gold);color:var(--gold)}
-
 .welcome-banner{background:linear-gradient(135deg,rgba(212,168,67,.18),rgba(212,168,67,.08));border:1.5px solid rgba(212,168,67,.4);border-radius:14px;padding:14px 16px;display:none;align-items:center;gap:12px;margin-bottom:14px}
 .wb-icon{font-size:28px;flex-shrink:0}
 .wb-text strong{display:block;color:var(--gold);font-size:14px;font-weight:600;margin-bottom:2px}
@@ -152,8 +139,6 @@ input::placeholder{color:var(--muted2)}
 .rw-icon{font-size:24px;flex-shrink:0}
 .rw-text strong{display:block;color:var(--gold);font-size:13px;font-weight:600;margin-bottom:2px}
 .rw-text span{font-size:12px;color:var(--muted);line-height:1.4}
-
-/* ── COUPONS ── */
 .coupons-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .coupons-count{font-size:11px;color:var(--muted);letter-spacing:1px}
 .coupons-empty{text-align:center;padding:48px 20px;color:var(--muted)}
@@ -212,7 +197,6 @@ input::placeholder{color:var(--muted2)}
 </head>
 <body>
 
-<!-- FRUITS EN FOND -->
 <div class="fruits-bg" id="fruits_bg"></div>
 
 <div class="wrap">
@@ -226,13 +210,12 @@ input::placeholder{color:var(--muted2)}
     <div class="step-item"><div class="step-circle" id="sc3">✦</div><div class="step-label">Ma carte</div></div>
   </div>
 
-  <!-- ÉCRAN 1 : INSCRIPTION -->
   <div class="screen active" id="s1">
     <div class="panel">
       <div class="panel-title">Créer ma carte</div>
       <div class="panel-sub">Rejoignez VVV777 gratuitement. 10 tampons = 1 acheté 1 offert.</div>
       <div class="err-box" id="err1"></div>
-      <div class="field"><label>Prénom & Nom</label><input type="text" id="i_name" placeholder="Marie Dupont" autocomplete="name"></div>
+      <div class="field"><label>Prénom &amp; Nom</label><input type="text" id="i_name" placeholder="Marie Dupont" autocomplete="name"></div>
       <div class="field">
         <label>Téléphone</label>
         <div class="phone-wrap">
@@ -249,7 +232,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN OTP INSCRIPTION -->
   <div class="screen" id="s_otp">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -270,7 +252,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN LOOKUP -->
   <div class="screen" id="s_lookup">
     <div class="panel">
       <div class="panel-title">Retrouver ma carte</div>
@@ -292,7 +273,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN OTP LOOKUP -->
   <div class="screen" id="s_otp_lk">
     <div class="panel">
       <div class="panel-title">Code SMS</div>
@@ -311,7 +291,6 @@ input::placeholder{color:var(--muted2)}
     </div>
   </div>
 
-  <!-- ÉCRAN CARTE -->
   <div class="screen" id="s2">
     <div class="tab active" id="tab_carte">
       <div class="lcard-wrap">
@@ -337,7 +316,7 @@ input::placeholder{color:var(--muted2)}
       <div class="panel">
         <div class="welcome-banner" id="welcome_banner">
           <div class="wb-icon">🎉</div>
-          <div class="wb-text"><strong>Bienvenue chez VVV777 !</strong><span>Votre carte est activée. Présentez votre QR code à chaque visite.</span></div>
+          <div class="wb-text"><strong>Bienvenue chez VVV777 !</strong><span>Votre carte est activée. Présentez votre code-barres à chaque visite.</span></div>
         </div>
         <div class="reward-banner" id="reward_banner">
           <div class="rw-icon">🎁</div>
@@ -371,7 +350,6 @@ input::placeholder{color:var(--muted2)}
   </div>
 </div>
 
-<!-- NAV -->
 <nav class="bottom-nav" id="bottom_nav">
   <button class="nav-item active" id="nav_carte" onclick="switchTab('carte')">
     <span class="nav-icon">🃏</span><span class="nav-label">Ma Carte</span>
@@ -385,7 +363,6 @@ input::placeholder{color:var(--muted2)}
   </button>
 </nav>
 
-<!-- QR FULLSCREEN -->
 <div class="bc-fullscreen" id="bc_fullscreen">
   <div class="bc-fs-logo">VVV<em>777</em></div>
   <div class="bc-fs-sub">Carte de fidélité</div>
@@ -397,7 +374,6 @@ input::placeholder{color:var(--muted2)}
   <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
 </div>
 
-<!-- MODAL INSTALLER -->
 <div class="install-overlay" id="install_overlay" onclick="closeInstallModal(event)">
   <div class="install-modal">
     <div class="install-title">📲 Ajouter à l'écran d'accueil</div>
@@ -407,14 +383,12 @@ input::placeholder{color:var(--muted2)}
   </div>
 </div>
 
-<!-- TOASTS -->
 <div class="reward-toast" id="reward_toast">
   <div class="rt-icon">🎁</div>
   <div class="rt-text"><strong>Récompense débloquée !</strong><span>Consultez vos coupons</span></div>
 </div>
 <div class="copy-toast" id="copy_toast">✅ Code copié !</div>
 
-<!-- QR CODE LIB -->
 <script>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const FRUITS = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈'];
@@ -422,57 +396,72 @@ let currentClient = null, pendingPhone = null, pendingName = null;
 let allCoupons = [], currentCouponFilter = 'all';
 let realtimeChannels = [];
 
-// ── FRUITS EN FOND ──
-(function initFruitsBg(){
-  const bg = document.getElementById('fruits_bg');
-  const items = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈','🍎','🍌'];
-  for(let i=0;i<18;i++){
-    const s = document.createElement('span');
+// Fruits en fond
+(function(){
+  var bg = document.getElementById('fruits_bg');
+  var items = ['🍊','🍇','🍋','🍒','🥭','🍑','🍓','🫐','🍍','🍈','🍎','🍌'];
+  for(var i=0;i<18;i++){
+    var s = document.createElement('span');
     s.className = 'fb';
     s.textContent = items[Math.floor(Math.random()*items.length)];
     s.style.left = (Math.random()*100)+'%';
     s.style.fontSize = (16+Math.random()*16)+'px';
-    const dur = 8+Math.random()*12;
-    const delay = -Math.random()*dur;
+    var dur = 8+Math.random()*12;
     s.style.animationDuration = dur+'s';
-    s.style.animationDelay = delay+'s';
+    s.style.animationDelay = (-Math.random()*dur)+'s';
     bg.appendChild(s);
   }
 })();
 
-// ── QR CODE via Google Charts (fiable, pas de lib) ──
-// ── CODE-BARRES Code 128 ──
-// Encode le card_number en barcode scannable par ZXing (admin)
-const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
-const C128C=Array.from({length:95},(_,i)=>String.fromCharCode(i+32)).join('');
-function encodeC128(t){let v=[104],c=104;for(let i=0;i<t.length;i++){const x=C128C.indexOf(t[i]);if(x<0)continue;v.push(x);c+=(i+1)*x;}v.push(c%103);v.push(106);return v.map(x=>C128P[x]).join('')+'11';}
-function drawBarcode(svgId, text, barW, h, color){
-  const s=document.getElementById(svgId);if(!s)return;
-  const t=text.replace(/\s/g,'');
-  const p=encodeC128(t),W=p.length*barW;
-  s.setAttribute('width',W);s.setAttribute('height',h);s.setAttribute('viewBox',`0 0 ${W} ${h}`);
-  let html=`<rect width="${W}" height="${h}" fill="${color==='dark'?'#fff':'transparent'}"/>`;
-  for(let i=0;i<p.length;i++)if(p[i]==='1')html+=`<rect x="${i*barW}" y="0" width="${barW}" height="${h}" fill="${color==='dark'?'#111':'rgba(240,201,106,0.9)'}"/>`;
-  s.innerHTML=html;
-}
-function renderBarcode(client){
-  const val=(client.card_number||client.id).replace(/\s/g,'');
-  drawBarcode('barcode_svg', val, 1.6, 42, 'gold');
-}
-function renderBarcodeBig(client){
-  const val=(client.card_number||client.id).replace(/\s/g,'');
-  drawBarcode('barcode_svg_big', val, 2.8, 80, 'dark');
+// Code-barres Code 128
+var C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
+var C128C = Array.from({length:95},function(_,i){return String.fromCharCode(i+32);}).join('');
+
+function encodeC128(t){
+  var v=[104],c=104;
+  for(var i=0;i<t.length;i++){
+    var x=C128C.indexOf(t[i]);
+    if(x<0)continue;
+    v.push(x);c+=(i+1)*x;
+  }
+  v.push(c%103);v.push(106);
+  return v.map(function(x){return C128P[x];}).join('')+'11';
 }
 
-// ── NAV ──
+function drawBarcode(svgId,text,barW,h,dark){
+  var s=document.getElementById(svgId);
+  if(!s)return;
+  var t=text.replace(/\s/g,'');
+  var p=encodeC128(t),W=p.length*barW;
+  s.setAttribute('width',W);
+  s.setAttribute('height',h);
+  s.setAttribute('viewBox','0 0 '+W+' '+h);
+  var fill=dark?'#111':'rgba(240,201,106,0.9)';
+  var bg=dark?'#fff':'transparent';
+  var html='<rect width="'+W+'" height="'+h+'" fill="'+bg+'"/>';
+  for(var i=0;i<p.length;i++){
+    if(p[i]==='1')html+='<rect x="'+(i*barW)+'" y="0" width="'+barW+'" height="'+h+'" fill="'+fill+'"/>';
+  }
+  s.innerHTML=html;
+}
+
+function renderBarcode(client){
+  var val=(client.card_number||client.id).replace(/\s/g,'');
+  drawBarcode('barcode_svg',val,1.6,42,false);
+}
+function renderBarcodeBig(client){
+  var val=(client.card_number||client.id).replace(/\s/g,'');
+  drawBarcode('barcode_svg_big',val,2.8,80,true);
+}
+
 function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
   document.getElementById(id).classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 function setStep(n){
-  [1,2,3].forEach(i=>{
-    const c=document.getElementById('sc'+i);
+  [1,2,3].forEach(function(i){
+    var c=document.getElementById('sc'+i);
     c.className='step-circle';
     if(i<n){c.classList.add('done');c.textContent='✓';}
     else if(i===n){c.classList.add('active');c.textContent=i===3?'✦':i;}
@@ -480,49 +469,46 @@ function setStep(n){
     if(i<3)document.getElementById('sl'+i).className='step-line'+(i<n?' done':'');
   });
 }
-function showErr(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
-function hideErr(id){const e=document.getElementById(id);if(e)e.style.display='none';}
-function showOk(id,msg){const e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
-function setBtn(id,html,off){const b=document.getElementById(id);b.innerHTML=html;b.disabled=!!off;}
+function showErr(id,msg){var e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
+function hideErr(id){var e=document.getElementById(id);if(e)e.style.display='none';}
+function showOk(id,msg){var e=document.getElementById(id);e.textContent=msg;e.style.display='block';}
+function setBtn(id,html,off){var b=document.getElementById(id);b.innerHTML=html;b.disabled=!!off;}
 function showLookup(){hideErr('err_lk');document.getElementById('i_lookup').value='';showScreen('s_lookup');}
-function genCard(){return Array.from({length:3},()=>Math.floor(1000+Math.random()*9000)).join(' ');}
+function genCard(){return Array.from({length:3},function(){return Math.floor(1000+Math.random()*9000);}).join(' ');}
 function fmtPhone(prefix,raw){
-  let n=raw.replace(/[\s\-\.]/g,'');
+  var n=raw.replace(/[\s\-\.]/g,'');
   if(n.startsWith('0'))n=n.substring(1);
   if(n.startsWith('+'))return n;
   return prefix+n;
 }
 
-// ── OTP ──
 function otpNext(el,idx,prefix){
   el.value=el.value.replace(/\D/g,'').slice(-1);
   if(el.value&&idx<5)document.getElementById(prefix+(idx+1)).focus();
   if(idx===5&&el.value){
-    const code=[0,1,2,3,4,5].map(i=>document.getElementById(prefix+i).value).join('');
-    if(code.length===6)setTimeout(()=>{if(prefix==='otp')verifyOTP();else verifyOTPLookup();},300);
+    var code=[0,1,2,3,4,5].map(function(i){return document.getElementById(prefix+i).value;}).join('');
+    if(code.length===6)setTimeout(function(){if(prefix==='otp')verifyOTP();else verifyOTPLookup();},300);
   }
 }
-function getOTP(p){return[0,1,2,3,4,5].map(i=>document.getElementById(p+i).value).join('');}
-function clearOTP(p){[0,1,2,3,4,5].forEach(i=>document.getElementById(p+i).value='');document.getElementById(p+'0').focus();}
+function getOTP(p){return[0,1,2,3,4,5].map(function(i){return document.getElementById(p+i).value;}).join('');}
+function clearOTP(p){[0,1,2,3,4,5].forEach(function(i){document.getElementById(p+i).value='';});document.getElementById(p+'0').focus();}
 
-// ── VERIFY API ──
 async function sendVerify(phone){
-  const res=await fetch(VERIFY_SEND_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone})});
-  const data=await res.json();if(!res.ok)throw new Error(data.error||'Erreur envoi SMS');return data;
+  var res=await fetch(VERIFY_SEND_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone:phone})});
+  var data=await res.json();if(!res.ok)throw new Error(data.error||'Erreur envoi SMS');return data;
 }
 async function checkVerify(phone,code){
-  const res=await fetch(VERIFY_CHECK_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone,code})});
-  const data=await res.json();if(!res.ok)throw new Error(data.error||'Code incorrect');
+  var res=await fetch(VERIFY_CHECK_URL,{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+SUPABASE_ANON_KEY},body:JSON.stringify({phone:phone,code:code})});
+  var data=await res.json();if(!res.ok)throw new Error(data.error||'Code incorrect');
   if(data.status!=='approved')throw new Error('Code incorrect ou expiré');return data;
 }
 
-// ── AUTH ──
 async function handleCreate(){
   hideErr('err1');
-  const nom=document.getElementById('i_name').value.trim();
-  const raw=document.getElementById('i_phone').value.trim();
+  var nom=document.getElementById('i_name').value.trim();
+  var raw=document.getElementById('i_phone').value.trim();
   if(!nom||!raw){showErr('err1','⚠ Merci de remplir tous les champs.');return;}
-  const phone=fmtPhone(document.getElementById('country_create').value,raw);
+  var phone=fmtPhone(document.getElementById('country_create').value,raw);
   pendingName=nom;pendingPhone=phone;
   setBtn('btn_create','<span class="spin"></span>ENVOI DU CODE…',true);
   try{
@@ -535,35 +521,36 @@ async function handleCreate(){
 }
 async function verifyOTP(){
   hideErr('err_otp');hideErr('ok_otp');
-  const code=getOTP('otp');
+  var code=getOTP('otp');
   if(code.length<6){showErr('err_otp','⚠ Entrez les 6 chiffres.');return;}
   setBtn('btn_verify','<span class="spin"></span>VÉRIFICATION…',true);
   try{
     await checkVerify(pendingPhone,code);
-    const{data:ex}=await sb.from('clients').select('*').eq('telephone',pendingPhone).limit(1);
-    let client;
-    if(ex?.length){client=ex[0];}
+    var res=await sb.from('clients').select('*').eq('telephone',pendingPhone).limit(1);
+    var ex=res.data;
+    var client;
+    if(ex&&ex.length){client=ex[0];}
     else{
-      const{data,error}=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
-      if(error)throw error;client=data;
+      var ins=await sb.from('clients').insert([{nom:pendingName,telephone:pendingPhone,tampons:0,card_number:genCard(),reward_pending:false}]).select().single();
+      if(ins.error)throw ins.error;client=ins.data;
     }
     localStorage.setItem('vvv777_client_id',client.id);
-    showCard(client,false,!ex?.length);
+    showCard(client,false,!(ex&&ex.length));
   }catch(e){showErr('err_otp','⚠ Erreur: '+e.message);}
   setBtn('btn_verify','VALIDER →',false);
 }
 async function resendOTP(){
   clearOTP('otp');hideErr('err_otp');
-  try{await sendVerify(pendingPhone);showOk('ok_otp','✅ Nouveau code envoyé !');setTimeout(()=>hideErr('ok_otp'),3000);}
+  try{await sendVerify(pendingPhone);showOk('ok_otp','✅ Nouveau code envoyé !');setTimeout(function(){hideErr('ok_otp');},3000);}
   catch(e){showErr('err_otp','⚠ Erreur lors du renvoi.');}
 }
 async function handleLookup(){
   hideErr('err_lk');
-  const raw=document.getElementById('i_lookup').value.trim();
+  var raw=document.getElementById('i_lookup').value.trim();
   if(!raw){showErr('err_lk','⚠ Entrez votre numéro.');return;}
-  const phone=fmtPhone(document.getElementById('country_lookup').value,raw);
-  const{data}=await sb.from('clients').select('id').eq('telephone',phone).limit(1);
-  if(!data?.length){showErr('err_lk','⚠ Aucun compte trouvé avec ce numéro.');return;}
+  var phone=fmtPhone(document.getElementById('country_lookup').value,raw);
+  var res=await sb.from('clients').select('id').eq('telephone',phone).limit(1);
+  if(!res.data||!res.data.length){showErr('err_lk','⚠ Aucun compte trouvé avec ce numéro.');return;}
   pendingPhone=phone;
   setBtn('btn_lookup','<span class="spin"></span>ENVOI DU CODE…',true);
   try{await sendVerify(phone);showScreen('s_otp_lk');setStep(2);document.getElementById('otplk0').focus();}
@@ -572,46 +559,48 @@ async function handleLookup(){
 }
 async function verifyOTPLookup(){
   hideErr('err_otp_lk');
-  const code=getOTP('otplk');
+  var code=getOTP('otplk');
   if(code.length<6){showErr('err_otp_lk','⚠ Entrez les 6 chiffres.');return;}
   setBtn('btn_verify_lk','<span class="spin"></span>VÉRIFICATION…',true);
   try{
     await checkVerify(pendingPhone,code);
-    const{data}=await sb.from('clients').select('*').eq('telephone',pendingPhone).single();
-    if(!data)throw new Error('Introuvable');
-    localStorage.setItem('vvv777_client_id',data.id);showCard(data);
+    var res=await sb.from('clients').select('*').eq('telephone',pendingPhone).single();
+    if(!res.data)throw new Error('Introuvable');
+    localStorage.setItem('vvv777_client_id',res.data.id);showCard(res.data);
   }catch(e){showErr('err_otp_lk','⚠ Code incorrect ou expiré.');}
   setBtn('btn_verify_lk','ACCÉDER À MA CARTE →',false);
 }
 
-// ── CARTE ──
-function renderStamps(count,isNew=false){
-  const grid=document.getElementById('card_stamps');grid.innerHTML='';
-  for(let i=0;i<10;i++){
-    const d=document.createElement('div');d.className='ls'+(i<count?' on':'');
+function renderStamps(count,isNew){
+  isNew=isNew||false;
+  var grid=document.getElementById('card_stamps');grid.innerHTML='';
+  for(var i=0;i<10;i++){
+    var d=document.createElement('div');
+    d.className='ls'+(i<count?' on':'');
     if(isNew&&i===count-1)d.classList.add('pop');
-    d.innerHTML=i<count?`<span class="ls-inner">${FRUITS[i]}</span>`:'<div class="ls-dot"></div>';
+    d.innerHTML=i<count?'<span class="ls-inner">'+FRUITS[i]+'</span>':'<div class="ls-dot"></div>';
     grid.appendChild(d);
   }
   document.getElementById('card_prog').style.width=Math.round(count/10*100)+'%';
   document.getElementById('c_scount').textContent=count+'/10';
-  const rem=10-count,banner=document.getElementById('reward_banner');
+  var rem=10-count,banner=document.getElementById('reward_banner');
   if(count>=10){
     banner.classList.add('unlocked');
     document.getElementById('rw_title').innerHTML='🎉 Récompense débloquée !';
     document.getElementById('rw_sub').textContent='Allez dans "Coupons" pour utiliser votre récompense !';
   }else{
     banner.classList.remove('unlocked');
-    document.getElementById('rw_title').innerHTML=`Encore <span>${rem}</span> tampon${rem>1?'s':''}`;
+    document.getElementById('rw_title').innerHTML='Encore <span>'+rem+'</span> tampon'+(rem>1?'s':'');
     document.getElementById('rw_sub').textContent='pour votre récompense : 1 acheté = 1 offert sur votre prochain achat.';
   }
 }
-function showCard(client,isNew=false,showWelcome=false){
+function showCard(client,isNew,showWelcome){
+  isNew=isNew||false;showWelcome=showWelcome||false;
   currentClient=client;
   document.getElementById('c_name').textContent=client.nom.toUpperCase();
   document.getElementById('c_num').textContent=client.card_number||'—';
   renderStamps(client.tampons||0,isNew);
-  setTimeout(()=>renderBarcode(client),50);
+  setTimeout(function(){renderBarcode(client);},50);
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
@@ -619,69 +608,65 @@ function showCard(client,isNew=false,showWelcome=false){
   subscribeRealtime(client.id);
 }
 function switchTab(name){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.nav-item').forEach(function(n){n.classList.remove('active');});
   document.getElementById('tab_'+name).classList.add('active');
   document.getElementById('nav_'+name).classList.add('active');
   if(name==='coupons')loadCoupons();
 }
 function logout(){
   localStorage.removeItem('vvv777_client_id');currentClient=null;
-  realtimeChannels.forEach(ch=>{try{sb.removeChannel(ch);}catch(e){}});
+  realtimeChannels.forEach(function(ch){try{sb.removeChannel(ch);}catch(e){}});
   realtimeChannels=[];allCoupons=[];
   document.getElementById('bottom_nav').classList.remove('show');
   showScreen('s1');setStep(1);
 }
 
-// ── QR FULLSCREEN ──
 function openFullscreenBC(){
   if(!currentClient)return;
   document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
   document.getElementById('bc_fs_num').textContent=currentClient.card_number||'';
   renderBarcodeBig(currentClient);
-  const t=currentClient.tampons||0;
-  document.getElementById('bc_fs_dots').innerHTML=Array.from({length:10},(_,i)=>
-    `<div class="bc-dot${i<t?' on':''}">${i<t?FRUITS[i]:''}</div>`
-  ).join('');
+  var t=currentClient.tampons||0;
+  var dots='';
+  for(var i=0;i<10;i++){
+    dots+='<div class="bc-dot'+(i<t?' on':'')+'">'+( i<t?FRUITS[i]:'' )+'</div>';
+  }
+  document.getElementById('bc_fs_dots').innerHTML=dots;
   document.getElementById('bc_fullscreen').classList.add('show');
-  if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
+  if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(function(){});
 }
 function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
 
-// ── MODAL INSTALLER ──
 function openInstallModal(){
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent.toLowerCase());
-  const isAndroid = /android/i.test(navigator.userAgent.toLowerCase());
-  const isChrome = /chrome/i.test(navigator.userAgent) && !/edg/i.test(navigator.userAgent);
-
-  let steps = [];
+  var ua=navigator.userAgent.toLowerCase();
+  var isIOS=/iphone|ipad|ipod/.test(ua);
+  var isAndroid=/android/.test(ua);
+  var steps=[];
   if(isIOS){
-    steps = [
-      {num:'📤', title:'Appuyez sur le bouton Partager', desc:'Icône en bas au centre de Safari — elle ressemble à un carré avec une flèche vers le haut'},
-      {num:'📋', title:'Sélectionnez « Sur l\'écran d\'accueil »', desc:'Faites défiler la liste vers le bas jusqu\'à voir cette option avec un icône +'},
-      {num:'✅', title:'Appuyez sur « Ajouter »', desc:'En haut à droite de l\'écran — votre carte VVV777 apparaît sur votre écran d\'accueil !'},
+    steps=[
+      {num:'📤',title:'Appuyez sur le bouton Partager',desc:'Icône en bas de Safari — carré avec flèche vers le haut'},
+      {num:'📋',title:'Sur l\'écran d\'accueil',desc:'Faites défiler et appuyez sur <strong>« Sur l\'écran d\'accueil »</strong> avec l\'icône +'},
+      {num:'✅',title:'Appuyez sur « Ajouter »',desc:'En haut à droite — votre carte VVV777 apparaît sur votre écran d\'accueil !'}
     ];
-  } else if(isAndroid){
-    steps = [
-      {num:'⋮', title:'Appuyez sur les 3 points', desc:'En haut à droite de Chrome ou de votre navigateur'},
-      {num:'📲', title:'Appuyez sur « Ajouter à l\'écran d\'accueil »', desc:'Ou « Installer l\'application » selon votre navigateur'},
-      {num:'✅', title:'Confirmez en appuyant sur « Ajouter »', desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil !'},
+  }else if(isAndroid){
+    steps=[
+      {num:'⋮',title:'Menu du navigateur',desc:'Appuyez sur les <strong>3 points</strong> en haut à droite'},
+      {num:'📲',title:'Ajouter à l\'écran d\'accueil',desc:'Appuyez sur <strong>« Ajouter à l\'écran d\'accueil »</strong>'},
+      {num:'✅',title:'Confirmez',desc:'Appuyez sur <strong>« Ajouter »</strong> — l\'icône VVV777 apparaît !'}
     ];
-  } else {
-    steps = [
-      {num:'📤', title:'iPhone/iPad — Safari', desc:'Bouton Partager → « Sur l\'écran d\'accueil » → Ajouter'},
-      {num:'⋮', title:'Android — Chrome', desc:'3 points → « Ajouter à l\'écran d\'accueil » → Confirmer'},
-      {num:'✅', title:'C\'est fait !', desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil comme une vraie app'},
+  }else{
+    steps=[
+      {num:'📤',title:'iPhone — Safari',desc:'Partager → Sur l\'écran d\'accueil → Ajouter'},
+      {num:'⋮',title:'Android — Chrome',desc:'3 points → Ajouter à l\'écran d\'accueil → Confirmer'},
+      {num:'✅',title:'C\'est fait !',desc:'L\'icône VVV777 apparaît sur votre écran d\'accueil'}
     ];
   }
-
-  const stepsHtml = steps.map(s=>`
-    <div class="install-step">
-      <div class="install-step-num">${s.num}</div>
-      <div class="install-step-text"><strong>${s.title}</strong>${s.desc}</div>
-    </div>
-  `).join('');
-  document.getElementById('install_steps').innerHTML = stepsHtml;
+  var html='';
+  steps.forEach(function(s){
+    html+='<div class="install-step"><div class="install-step-num">'+s.num+'</div><div class="install-step-text"><strong>'+s.title+'</strong>'+s.desc+'</div></div>';
+  });
+  document.getElementById('install_steps').innerHTML=html;
   document.getElementById('install_overlay').classList.add('show');
 }
 function closeInstallModal(e){
@@ -689,17 +674,16 @@ function closeInstallModal(e){
   document.getElementById('install_overlay').classList.remove('show');
 }
 
-// ── COUPONS ──
 async function loadCoupons(){
   if(!currentClient)return;
-  const list=document.getElementById('coupons_list');
+  var list=document.getElementById('coupons_list');
   list.innerHTML='<div style="text-align:center;padding:32px;color:var(--muted)"><span class="spin"></span></div>';
-  const{data}=await sb.from('coupons').select('*').eq('client_id',currentClient.id).order('created_at',{ascending:false});
-  allCoupons=data||[];renderCouponsList();
+  var res=await sb.from('coupons').select('*').eq('client_id',currentClient.id).order('created_at',{ascending:false});
+  allCoupons=res.data||[];renderCouponsList();
 }
 function filterCoupons(filter,el){
   currentCouponFilter=filter;
-  document.querySelectorAll('.cf-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.cf-btn').forEach(function(b){b.classList.remove('active');});
   el.classList.add('active');renderCouponsList();
 }
 function getCouponStatus(c){
@@ -708,124 +692,99 @@ function getCouponStatus(c){
   return 'active';
 }
 function renderCouponsList(){
-  const list=document.getElementById('coupons_list');
-  const filtered=currentCouponFilter==='all'?allCoupons:allCoupons.filter(c=>getCouponStatus(c)===currentCouponFilter);
-  document.getElementById('coupons_count').textContent=allCoupons.length>0?`${allCoupons.length} coupon${allCoupons.length>1?'s':''}` :'';
+  var list=document.getElementById('coupons_list');
+  var filtered=currentCouponFilter==='all'?allCoupons:allCoupons.filter(function(c){return getCouponStatus(c)===currentCouponFilter;});
+  document.getElementById('coupons_count').textContent=allCoupons.length>0?allCoupons.length+' coupon'+(allCoupons.length>1?'s':''):'';
   if(!filtered.length){
-    const msgs={
-      all:'<div class="ce-icon">🎟️</div><p>Pas encore de coupon.<br>Collectez <strong>10 tampons</strong><br>pour débloquer votre premier<br><strong>1 acheté = 1 offert</strong> !</p>',
-      active:'<div class="ce-icon">🎟️</div><p>Aucun coupon actif.</p>',
-      used:'<div class="ce-icon">✅</div><p>Aucun coupon utilisé pour l\'instant.</p>',
-      expired:'<div class="ce-icon">⏳</div><p>Aucun coupon expiré.</p>',
-    };
-    list.innerHTML=`<div class="coupons-empty">${msgs[currentCouponFilter]||msgs.all}</div>`;
+    var msgs={all:'<div class="ce-icon">🎟️</div><p>Pas encore de coupon.<br>Collectez <strong>10 tampons</strong><br>pour débloquer votre premier<br><strong>1 acheté = 1 offert</strong> !</p>',active:'<div class="ce-icon">🎟️</div><p>Aucun coupon actif.</p>',used:'<div class="ce-icon">✅</div><p>Aucun coupon utilisé.</p>',expired:'<div class="ce-icon">⏳</div><p>Aucun coupon expiré.</p>'};
+    list.innerHTML='<div class="coupons-empty">'+(msgs[currentCouponFilter]||msgs.all)+'</div>';
     return;
   }
   list.innerHTML='';
-  filtered.forEach(c=>list.appendChild(buildCouponCard(c)));
+  filtered.forEach(function(c){list.appendChild(buildCouponCard(c));});
 }
 function loadCouponsBadge(){
-  const now=new Date();
-  const count=allCoupons.filter(c=>!c.used_at&&now<=new Date(c.expires_at)).length;
-  const badge=document.getElementById('nav_badge_coupons');
+  var now=new Date();
+  var count=allCoupons.filter(function(c){return !c.used_at&&now<=new Date(c.expires_at);}).length;
+  var badge=document.getElementById('nav_badge_coupons');
   if(count>0){badge.textContent=count;badge.classList.add('show');}
   else badge.classList.remove('show');
 }
 async function loadCouponsBadgeFromDB(){
   if(!currentClient)return;
-  const{data}=await sb.from('coupons').select('id,used_at,expires_at').eq('client_id',currentClient.id);
-  allCoupons=data||[];loadCouponsBadge();
+  var res=await sb.from('coupons').select('id,used_at,expires_at').eq('client_id',currentClient.id);
+  allCoupons=res.data||[];loadCouponsBadge();
 }
 
-// ── BUILDER COUPON ──
 function buildCouponCard(c){
-  const now=new Date(),exp=new Date(c.expires_at);
-  const days=Math.ceil((exp-now)/86400000);
-  const status=getCouponStatus(c);
-  const labels={active:'🟢 Actif',used:'✓ Utilisé',expired:'⏳ Expiré'};
-  const urgentClass=(status==='active'&&days<=7&&days>0)?'urgent':'';
-  let validity;
-  if(c.used_at)validity=`Utilisé le ${new Date(c.used_at).toLocaleDateString('fr-FR')}`;
-  else if(now>exp)validity=`Expiré le ${exp.toLocaleDateString('fr-FR')}`;
-  else validity=`Valable jusqu'au ${exp.toLocaleDateString('fr-FR')}${days<=7?' · ⚠ '+days+' j restants':''}`;
-  const seed=c.code.charCodeAt(4)||42;
-  const fruitsHTML=FRUITS.map((f,i)=>{
-    const left=((seed*(i+1)*37)%85)+5;
-    const dur=7+((seed+i*13)%7);
-    const delay=-((seed+i*17)%10);
-    const size=14+(i%4)*4;
-    return `<span class="cf-fruit" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s">${f}</span>`;
-  }).join('');
-  const div=document.createElement('div');
-  div.className=`coupon-card ${status}`;
-  div.innerHTML=`
-    <div class="coupon-fruits-bg">${fruitsHTML}</div>
-    <div class="coupon-top">
-      <div class="coupon-badge-row">
-        <div class="coupon-badge">🎁 VVV777</div>
-        <span class="coupon-status ${status}">${labels[status]}</span>
-      </div>
-      <span class="coupon-reward-icon">🍊</span>
-      <div class="coupon-title">1 ACHETÉ<br>= 1 OFFERT</div>
-      <div class="coupon-subtitle">Sur votre prochain achat chez VVV777</div>
-      <div class="coupon-desc">Présentez ce code au commerçant lors de votre achat. Usage unique.</div>
-      <div class="coupon-validity ${urgentClass}">📅 ${validity}</div>
-    </div>
-    <hr class="coupon-sep">
-    <div class="coupon-bottom">
-      <div class="coupon-code-label">Votre code récompense</div>
-      <div class="coupon-code-row">
-        <div class="coupon-code-val">${c.code}</div>
-        ${status==='active'?`<button class="btn-copy" onclick="copyCouponCode(event,'${c.code}')">📋 Copier</button>`:''}
-      </div>
-      ${status==='active'?'<div class="coupon-hint">Dictez ou montrez ce code au commerçant</div>':''}
-    </div>
-  `;
+  var now=new Date(),exp=new Date(c.expires_at);
+  var days=Math.ceil((exp-now)/86400000);
+  var status=getCouponStatus(c);
+  var labels={active:'🟢 Actif',used:'✓ Utilisé',expired:'⏳ Expiré'};
+  var urgentClass=(status==='active'&&days<=7&&days>0)?'urgent':'';
+  var validity;
+  if(c.used_at)validity='Utilisé le '+new Date(c.used_at).toLocaleDateString('fr-FR');
+  else if(now>exp)validity='Expiré le '+exp.toLocaleDateString('fr-FR');
+  else validity='Valable jusqu\'au '+exp.toLocaleDateString('fr-FR')+(days<=7?' · ⚠ '+days+' j restants':'');
+  var seed=c.code.charCodeAt(4)||42;
+  var fruitsHTML='';
+  FRUITS.forEach(function(f,i){
+    var left=((seed*(i+1)*37)%85)+5;
+    var dur=7+((seed+i*13)%7);
+    var delay=-((seed+i*17)%10);
+    var size=14+(i%4)*4;
+    fruitsHTML+='<span class="cf-fruit" style="left:'+left+'%;font-size:'+size+'px;animation-duration:'+dur+'s;animation-delay:'+delay+'s">'+f+'</span>';
+  });
+  var div=document.createElement('div');
+  div.className='coupon-card '+status;
+  var copyBtn=status==='active'?'<button class="btn-copy" onclick="copyCouponCode(event,\''+c.code+'\')">📋 Copier</button>':'';
+  var hint=status==='active'?'<div class="coupon-hint">Dictez ou montrez ce code au commerçant</div>':'';
+  div.innerHTML='<div class="coupon-fruits-bg">'+fruitsHTML+'</div><div class="coupon-top"><div class="coupon-badge-row"><div class="coupon-badge">🎁 VVV777</div><span class="coupon-status '+status+'">'+labels[status]+'</span></div><span class="coupon-reward-icon">🍊</span><div class="coupon-title">1 ACHETÉ<br>= 1 OFFERT</div><div class="coupon-subtitle">Sur votre prochain achat chez VVV777</div><div class="coupon-desc">Présentez ce code au commerçant. Usage unique.</div><div class="coupon-validity '+urgentClass+'">📅 '+validity+'</div></div><hr class="coupon-sep"><div class="coupon-bottom"><div class="coupon-code-label">Votre code récompense</div><div class="coupon-code-row"><div class="coupon-code-val">'+c.code+'</div>'+copyBtn+'</div>'+hint+'</div>';
   return div;
 }
 
-// ── COPIER ──
-let copyToastTimer;
+var copyToastTimer;
 function copyCouponCode(evt,code){
-  const btn=evt.currentTarget;
-  navigator.clipboard.writeText(code).then(()=>{
+  var btn=evt.currentTarget;
+  navigator.clipboard.writeText(code).then(function(){
     btn.textContent='✅ Copié !';btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='📋 Copier';btn.classList.remove('copied');},2500);
-    const t=document.getElementById('copy_toast');
+    setTimeout(function(){btn.textContent='📋 Copier';btn.classList.remove('copied');},2500);
+    var t=document.getElementById('copy_toast');
     t.classList.add('show');clearTimeout(copyToastTimer);
-    copyToastTimer=setTimeout(()=>t.classList.remove('show'),2000);
-  }).catch(()=>{
-    const val=btn.closest('.coupon-code-row').querySelector('.coupon-code-val');
-    const r=document.createRange();r.selectNode(val);
+    copyToastTimer=setTimeout(function(){t.classList.remove('show');},2000);
+  }).catch(function(){
+    var val=btn.closest('.coupon-code-row').querySelector('.coupon-code-val');
+    var r=document.createRange();r.selectNode(val);
     window.getSelection().removeAllRanges();window.getSelection().addRange(r);
   });
 }
 
-// ── REALTIME ──
 function subscribeRealtime(id){
-  realtimeChannels.forEach(ch=>{try{sb.removeChannel(ch);}catch(e){}});
+  realtimeChannels.forEach(function(ch){try{sb.removeChannel(ch);}catch(e){}});
   realtimeChannels=[];
-  const chClients=sb.channel('stamps-'+id)
-    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:`id=eq.${id}`},async p=>{
-      const u=p.new,prevTampons=currentClient.tampons||0;
-      currentClient={...currentClient,...u};
+  var chClients=sb.channel('stamps-'+id)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'clients',filter:'id=eq.'+id},async function(p){
+      var u=p.new,prevTampons=currentClient.tampons||0;
+      currentClient=Object.assign({},currentClient,u);
       renderStamps(u.tampons,u.tampons>prevTampons);
-      const dots=document.getElementById('bc_fs_dots');
-      if(dots)dots.innerHTML=Array.from({length:10},(_,i)=>
-        `<div class="bc-dot${i<u.tampons?' on':''}">${i<u.tampons?FRUITS[i]:''}</div>`
-      ).join('');
+      var dots=document.getElementById('bc_fs_dots');
+      if(dots){
+        var html='';
+        for(var i=0;i<10;i++)html+='<div class="bc-dot'+(i<u.tampons?' on':'')+'">'+( i<u.tampons?FRUITS[i]:'' )+'</div>';
+        dots.innerHTML=html;
+      }
       if(prevTampons>=9&&u.tampons===0){
         showRewardToast();
-        const{data}=await sb.from('coupons').select('*').eq('client_id',id).order('created_at',{ascending:false});
-        allCoupons=data||[];loadCouponsBadge();
+        var res=await sb.from('coupons').select('*').eq('client_id',id).order('created_at',{ascending:false});
+        allCoupons=res.data||[];loadCouponsBadge();
         if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       }
     }).subscribe();
-  const chCoupons=sb.channel('coupons-'+id)
-    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:`client_id=eq.${id}`},p=>{
-      const updated=p.new;
-      const idx=allCoupons.findIndex(c=>c.id===updated.id);
-      if(idx>=0)allCoupons[idx]={...allCoupons[idx],...updated};
+  var chCoupons=sb.channel('coupons-'+id)
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'coupons',filter:'client_id=eq.'+id},function(p){
+      var updated=p.new;
+      var idx=allCoupons.findIndex(function(c){return c.id===updated.id;});
+      if(idx>=0)allCoupons[idx]=Object.assign({},allCoupons[idx],updated);
       else allCoupons.unshift(updated);
       if(document.getElementById('tab_coupons').classList.contains('active'))renderCouponsList();
       loadCouponsBadge();
@@ -833,25 +792,24 @@ function subscribeRealtime(id){
   realtimeChannels=[chClients,chCoupons];
 }
 
-let rewardToastTimer;
+var rewardToastTimer;
 function showRewardToast(){
-  const t=document.getElementById('reward_toast');t.classList.add('show');
-  clearTimeout(rewardToastTimer);rewardToastTimer=setTimeout(()=>t.classList.remove('show'),5000);
+  var t=document.getElementById('reward_toast');t.classList.add('show');
+  clearTimeout(rewardToastTimer);rewardToastTimer=setTimeout(function(){t.classList.remove('show');},5000);
 }
 
-// ── AUTO-LOGIN ──
-(async()=>{
-  const p=new URLSearchParams(window.location.search);
-  const urlId=p.get('carte');
-  const savedId=localStorage.getItem('vvv777_client_id');
+(async function(){
+  var p=new URLSearchParams(window.location.search);
+  var urlId=p.get('carte');
+  var savedId=localStorage.getItem('vvv777_client_id');
   if(savedId){
-    const{data}=await sb.from('clients').select('*').eq('id',savedId).single();
-    if(data){showCard(data);return;}
+    var res=await sb.from('clients').select('*').eq('id',savedId).single();
+    if(res.data){showCard(res.data);return;}
     else localStorage.removeItem('vvv777_client_id');
   }
   if(urlId){
-    const{data}=await sb.from('clients').select('*').eq('id',urlId).single();
-    if(data){localStorage.setItem('vvv777_client_id',data.id);showCard(data);}
+    var res2=await sb.from('clients').select('*').eq('id',urlId).single();
+    if(res2.data){localStorage.setItem('vvv777_client_id',res2.data.id);showCard(res2.data);}
   }
 })();
 </script>
