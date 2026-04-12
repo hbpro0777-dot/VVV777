@@ -496,39 +496,33 @@ async function handleCouponCode(code){
   showCouponResult(data[0]);
 }
 async function findClientByCode(raw){
-  // Le code-barres contient le card_number sans espaces (ex: "352089447628")
-  const num = raw.replace(/[\s\-]/g, '').trim();
+  // Normalise : retire tous les espaces et tirets
+  const num = raw.replace(/[\s\-]/g,'').trim();
+  // Formate en groupes de 4 chiffres séparés par espaces (ex: "3520 8944 7628")
+  const formatted = num.replace(/(\d{4})(?=\d)/g,'$1 ').trim();
 
-  // 1. Cache local — card_number sans espaces
+  // 1. Cache local — comparaison sans espaces
   let c = allClients.find(x => (x.card_number||'').replace(/\s/g,'') === num);
   if(c) return c;
 
-  // 2. Cache local — card_number avec espaces reformatés (4-4-4)
-  const formatted = num.replace(/(\d{4})(?=\d)/g, '$1 ').trim();
+  // 2. Cache local — comparaison avec espaces
   c = allClients.find(x => (x.card_number||'').trim() === formatted);
   if(c) return c;
 
-  // 3. Base de données — card_number exact sans espaces
-  const{data: exact} = await sb.from('clients').select('*')
-    .eq('card_number', formatted)
-    .limit(1);
-  if(exact && exact.length){
-    c = exact[0];
+  // 3. Base Supabase — card_number formaté exact
+  const r1 = await sb.from('clients').select('*').eq('card_number', formatted).limit(1);
+  if(r1.data && r1.data.length){
+    c = r1.data[0];
     if(!allClients.find(x=>x.id===c.id)) allClients.push(c);
     return c;
   }
 
-  // 4. Base de données — recherche partielle sur les 4 premiers chiffres
+  // 4. Base Supabase — recherche partielle (premiers 4 chiffres)
   if(num.length >= 4){
-    const{data: partial} = await sb.from('clients').select('*')
-      .ilike('card_number', '%' + num.slice(0,4) + '%')
-      .limit(50);
-    if(partial && partial.length){
-      c = partial.find(x => (x.card_number||'').replace(/\s/g,'') === num) || null;
-      if(c){
-        if(!allClients.find(x=>x.id===c.id)) allClients.push(c);
-        return c;
-      }
+    const r2 = await sb.from('clients').select('*').ilike('card_number','%'+num.slice(0,4)+'%').limit(50);
+    if(r2.data && r2.data.length){
+      c = r2.data.find(x => (x.card_number||'').replace(/\s/g,'') === num) || null;
+      if(c){ if(!allClients.find(x=>x.id===c.id)) allClients.push(c); return c; }
     }
   }
 
