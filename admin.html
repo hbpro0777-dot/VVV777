@@ -459,7 +459,9 @@ function resetResults(){
 async function searchManual(){
   const raw=document.getElementById('manualCodeInput').value.trim();
   if(!raw){toast('Saisissez un code','error');return;}
-  resetResults();setScanStatus('RECHERCHE…','scanning');
+  resetResults();
+  // Charger les clients si pas encore fait
+  if(!allClients.length) await loadClients();
   await processCode(raw);
   document.getElementById('manualCodeInput').value='';
 }
