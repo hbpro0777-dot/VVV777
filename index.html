@@ -102,10 +102,10 @@ input::placeholder{color:var(--muted2)}
 .lcard-count{text-align:right}
 .lcard-count-val{font-family:'Bebas Neue',sans-serif;font-size:18px;color:rgba(212,168,67,.5);line-height:1}
 .lcard-count-lbl{font-size:7px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.25)}
-.lcard-qr-wrap{margin:0;padding:12px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;border-top:1px solid rgba(212,168,67,.15);cursor:pointer;transition:opacity .15s;position:relative;z-index:1;background:rgba(0,0,0,.2);border-radius:0 0 20px 20px}
-.lcard-qr-wrap:active{opacity:.7}
-.qr-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
-#qr_canvas{border-radius:8px;background:#fff;padding:6px}
+.lcard-barcode-wrap{margin:0;padding:12px 14px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;border-top:1px solid rgba(212,168,67,.15);cursor:pointer;transition:opacity .15s;position:relative;z-index:1;background:rgba(0,0,0,.2);border-radius:0 0 20px 20px}
+.lcard-barcode-wrap:active{opacity:.7}
+.barcode-hint{font-size:8px;letter-spacing:2px;text-transform:uppercase;color:rgba(212,168,67,.45)}
+#barcode_svg{display:block;border-radius:6px}
 
 /* ── FULLSCREEN QR ── */
 .bc-fullscreen{position:fixed;inset:0;background:#fff;z-index:999;display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px}
@@ -113,7 +113,7 @@ input::placeholder{color:var(--muted2)}
 .bc-fs-logo{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#1A1200;letter-spacing:-1px;margin-bottom:2px}
 .bc-fs-logo em{color:#B8860B;font-style:normal}
 .bc-fs-sub{font-size:8px;letter-spacing:4px;text-transform:uppercase;color:#888;margin-bottom:20px}
-#qr_canvas_big{border-radius:10px;background:#fff;padding:10px}
+#barcode_svg_big{display:block;margin:0 auto}
 .bc-fs-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:#2A1C00;letter-spacing:1px;margin-top:14px;margin-bottom:4px}
 .bc-fs-num{font-size:10px;color:#888;letter-spacing:3px;font-family:monospace;margin-bottom:8px}
 .bc-fs-stamps{display:flex;gap:5px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
@@ -328,9 +328,9 @@ input::placeholder{color:var(--muted2)}
               <div class="lcard-count"><div class="lcard-count-val" id="c_scount">0/10</div><div class="lcard-count-lbl">tampons</div></div>
             </div>
           </div>
-          <div class="lcard-qr-wrap" onclick="openFullscreenQR()">
-            <canvas id="qr_canvas" width="120" height="120"></canvas>
-            <div class="qr-hint">Appuyez pour agrandir · Scan commerçant</div>
+          <div class="lcard-barcode-wrap" onclick="openFullscreenBC()">
+            <svg id="barcode_svg"></svg>
+            <div class="barcode-hint">Appuyez pour agrandir · Scan commerçant</div>
           </div>
         </div>
       </div>
@@ -389,12 +389,12 @@ input::placeholder{color:var(--muted2)}
 <div class="bc-fullscreen" id="bc_fullscreen">
   <div class="bc-fs-logo">VVV<em>777</em></div>
   <div class="bc-fs-sub">Carte de fidélité</div>
-  <canvas id="qr_canvas_big" width="260" height="260"></canvas>
+  <svg id="barcode_svg_big"></svg>
   <div class="bc-fs-name" id="bc_fs_name">—</div>
   <div class="bc-fs-num" id="bc_fs_num">—</div>
   <div class="bc-fs-stamps" id="bc_fs_dots"></div>
-  <div class="bc-fs-hint">Présentez ce QR code au commerçant</div>
-  <button class="bc-fs-close" onclick="closeFullscreenQR()">✕ Fermer</button>
+  <div class="bc-fs-hint">Présentez ce code-barres au commerçant</div>
+  <button class="bc-fs-close" onclick="closeFullscreenBC()">✕ Fermer</button>
 </div>
 
 <!-- MODAL INSTALLER -->
@@ -441,32 +441,27 @@ let realtimeChannels = [];
 })();
 
 // ── QR CODE via Google Charts (fiable, pas de lib) ──
-function renderQR(client){
-  const val = (client.card_number||client.id).replace(/\s/g,'');
-  _drawQR('qr_canvas', val, 120);
+// ── CODE-BARRES Code 128 ──
+// Encode le card_number en barcode scannable par ZXing (admin)
+const C128P=['11011001100','11001101100','11001100110','10010011000','10010001100','10001001100','10011001000','10011000100','10001100100','11001001000','11001000100','11000100100','10110011100','10011011100','10011001110','10111001100','10011101100','10011100110','11001110010','11001011100','11001001110','11011100100','11001110100','11101101110','11101001100','11100101100','11100100110','11101100100','11100110100','11100110010','11011011000','11011000110','11000110110','10100011000','10001011000','10001000110','10110001000','10001101000','10001100010','11010001000','11000101000','11000100010','10110111000','10110001110','10001101110','10111011000','10111000110','10001110110','11101110110','11010001110','11000101110','11011101000','11011100010','11011101110','11101011000','11101000110','11100010110','11101101000','11101100010','11100011010','11101111010','11001000010','11110001010','10100110000','10100001100','10010110000','10010000110','10000101100','10000100110','10110010000','10110000100','10011010000','10011000010','10000110100','10000110010','11000010010','11001010000','11110111010','11000010100','10001111010','10100111100','10010111100','10010011110','10111100100','10011110100','10011110010','11110100100','11110010100','11110010010','11011011110','11011110110','11110110110','10101111000','10100011110','10001011110','10111101000','10111100010','11110101000','11110100010','10111011110','10111101110','11101011110','11110101110','11010000100','11010010000','11010011100','11000111010'];
+const C128C=' !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+function encodeC128(t){let v=[104],c=104;for(let i=0;i<t.length;i++){const x=C128C.indexOf(t[i]);if(x<0)continue;v.push(x);c+=(i+1)*x;}v.push(c%103);v.push(106);return v.map(x=>C128P[x]).join('')+'11';}
+function drawBarcode(svgId, text, barW, h, color){
+  const s=document.getElementById(svgId);if(!s)return;
+  const t=text.replace(/\s/g,'');
+  const p=encodeC128(t),W=p.length*barW;
+  s.setAttribute('width',W);s.setAttribute('height',h);s.setAttribute('viewBox',`0 0 ${W} ${h}`);
+  let html=`<rect width="${W}" height="${h}" fill="${color==='dark'?'#fff':'transparent'}"/>`;
+  for(let i=0;i<p.length;i++)if(p[i]==='1')html+=`<rect x="${i*barW}" y="0" width="${barW}" height="${h}" fill="${color==='dark'?'#111':'rgba(240,201,106,0.9)'}"/>`;
+  s.innerHTML=html;
 }
-function renderQRBig(client){
-  const val = (client.card_number||client.id).replace(/\s/g,'');
-  _drawQR('qr_canvas_big', val, 260);
+function renderBarcode(client){
+  const val=(client.card_number||client.id).replace(/\s/g,'');
+  drawBarcode('barcode_svg', val, 1.6, 42, 'gold');
 }
-function _drawQR(canvasId, text, size){
-  const canvas = document.getElementById(canvasId);
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  canvas.width = size; canvas.height = size;
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(0,0,size,size);
-  const url = 'https://chart.googleapis.com/chart?cht=qr&chs='+size+'x'+size+'&chl='+encodeURIComponent(text)+'&chld=M|1';
-  const img = new Image();
-  img.onload = function(){ ctx.drawImage(img,0,0,size,size); };
-  img.onerror = function(){
-    ctx.fillStyle = '#1A1200';
-    ctx.font = 'bold '+(size/12)+'px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(text, size/2, size/2);
-  };
-  img.src = url;
+function renderBarcodeBig(client){
+  const val=(client.card_number||client.id).replace(/\s/g,'');
+  drawBarcode('barcode_svg_big', val, 2.8, 80, 'dark');
 }
 
 // ── NAV ──
@@ -616,7 +611,7 @@ function showCard(client,isNew=false,showWelcome=false){
   document.getElementById('c_name').textContent=client.nom.toUpperCase();
   document.getElementById('c_num').textContent=client.card_number||'—';
   renderStamps(client.tampons||0,isNew);
-  setTimeout(()=>renderQR(client),200);
+  setTimeout(()=>renderBarcode(client),50);
   document.getElementById('welcome_banner').style.display=showWelcome?'flex':'none';
   document.getElementById('bottom_nav').classList.add('show');
   setStep(3);showScreen('s2');switchTab('carte');
@@ -639,11 +634,11 @@ function logout(){
 }
 
 // ── QR FULLSCREEN ──
-function openFullscreenQR(){
+function openFullscreenBC(){
   if(!currentClient)return;
   document.getElementById('bc_fs_name').textContent=currentClient.nom.toUpperCase();
   document.getElementById('bc_fs_num').textContent=currentClient.card_number||'';
-  renderQRBig(currentClient);
+  renderBarcodeBig(currentClient);
   const t=currentClient.tampons||0;
   document.getElementById('bc_fs_dots').innerHTML=Array.from({length:10},(_,i)=>
     `<div class="bc-dot${i<t?' on':''}">${i<t?FRUITS[i]:''}</div>`
@@ -651,7 +646,7 @@ function openFullscreenQR(){
   document.getElementById('bc_fullscreen').classList.add('show');
   if(navigator.wakeLock)navigator.wakeLock.request('screen').catch(()=>{});
 }
-function closeFullscreenQR(){document.getElementById('bc_fullscreen').classList.remove('show');}
+function closeFullscreenBC(){document.getElementById('bc_fullscreen').classList.remove('show');}
 
 // ── MODAL INSTALLER ──
 function openInstallModal(){
